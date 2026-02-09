@@ -18,7 +18,7 @@ To create a fair, intelligent, and automated recruitment platform that accuratel
 - **Challenge Generation**: AI creates contextual coding challenges based on job requirements
 - **Code Quality Analysis**: Evaluates time/space complexity, readability, and best practices
 - **Plagiarism Detection**: Compares against public repositories and previous submissions
-- **AI Code Detection**: Identifies AI-generated code patterns from ChatGPT, Copilot, etc.
+- **AI Code Detection**: Identifies AI-generated code patterns from ChatGPT, Copilot, Claude, etc.
 - **Problem-Solving Evaluation**: Assesses solution efficiency and approach
 
 ### 📊 Intelligent Ranking System
@@ -52,7 +52,7 @@ To create a fair, intelligent, and automated recruitment platform that accuratel
 
 ### Backend
 
-- **Node.js** with Express.js - RESTful API
+- **Node.js with Express.js** - RESTful API (Pure JavaScript - No TypeScript)
 - **MongoDB** - NoSQL database
 - **Redis** - Caching and session management
 - **JWT** - Authentication
@@ -141,11 +141,12 @@ REDIS_PORT=6379
 
 ```
 ai-developer-job-portal/
-├── backend/                 # Node.js/Express API
+├── backend/                 # Node.js/Express API (JavaScript)
 │   ├── src/
 │   │   ├── config/         # Database & Redis config
 │   │   ├── models/         # MongoDB schemas
 │   │   ├── services/       # AI services & business logic
+│   │   │   └── ai/         # JavaScript AI services
 │   │   ├── controllers/    # Route handlers
 │   │   ├── middlewares/    # Auth, error handling
 │   │   └── routes/         # API endpoints
@@ -158,7 +159,7 @@ ai-developer-job-portal/
 ├── docs/                   # Documentation
 │   ├── PRD.md             # Product Requirements
 │   ├── AI_INTEGRATION_GUIDE.md
-│   └── TECHNICAL_DOCUMENTATION.md
+│   └── TECHNICAL_DOCUMENTATION_JAVASCRIPT.md
 └── README.md
 ```
 
@@ -299,31 +300,31 @@ Final Score = (
 
 - [Product Requirements Document](./docs/PRD.md)
 - [AI Integration Guide](./docs/AI_INTEGRATION_GUIDE.md)
-- [Technical Documentation](./docs/TECHNICAL_DOCUMENTATION_JAVASCRIPT.md)
+- [Technical Documentation (JavaScript)](./docs/TECHNICAL_DOCUMENTATION_JAVASCRIPT.md)
 - [API Documentation](./docs/API_REFERENCE.md)
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Angular Frontend                      │
+│                    Angular Frontend                     │
 │  (User Interface, Dashboards, Code Editor Integration)  │
 └───────────────────────┬─────────────────────────────────┘
                         │ HTTP/REST
 ┌───────────────────────▼─────────────────────────────────┐
-│              Express.js API Gateway                      │
-│        (Authentication, Rate Limiting, Routing)          │
+│              Express.js API Gateway                     │
+│        (Authentication, Rate Limiting, Routing)         │
 └───────────┬─────────────────────┬───────────────────────┘
             │                     │
    ┌────────▼─────────┐   ┌──────▼──────────────────────┐
-   │   MongoDB        │   │   Python AI Microservice    │
+   │   MongoDB        │   │   JavaScript AI Services    │
    │   Database       │   │   (Code Analysis Engine)    │
    └──────────────────┘   └─────────────┬───────────────┘
                                         │
-                            ┌───────────▼────────────────┐
-                            │  Free AI API Integration   │
-                            │  (HuggingFace, OpenRouter) │
-                            └────────────────────────────┘
+                            ┌───────────▼──────────────────┐
+                            │  Free AI API Integration     │
+                            │  (Gemini, HuggingFace, etc.) │
+                            └──────────────────────────────┘
 ```
 
 ## 📄 License
