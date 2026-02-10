@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-7+-blue.svg)](https://www.mongodb.com/)
-[![Angular](https://img.shields.io/badge/Angular-17+-red.svg)](https://angular.io/)
+[![Angular](https://img.shields.io/badge/Angular-16-red.svg)](https://angular.io/)
 
 A revolutionary job portal specifically designed for developer recruitment that leverages AI to evaluate coding submissions, detect plagiarism, identify AI-generated code, and provide intelligent candidate ranking to employers.
 
