@@ -5,6 +5,9 @@ import cookieParser from "cookie-parser";
 
 import { connectDB } from "./config/db.js";
 
+import authRoutes from "./routes/auth.routes.js"
+
+
 dotenv.config();
 
 const app = express();
@@ -19,7 +22,9 @@ app.use(
 );
 
 connectDB()
- 
+
+app.use("/auth", authRoutes) 
+
 app.get("/", (req, res) => {
     res.send("API is Running")
 });
