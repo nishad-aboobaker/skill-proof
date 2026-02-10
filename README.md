@@ -341,7 +341,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Project Code:** e21d1212  
 **Version:** 1.0  
 **Date:** February 9, 2026
 
