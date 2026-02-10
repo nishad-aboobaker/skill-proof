@@ -79,8 +79,8 @@ To create a fair, intelligent, and automated recruitment platform that accuratel
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/ai-developer-job-portal.git
-   cd ai-developer-job-portal
+   git clone https://github.com/nishad-aboobaker/skill-proof.git
+   cd skill-proof
    ```
 
 2. **Backend Setup**
@@ -327,9 +327,6 @@ Final Score = (
                             └──────────────────────────────┘
 ```
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
