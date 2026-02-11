@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 
 import authRoutes from "./routes/auth.routes.js"
+import seedAdmin from "./seeders/adminSeeder.js";
 
 
 dotenv.config();
@@ -21,16 +22,18 @@ app.use(
   }),
 );
 
-connectDB()
+connectDB().then(() => {
+  seedAdmin();
+})
 
-app.use("/auth", authRoutes) 
+app.use("/auth", authRoutes)
 
 app.get("/", (req, res) => {
-    res.send("API is Running")
+  res.send("API is Running")
 });
 
 const port = process.env.PORT || 5000
 
 app.listen(port, () => {
-    console.log(`server starter running at http://localhost:${port}`);
+  console.log(`server starter running at http://localhost:${port}`);
 })
