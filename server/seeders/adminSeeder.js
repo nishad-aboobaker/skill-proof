@@ -1,8 +1,8 @@
-import User from "../models/user.model.js";
+import AdminEmployer from "../models/adminEmployer.model.js";
 
 const seedAdmin = async () => {
     try {
-        const existingAdmin = await User.findOne({ role: "admin" });
+        const existingAdmin = await AdminEmployer.findOne({ role: "admin" });
 
         if (existingAdmin) {
             console.log("⚠️  Admin user already exists!");
@@ -13,11 +13,11 @@ const seedAdmin = async () => {
             email: "admin@skillproof.com",
             password: "Admin@123456",
             role: "admin",
-            name: "System Administrator",
+            name: "Administrator",
             isActive: true,
         };
 
-        const admin = await User.create(adminData);
+        const admin = await AdminEmployer.create(adminData);
 
         console.log("✅ Default admin created successfully!");
         console.log("━".repeat(50));

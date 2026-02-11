@@ -1,0 +1,19 @@
+<nav class="navbar glass-panel">
+  <div class="nav-container">
+    <a routerLink="/" class="logo">
+      <span class="gradient-text">Skill</span>Proof
+    </a>
+
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <ng-container *ngIf="authService.currentUser$ | async as user; else guestNav">
+        <span class="user-name">Hello, {{ user.name }}</span>
+        <button (click)="logout()" class="premium-btn">Logout</button>
+      </ng-container>
+      <ng-template #guestNav>
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a routerLink="/register" class="premium-btn">Join Now</a>
+      </ng-template>
+    </div>
+  </div>
+</nav>

@@ -1,10 +1,26 @@
 import express from "express"
-import { register } from "../controller/auth.controller.js"
+import {
+    registerDeveloper,
+    loginDeveloper,
+    registerEmployer,
+    loginAdminEmployer,
+    logout,
+    getMe
+} from "../controller/auth.controller.js"
+import { protect } from "../middleware/auth.middleware.js"
 
 const router = express.Router()
 
-router.post("/register", register)
-// router.post("/login", login)
-// router.post("/change-password", changePassword) 
+// Developer Routes
+router.post("/developer/register", registerDeveloper)
+router.post("/developer/login", loginDeveloper)
+
+// Employer/Admin Routes
+router.post("/employer/register", registerEmployer)
+router.post("/admin-employer/login", loginAdminEmployer)
+
+// Shared Routes
+router.post("/logout", logout)
+router.get("/me", protect, getMe)
 
 export default router

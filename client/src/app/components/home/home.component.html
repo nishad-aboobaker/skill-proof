@@ -1,0 +1,29 @@
+<div class="hero-container">
+    <div class="hero-content">
+        <span class="badge">Next Gen Recruitment</span>
+        <h1 class="hero-title">
+            Unlock Your <span class="gradient-text">Potential</span><br>
+            with Proof of Skill
+        </h1>
+        <p class="hero-subtitle">
+            Connect directly with premium employers. Showcase your GitHub contributions,
+            verified skills, and build a career that matches your talent.
+        </p>
+
+        <div class="hero-actions">
+            <div class="action-card developer-card glass-panel">
+                <h3>For Developers</h3>
+                <p>Get hired based on your actual code and contributions.</p>
+                <button routerLink="/register" [queryParams]="{role: 'developer'}" class="premium-btn">Join as
+                    Developer</button>
+            </div>
+
+            <div class="action-card employer-card glass-panel">
+                <h3>For Employers</h3>
+                <p>Hire verified talent with deep repository insights.</p>
+                <button routerLink="/register" [queryParams]="{role: 'employer'}" class="premium-btn"
+                    style="background: var(--secondary-gradient)">Join as Employer</button>
+            </div>
+        </div>
+    </div>
+</div>

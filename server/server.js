@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "*",
+    origin: ["http://localhost:4200", "http://localhost:4201", "http://localhost:60421"],
     credentials: true,
   }),
 );
@@ -30,6 +30,21 @@ app.use("/auth", authRoutes)
 
 app.get("/", (req, res) => {
   res.send("API is Running")
+});
+
+app.use("/auth", authRoutes)
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  console.error(`[Error] ${err.message}`);
+  if (err.stack) console.error(err.stack);
+
+  res.status(statusCode).json({
+    success: false,
+    message: err.message,
+    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+  });
 });
 
 const port = process.env.PORT || 5000

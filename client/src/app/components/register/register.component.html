@@ -1,0 +1,52 @@
+<div class="auth-container section-fade">
+    <div class="auth-card glass-panel">
+        <div class="auth-header">
+            <h2 class="gradient-text">Create Account</h2>
+            <p>Join the future of skill-based hiring.</p>
+        </div>
+
+        <div class="type-toggle glass-panel">
+            <button [class.active]="role === 'developer'" (click)="role = 'developer'">Developer</button>
+            <button [class.active]="role === 'employer'" (click)="role = 'employer'">Employer</button>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" formControlName="name" placeholder="John Doe" class="glass-input">
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" formControlName="email" placeholder="name@company.com" class="glass-input">
+            </div>
+
+            <div class="form-group" *ngIf="role === 'developer'">
+                <label>GitHub Username (Optional)</label>
+                <input type="text" formControlName="github" placeholder="github_user" class="glass-input">
+            </div>
+
+            <div class="form-group" *ngIf="role === 'employer'">
+                <label>Company Name</label>
+                <input type="text" formControlName="companyName" placeholder="TechCorp Inc." class="glass-input">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" formControlName="password" placeholder="••••••••" class="glass-input">
+            </div>
+
+            <div class="form-error" *ngIf="error">
+                {{ error }}
+            </div>
+
+            <button type="submit" class="premium-btn auth-btn" [disabled]="loading || registerForm.invalid">
+                {{ loading ? 'Creating Account...' : 'Create Account' }}
+            </button>
+
+            <p class="auth-footer">
+                Already have an account? <a routerLink="/login">Sign in</a>
+            </p>
+        </form>
+    </div>
+</div>
