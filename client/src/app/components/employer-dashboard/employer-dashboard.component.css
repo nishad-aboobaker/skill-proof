@@ -1,0 +1,127 @@
+.dashboard-container {
+    padding: 120px 20px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.stat-card {
+    padding: 25px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.stat-info .stat-label {
+    display: block;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.stat-info .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.dashboard-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.recent-postings,
+.quick-actions {
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.recent-postings h3,
+.quick-actions h3 {
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+}
+
+.posting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.posting-item:last-child {
+    border-bottom: none;
+}
+
+.posting-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.posting-meta {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.view-btn {
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--text-color);
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-btn:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+}
+
+.action-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

@@ -16,6 +16,8 @@ export class AuthService {
   private apiUrl = 'http://localhost:5000/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  private isInitializedSubject = new BehaviorSubject<boolean>(false);
+  public isInitialized$ = this.isInitializedSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.checkStatus();
@@ -47,8 +49,12 @@ export class AuthService {
         } else {
           this.currentUserSubject.next(null);
         }
+        this.isInitializedSubject.next(true);
       },
-      error: () => this.currentUserSubject.next(null)
+      error: () => {
+        this.currentUserSubject.next(null);
+        this.isInitializedSubject.next(true);
+      }
     });
   }
 

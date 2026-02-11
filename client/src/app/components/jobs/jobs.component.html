@@ -1,0 +1,24 @@
+<div class="jobs-container section-fade">
+    <div class="jobs-header">
+        <h1 class="gradient-text">Find Your Dream Job</h1>
+        <p>Discover opportunities that match your skills and passion.</p>
+        <div class="search-bar glass-panel">
+            <input type="text" placeholder="Search by title, skill, or company..." class="glass-input">
+            <button class="premium-btn">Search</button>
+        </div>
+    </div>
+
+    <div class="jobs-grid">
+        <div class="job-card glass-panel" *ngFor="let job of jobs">
+            <div class="job-info">
+                <h3>{{ job.title }}</h3>
+                <p class="company">{{ job.company }} • {{ job.location }}</p>
+                <p class="salary">{{ job.salary }}</p>
+                <div class="tags">
+                    <span class="tag" *ngFor="let tag of job.tags">{{ tag }}</span>
+                </div>
+            </div>
+            <button class="premium-btn secondary">Apply Now</button>
+        </div>
+    </div>
+</div>
