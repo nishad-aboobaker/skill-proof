@@ -1,8 +1,8 @@
-import AdminEmployer from "../models/adminEmployer.model.js";
+import User from "../models/user.model.js";
 
 const seedAdmin = async () => {
     try {
-        const existingAdmin = await AdminEmployer.findOne({ role: "admin" });
+        const existingAdmin = await User.findOne({ role: "admin" });
 
         if (existingAdmin) {
             console.log("⚠️  Admin user already exists!");
@@ -17,7 +17,7 @@ const seedAdmin = async () => {
             isActive: true,
         };
 
-        const admin = await AdminEmployer.create(adminData);
+        const admin = await User.create(adminData);
 
         console.log("✅ Default admin created successfully!");
         console.log("━".repeat(50));

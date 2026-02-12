@@ -1,7 +1,7 @@
-<nav class="navbar glass-panel">
+<nav class="navbar">
   <div class="nav-container">
     <a routerLink="/" class="logo">
-      <span class="gradient-text">Skill</span>Proof
+      <span>Skill</span>Proof
     </a>
 
     <div class="nav-links">
@@ -9,12 +9,19 @@
       <ng-container *ngIf="authService.currentUser$ | async as user; else guestNav">
         <a *ngIf="user.role === 'developer'" routerLink="/jobs" routerLinkActive="active">Browse Jobs</a>
         <a *ngIf="user.role === 'employer'" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-        <span class="user-name">Hello, {{ user.name }}</span>
-        <button (click)="logout()" class="premium-btn">Logout</button>
+        <span class="user-name">{{ user.name }}</span>
+        <button (click)="logout()" class="btn-icon" title="Logout">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
       </ng-container>
       <ng-template #guestNav>
         <a routerLink="/login" routerLinkActive="active">Login</a>
-        <a routerLink="/register" class="premium-btn">Join Now</a>
+        <a routerLink="/register" class="btn-primary">Join Now</a>
       </ng-template>
     </div>
   </div>

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const adminEmployerSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
     {
         email: {
             type: String,
@@ -19,18 +19,44 @@ const adminEmployerSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ["employer", "admin"],
-            default: "employer",
+            enum: ["user", "admin"],
+            default: "user",
         },
         name: {
             type: String,
+            required: [true, "Name is required"],
             trim: true,
         },
         phone: {
             type: String,
             trim: true,
         },
-        employerProfile: {
+        profilePicture: String,
+
+        // Unified profile supporting both job seeker and employer functionality
+        profile: {
+            // Job Seeker fields
+            github: {
+                username: String,
+                profileUrl: String,
+                repos: Number,
+                followers: Number,
+                connectedAt: Date,
+            },
+            resume: {
+                fileName: String,
+                fileUrl: String,
+                uploadedAt: Date,
+            },
+            skills: [String],
+            experience: {
+                type: String,
+                enum: ["junior", "mid", "senior", "lead"],
+            },
+            bio: String,
+            portfolio: String,
+
+            // Employer fields (when user posts jobs)
             companyName: String,
             companyWebsite: String,
             companySize: {
@@ -40,8 +66,12 @@ const adminEmployerSchema = new mongoose.Schema(
             industry: String,
             companyLogo: String,
             companyDescription: String,
-            postedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
         },
+
+        // Activity tracking
+        postedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
+        appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
+
         isActive: {
             type: Boolean,
             default: true,
@@ -51,14 +81,16 @@ const adminEmployerSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-adminEmployerSchema.pre("save", async function (next) {
+// Hash password before saving
+userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-adminEmployerSchema.methods.comparePassword = async function (candidatePassword) {
+// Compare password method
+userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-export default mongoose.model("AdminEmployer", adminEmployerSchema);
+export default mongoose.model("User", userSchema);

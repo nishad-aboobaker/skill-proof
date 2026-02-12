@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import Developer from "../models/developer.model.js";
-import AdminEmployer from "../models/adminEmployer.model.js";
+import User from "../models/user.model.js";
 
+// Protect routes - verify JWT and attach user
 export const protect = async (req, res, next) => {
     let token;
 
@@ -11,9 +11,11 @@ export const protect = async (req, res, next) => {
         try {
             const decoded = jwt.verify(token, process.env.JWT_KEY);
 
-            const Model = decoded.userType === "Developer" ? Developer : AdminEmployer;
-            req.user = await Model.findById(decoded.userId).select("-password");
-            req.userType = decoded.userType;
+            req.user = await User.findById(decoded.userId).select("-password");
+
+            if (!req.user) {
+                return res.status(401).json({ success: false, message: "User not found" });
+            }
 
             next();
         } catch (error) {
@@ -25,18 +27,14 @@ export const protect = async (req, res, next) => {
     }
 };
 
+// Admin only middleware
 export const adminOnly = (req, res, next) => {
-    if (req.user && req.user.role === "admin") {
-        next();
-    } else {
-        res.status(401).json({ success: false, message: "Not authorized as an admin" });
+    if (!req.user) {
+        return res.status(401).json({ success: false, message: "Not authorized, authentication required" });
     }
-};
-
-export const employerOnly = (req, res, next) => {
-    if (req.user && req.user.role === "employer") {
+    if (req.user.role === "admin") {
         next();
     } else {
-        res.status(401).json({ success: false, message: "Not authorized as an employer" });
+        res.status(403).json({ success: false, message: "Not authorized as an admin" });
     }
 };

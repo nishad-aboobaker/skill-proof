@@ -1,20 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface User {
   _id: string;
   name: string;
   email: string;
-  role: 'admin' | 'employer' | 'developer';
-  userType?: string;
+  role: 'user' | 'admin';
+  profile?: {
+    github?: any;
+    resume?: any;
+    skills?: string[];
+    experience?: string;
+    bio?: string;
+    portfolio?: string;
+    companyName?: string;
+    companyWebsite?: string;
+    companySize?: string;
+    industry?: string;
+    companyLogo?: string;
+    companyDescription?: string;
+  };
+  postedJobs?: string[];
+  appliedJobs?: string[];
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/auth';
+  private apiUrl = environment.apiUrl + '/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private isInitializedSubject = new BehaviorSubject<boolean>(false);
@@ -24,26 +40,16 @@ export class AuthService {
     this.checkStatus();
   }
 
-  registerDeveloper(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/developer/register`, data).pipe(
+  // Unified registration (no role selection needed)
+  register(data: { name: string; email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, data).pipe(
       tap((res: any) => this.currentUserSubject.next(res.data))
     );
   }
 
-  registerEmployer(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/employer/register`, data).pipe(
-      tap((res: any) => this.currentUserSubject.next(res.data))
-    );
-  }
-
-  loginDeveloper(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/developer/login`, data).pipe(
-      tap((res: any) => this.currentUserSubject.next(res.data))
-    );
-  }
-
-  loginAdminEmployer(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/admin-employer/login`, data).pipe(
+  // Unified login (no role selection needed)
+  login(data: { email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, data).pipe(
       tap((res: any) => this.currentUserSubject.next(res.data))
     );
   }
@@ -69,5 +75,9 @@ export class AuthService {
 
   get userValue(): User | null {
     return this.currentUserSubject.value;
+  }
+
+  get isAdmin(): boolean {
+    return this.currentUserSubject.value?.role === 'admin';
   }
 }

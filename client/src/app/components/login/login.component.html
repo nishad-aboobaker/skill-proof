@@ -1,11 +1,11 @@
-<div class="auth-container section-fade">
-    <div class="auth-card glass-panel">
+<div class="auth-container">
+    <div class="auth-card">
         <div class="auth-header">
-            <h2 class="gradient-text">Welcome Back</h2>
+            <h2>Welcome Back</h2>
             <p>Please enter your details to sign in.</p>
         </div>
 
-        <div class="type-toggle glass-panel">
+        <div class="type-toggle">
             <button [class.active]="userType === 'developer'" (click)="userType = 'developer'">Developer</button>
             <button [class.active]="userType === 'employer'" (click)="userType = 'employer'">Employer</button>
         </div>
@@ -13,7 +13,7 @@
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
             <div class="form-group">
                 <label>Email Address</label>
-                <input type="email" formControlName="email" placeholder="name@company.com" class="glass-input">
+                <input type="email" formControlName="email" placeholder="name@company.com" class="input-field">
                 <div class="error-msg" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
                     Please enter a valid email.
                 </div>
@@ -21,7 +21,7 @@
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" formControlName="password" placeholder="••••••••" class="glass-input">
+                <input type="password" formControlName="password" placeholder="••••••••" class="input-field">
                 <div class="error-msg" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
                     Password must be at least 6 characters.
                 </div>
@@ -31,7 +31,7 @@
                 {{ error }}
             </div>
 
-            <button type="submit" class="premium-btn auth-btn" [disabled]="loading || loginForm.invalid">
+            <button type="submit" class="btn-primary auth-btn" [disabled]="loading || loginForm.invalid">
                 {{ loading ? 'Signing in...' : 'Sign In' }}
             </button>
 

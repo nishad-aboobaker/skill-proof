@@ -1,24 +1,82 @@
-<div class="jobs-container section-fade">
+<div class="jobs-page">
     <div class="jobs-header">
-        <h1 class="gradient-text">Find Your Dream Job</h1>
-        <p>Discover opportunities that match your skills and passion.</p>
-        <div class="search-bar glass-panel">
-            <input type="text" placeholder="Search by title, skill, or company..." class="glass-input">
-            <button class="premium-btn">Search</button>
-        </div>
+        <h1>Find Your Next Opportunity</h1>
+        <p>{{ jobs.length }} positions available</p>
     </div>
 
-    <div class="jobs-grid">
-        <div class="job-card glass-panel" *ngFor="let job of jobs">
-            <div class="job-info">
-                <h3>{{ job.title }}</h3>
-                <p class="company">{{ job.company }} • {{ job.location }}</p>
-                <p class="salary">{{ job.salary }}</p>
-                <div class="tags">
-                    <span class="tag" *ngFor="let tag of job.tags">{{ tag }}</span>
+    <div class="jobs-container">
+        <!-- Sidebar Filters -->
+        <aside class="filters-sidebar">
+            <div class="filter-section">
+                <h3>Employment Type</h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="fulltime">
+                    <label for="fulltime">Full-time</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="parttime">
+                    <label for="parttime">Part-time</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="contract">
+                    <label for="contract">Contract</label>
                 </div>
             </div>
-            <button class="premium-btn secondary">Apply Now</button>
+
+            <div class="filter-section">
+                <h3>Experience Level</h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="entry">
+                    <label for="entry">Entry Level</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="mid">
+                    <label for="mid">Mid Level</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="senior">
+                    <label for="senior">Senior</label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Jobs List -->
+        <div class="jobs-list">
+            <div class="job-card" *ngFor="let job of jobs">
+                <div class="job-card-header">
+                    <div class="company-logo">{{ job.icon }}</div>
+                    <div class="job-title-section">
+                        <h3>{{ job.title }}</h3>
+                        <p class="company-name">{{ job.company }}</p>
+                    </div>
+                    <button class="job-bookmark">⭐</button>
+                </div>
+
+                <div class="job-meta">
+                    <div class="meta-item">
+                        📍 <strong>{{ job.location }}</strong>
+                    </div>
+                    <div class="meta-item">
+                        💼 <strong>{{ job.type }}</strong>
+                    </div>
+                    <div class="meta-item">
+                        📊 <strong>{{ job.seniority }}</strong>
+                    </div>
+                </div>
+
+                <p class="job-description">{{ job.description }}</p>
+
+                <div class="job-tags">
+                    <span class="job-tag">React</span>
+                    <span class="job-tag">TypeScript</span>
+                    <span class="job-tag">Node.js</span>
+                </div>
+
+                <div class="job-footer">
+                    <span class="job-salary">{{ job.salary }}</span>
+                    <span class="job-posted">Posted {{ job.postedDate }}</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

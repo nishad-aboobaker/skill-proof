@@ -1,28 +1,64 @@
-<div class="hero-container">
-    <div class="hero-content">
-        <span class="badge">Next Gen Recruitment</span>
-        <h1 class="hero-title">
-            Unlock Your <span class="gradient-text">Potential</span><br>
-            with Proof of Skill
-        </h1>
-        <p class="hero-subtitle">
-            Connect directly with premium employers. Showcase your GitHub contributions,
-            verified skills, and build a career that matches your talent.
-        </p>
+<div class="hero-section">
+    <div class="hero-pattern"></div>
+    <div class="hero-container">
+        <div class="hero-content">
+            <span class="hero-badge">
+                🚀 Next-Gen Recruitment
+            </span>
+            <h1 class="hero-title">
+                Unlock Your <span class="highlight">Potential</span><br>
+                with Proof of Skill
+            </h1>
+            <p class="hero-subtitle">
+                Connect directly with premium employers. Showcase your GitHub contributions,
+                verified skills, and build a career that matches your talent.
+            </p>
 
-        <div class="hero-actions">
-            <div class="action-card developer-card glass-panel">
-                <h3>For Developers</h3>
-                <p>Get hired based on your actual code and contributions.</p>
-                <button routerLink="/register" [queryParams]="{role: 'developer'}" class="premium-btn">Join as
-                    Developer</button>
+            <div class="hero-actions">
+                <button routerLink="/register" [queryParams]="{role: 'developer'}" class="btn-primary">
+                    Join as Developer
+                </button>
+                <button routerLink="/register" [queryParams]="{role: 'employer'}" class="btn-secondary">
+                    Join as Employer
+                </button>
             </div>
 
-            <div class="action-card employer-card glass-panel">
-                <h3>For Employers</h3>
-                <p>Hire verified talent with deep repository insights.</p>
-                <button routerLink="/register" [queryParams]="{role: 'employer'}" class="premium-btn"
-                    style="background: var(--secondary-gradient)">Join as Employer</button>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-value">5,000+</span>
+                    <span class="stat-label">Active Developers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">1,200+</span>
+                    <span class="stat-label">Companies Hiring</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">95%</span>
+                    <span class="stat-label">Success Rate</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h4>For Developers</h4>
+                <p>Get hired based on your actual code and contributions, not just your resume.</p>
+            </div>
+            <div class="feature-card secondary">
+                <div class="feature-icon">🏢</div>
+                <h4>For Employers</h4>
+                <p>Hire verified talent with deep repository insights and proven skills.</p>
+            </div>
+            <div class="feature-card secondary">
+                <div class="feature-icon">📊</div>
+                <h4>Skill Analytics</h4>
+                <p>Comprehensive analysis of coding patterns, contributions, and expertise.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h4>Fast Matching</h4>
+                <p>AI-powered matching connects you with the perfect opportunities instantly.</p>
             </div>
         </div>
     </div>

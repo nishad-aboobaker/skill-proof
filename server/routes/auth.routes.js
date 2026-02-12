@@ -1,9 +1,7 @@
 import express from "express"
 import {
-    registerDeveloper,
-    loginDeveloper,
-    registerEmployer,
-    loginAdminEmployer,
+    register,
+    login,
     logout,
     getMe
 } from "../controller/auth.controller.js"
@@ -11,16 +9,12 @@ import { protect } from "../middleware/auth.middleware.js"
 
 const router = express.Router()
 
-// Developer Routes
-router.post("/developer/register", registerDeveloper)
-router.post("/developer/login", loginDeveloper)
-
-// Employer/Admin Routes
-router.post("/employer/register", registerEmployer)
-router.post("/admin-employer/login", loginAdminEmployer)
-
-// Shared Routes
+// Public Routes
+router.post("/register", register)
+router.post("/login", login)
 router.post("/logout", logout)
+
+// Protected Routes
 router.get("/me", protect, getMe)
 
 export default router

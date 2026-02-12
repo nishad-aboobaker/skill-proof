@@ -50,7 +50,7 @@ export class LoginComponent implements OnDestroy {
 
     const loginObs = this.userType === 'developer'
       ? this.authService.loginDeveloper(this.loginForm.value)
-      : this.authService.loginAdminEmployer(this.loginForm.value);
+      : this.authService.loginEmployer(this.loginForm.value);
 
     loginObs.subscribe({
       next: (res: any) => {
