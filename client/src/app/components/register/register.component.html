@@ -1,52 +1,121 @@
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h2>Create Account</h2>
-            <p>Join the future of skill-based hiring.</p>
-        </div>
-
-        <div class="type-toggle">
-            <button [class.active]="role === 'developer'" (click)="role = 'developer'">Developer</button>
-            <button [class.active]="role === 'employer'" (click)="role = 'employer'">Employer</button>
-        </div>
-
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" formControlName="name" placeholder="John Doe" class="input-field">
-            </div>
-
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" formControlName="email" placeholder="name@company.com" class="input-field">
-            </div>
-
-            <div class="form-group" *ngIf="role === 'developer'">
-                <label>GitHub Username (Optional)</label>
-                <input type="text" formControlName="github" placeholder="github_user" class="input-field">
-            </div>
-
-            <div class="form-group" *ngIf="role === 'employer'">
-                <label>Company Name</label>
-                <input type="text" formControlName="companyName" placeholder="TechCorp Inc." class="input-field">
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" formControlName="password" placeholder="••••••••" class="input-field">
-            </div>
-
-            <div class="form-error" *ngIf="error">
-                {{ error }}
-            </div>
-
-            <button type="submit" class="btn-primary auth-btn" [disabled]="loading || registerForm.invalid">
-                {{ loading ? 'Creating Account...' : 'Create Account' }}
-            </button>
-
-            <p class="auth-footer">
-                Already have an account? <a routerLink="/login">Sign in</a>
-            </p>
-        </form>
+<div class="auth-page">
+  <div class="auth-card-premium glass">
+    <div class="auth-header">
+      <h1 class="gradient-text">Create Account</h1>
+      <p>Join SkillProof and elevate your career</p>
     </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group glass-input">
+        <label for="name">Full Name</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👤</span>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="John Doe"
+            class="input-field"
+          />
+        </div>
+      </div>
+
+      <div class="form-group glass-input">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <span class="input-icon">✉️</span>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="john@example.com"
+            class="input-field"
+          />
+        </div>
+      </div>
+
+      <div class="form-group glass-input">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="••••••••"
+            class="input-field"
+          />
+        </div>
+        <div
+          class="password-requirements"
+          *ngIf="
+            registerForm.get('password')?.touched &&
+            registerForm.get('password')?.invalid
+          "
+        >
+          <small
+            class="requirement"
+            [class.met]="hasMinLength()"
+          >
+            ✓ At least 8 characters
+          </small>
+          <small
+            class="requirement"
+            [class.met]="hasUppercase()"
+          >
+            ✓ One uppercase letter
+          </small>
+          <small
+            class="requirement"
+            [class.met]="hasLowercase()"
+          >
+            ✓ One lowercase letter
+          </small>
+          <small
+            class="requirement"
+            [class.met]="hasNumber()"
+          >
+            ✓ One number
+          </small>
+          <small
+            class="requirement"
+            [class.met]="hasSpecial()"
+          >
+            ✓ One special character (@$!%*?&)
+          </small>
+        </div>
+      </div>
+
+      <div class="form-error glass" *ngIf="error">
+        <span class="error-icon">🛑</span>
+        {{ error }}
+      </div>
+
+      <button
+        type="submit"
+        class="btn-primary auth-btn premium"
+        [disabled]="loading || registerForm.invalid"
+      >
+        {{ loading ? "Creating Account..." : "Continue" }}
+        <svg
+          *ngIf="!loading"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Already have an account? <a routerLink="/login">Sign In</a>
+    </div>
+  </div>
 </div>

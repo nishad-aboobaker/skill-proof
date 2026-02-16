@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface User {
   _id: string;
   name: string;
   email: string;
-  role: 'admin';
+  role: 'admin' | 'user';
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/auth';
+  private apiUrl = environment.apiUrl + '/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private isInitializedSubject = new BehaviorSubject<boolean>(false);
@@ -24,7 +25,7 @@ export class AuthService {
   }
 
   login(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/admin-employer/login`, data).pipe(
+    return this.http.post(`${this.apiUrl}/login`, data).pipe(
       tap((res: any) => {
         if (res.data.role === 'admin') {
           this.currentUserSubject.next(res.data);

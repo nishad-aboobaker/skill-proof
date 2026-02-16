@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -8,11 +8,10 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  standalone: false
+  standalone: false,
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnDestroy {
   registerForm: FormGroup;
-  role: 'developer' | 'employer' = 'developer';
   loading = false;
   error = '';
   private destroy$ = new Subject<void>();
@@ -21,38 +20,54 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
   ) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      // Role specific fields
-      github: [''],
-      companyName: ['']
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+        ],
+      ],
     });
 
     this.redirectIfAuth();
   }
 
-  private redirectIfAuth() {
-    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(user => {
-      if (user) {
-        if (user.role === 'developer') {
-          this.router.navigate(['/jobs']);
-        } else if (user.role === 'employer') {
-          this.router.navigate(['/dashboard']);
-        }
-      }
-    });
+  get password(): string {
+    return this.registerForm.get('password')?.value || '';
   }
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params['role']) {
-        this.role = params['role'];
-      }
-    });
+  hasMinLength(): boolean {
+    return this.password.length >= 8;
+  }
+
+  hasUppercase(): boolean {
+    return /[A-Z]/.test(this.password);
+  }
+
+  hasLowercase(): boolean {
+    return /[a-z]/.test(this.password);
+  }
+
+  hasNumber(): boolean {
+    return /\d/.test(this.password);
+  }
+
+  hasSpecial(): boolean {
+    return /[@$!%*?&]/.test(this.password);
+  }
+
+  private redirectIfAuth() {
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user) => {
+        if (user) {
+          this.router.navigate(['/jobs']);
+        }
+      });
   }
 
   onSubmit() {
@@ -61,26 +76,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = '';
 
-    const data = this.registerForm.value;
-    const registerObs = this.role === 'developer'
-      ? this.authService.registerDeveloper(data)
-      : this.authService.registerEmployer(data);
-
-    registerObs.subscribe({
+    // Unified registration - no role selection needed
+    this.authService.register(this.registerForm.value).subscribe({
       next: (res: any) => {
         const role = res.data.role;
-        if (role === 'developer') {
-          this.router.navigate(['/jobs']);
-        } else if (role === 'employer') {
-          this.router.navigate(['/dashboard']);
+
+        if (role === 'admin') {
+          window.location.href = 'http://localhost:4200';
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/jobs']); // All new users go to jobs
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         this.error = err.error.message || 'Registration failed';
         this.loading = false;
-      }
+      },
     });
   }
 

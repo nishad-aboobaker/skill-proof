@@ -1,128 +1,114 @@
 .navbar {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 80rem;
+    height: 4.5rem;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-light);
-    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-premium);
+    transition: var(--transition-all);
 }
 
 .nav-container {
-    max-width: 80rem;
-    margin: 0 auto;
-    padding: 0 var(--spacing-xl);
-    height: 4.5rem;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 var(--spacing-xl);
 }
 
 .logo {
+    display: flex;
+    align-items: center;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1.5rem;
     font-weight: 800;
     text-decoration: none;
-    color: var(--text-primary);
-    letter-spacing: -0.03em;
-    transition: color var(--transition-base);
+    color: hsl(var(--slate-900));
 }
 
 .logo span {
-    color: var(--accent-primary);
-}
-
-.logo:hover {
-    color: var(--accent-primary);
+    background: linear-gradient(135deg, hsl(var(--teal-600)) 0%, hsl(var(--teal-500)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-md);
 }
 
 .nav-links a {
     position: relative;
+    padding: 0.5rem 1rem;
     font-size: 0.9375rem;
     font-weight: 600;
-    color: var(--text-secondary);
     text-decoration: none;
-    transition: color var(--transition-base);
-    padding: 0.5rem 0;
+    color: hsl(var(--slate-600));
+    transition: var(--transition-all);
+    border-radius: calc(var(--radius) / 2);
 }
 
-.nav-links a::after {
+.nav-links a:hover {
+    color: hsl(var(--teal-600));
+    background: hsla(var(--teal-500), 0.05);
+}
+
+.nav-links a.active {
+    color: hsl(var(--teal-600));
+    background: hsla(var(--teal-500), 0.08);
+}
+
+.nav-links a.active::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--accent-primary);
-    transform: scaleX(0);
-    transition: transform var(--transition-base);
-    border-radius: var(--radius-full);
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--accent-primary);
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after {
-    transform: scaleX(1);
+    bottom: -4px;
+    left: 1rem;
+    right: 1rem;
+    height: 3px;
+    background: hsl(var(--teal-600));
+    border-radius: var(--radius);
 }
 
 .user-name {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
+    font-weight: 700;
     font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    background: var(--bg-subtle);
-    border-radius: var(--radius-md);
+    padding: 0.25rem 0.75rem;
+    background: hsl(var(--slate-100));
+    border-radius: var(--radius);
+    color: hsl(var(--slate-700));
 }
 
 .btn-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    padding: 0;
-    background: var(--bg-subtle);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius);
+    color: hsl(var(--slate-600));
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: var(--transition-all);
 }
 
 .btn-icon:hover {
-    background: var(--rose-50);
-    border-color: var(--rose-600);
-    color: var(--rose-600);
-}
-
-.btn-icon span {
-    font-size: 1.25rem;
-    font-weight: 600;
+    background: hsla(var(--slate-600), 0.1);
+    color: hsl(var(--slate-900));
 }
 
 @media (max-width: 768px) {
-    .nav-container {
-        padding: 0 var(--spacing-md);
-    }
-
-    .nav-links {
-        gap: var(--spacing-md);
-    }
-
-    .nav-links a:not(.btn-primary):not(.btn-secondary) {
+    .nav-links a:not(.btn-primary) {
         display: none;
     }
 }

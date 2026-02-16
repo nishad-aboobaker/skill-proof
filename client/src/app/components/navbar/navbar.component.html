@@ -7,8 +7,8 @@
     <div class="nav-links">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       <ng-container *ngIf="authService.currentUser$ | async as user; else guestNav">
-        <a *ngIf="user.role === 'developer'" routerLink="/jobs" routerLinkActive="active">Browse Jobs</a>
-        <a *ngIf="user.role === 'employer'" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/jobs" routerLinkActive="active">Browse Jobs</a>
+        <a routerLink="/dashboard" routerLinkActive="active">My Dashboard</a>
         <span class="user-name">{{ user.name }}</span>
         <button (click)="logout()" class="btn-icon" title="Logout">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

@@ -1,12 +1,12 @@
 <div class="jobs-page">
     <div class="jobs-header">
-        <h1>Find Your Next Opportunity</h1>
-        <p>{{ jobs.length }} positions available</p>
+        <h1 class="gradient-text">Find Your Next Opportunity</h1>
+        <p *ngIf="!loading">{{ jobs.length }} positions available</p>
     </div>
 
     <div class="jobs-container">
         <!-- Sidebar Filters -->
-        <aside class="filters-sidebar">
+        <aside class="filters-sidebar glass">
             <div class="filter-section">
                 <h3>Employment Type</h3>
                 <div class="filter-option">
@@ -22,61 +22,85 @@
                     <label for="contract">Contract</label>
                 </div>
             </div>
-
-            <div class="filter-section">
-                <h3>Experience Level</h3>
-                <div class="filter-option">
-                    <input type="checkbox" id="entry">
-                    <label for="entry">Entry Level</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="mid">
-                    <label for="mid">Mid Level</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="senior">
-                    <label for="senior">Senior</label>
-                </div>
-            </div>
         </aside>
 
-        <!-- Jobs List -->
-        <div class="jobs-list">
-            <div class="job-card" *ngFor="let job of jobs">
+        <!-- Loading State Skeleton -->
+        <div class="jobs-list" *ngIf="loading">
+            <div class="job-card skeleton" *ngFor="let i of [1,2,3]">
                 <div class="job-card-header">
-                    <div class="company-logo">{{ job.icon }}</div>
+                    <div class="company-logo shimmer"></div>
+                    <div class="job-title-section">
+                        <div class="skeleton-title shimmer"></div>
+                        <div class="skeleton-text shimmer"></div>
+                    </div>
+                </div>
+                <div class="job-meta">
+                    <div class="skeleton-meta shimmer"></div>
+                    <div class="skeleton-meta shimmer"></div>
+                </div>
+                <div class="skeleton-long shimmer"></div>
+            </div>
+        </div>
+
+        <!-- Jobs List -->
+        <div class="jobs-list" *ngIf="!loading && jobs.length > 0">
+            <div class="job-card premium" *ngFor="let job of jobs">
+                <div class="job-card-header">
+                    <div class="company-logo" *ngIf="job.companyLogo">
+                        <img [src]="job.companyLogo" [alt]="job.companyName">
+                    </div>
+                    <div class="company-logo glass" *ngIf="!job.companyLogo">🏢</div>
                     <div class="job-title-section">
                         <h3>{{ job.title }}</h3>
-                        <p class="company-name">{{ job.company }}</p>
+                        <p class="company-name">{{ job.companyName }}</p>
                     </div>
-                    <button class="job-bookmark">⭐</button>
+                    <div class="job-actions">
+                        <button class="btn-icon circle glass">⭐</button>
+                    </div>
                 </div>
 
                 <div class="job-meta">
                     <div class="meta-item">
-                        📍 <strong>{{ job.location }}</strong>
+                        <span class="meta-icon">📍</span> <strong>{{ job.location }}</strong>
                     </div>
                     <div class="meta-item">
-                        💼 <strong>{{ job.type }}</strong>
+                        <span class="meta-icon">💼</span> <strong>{{ job.type }}</strong>
                     </div>
-                    <div class="meta-item">
-                        📊 <strong>{{ job.seniority }}</strong>
+                    <div class="meta-item" *ngIf="job.remote">
+                        <span class="meta-icon">🌐</span> <strong>Remote Friendly</strong>
                     </div>
                 </div>
 
                 <p class="job-description">{{ job.description }}</p>
 
-                <div class="job-tags">
-                    <span class="job-tag">React</span>
-                    <span class="job-tag">TypeScript</span>
-                    <span class="job-tag">Node.js</span>
+                <div class="job-tags" *ngIf="job.skills && job.skills.length > 0">
+                    <span class="job-tag glass" *ngFor="let skill of job.skills">{{ skill }}</span>
                 </div>
 
                 <div class="job-footer">
-                    <span class="job-salary">{{ job.salary }}</span>
-                    <span class="job-posted">Posted {{ job.postedDate }}</span>
+                    <div class="job-salary" *ngIf="job.salary">
+                        {{ job.salary.currency || '$' }}{{ job.salary.min | number }} - {{ job.salary.max | number }}
+                    </div>
+                    <div class="footer-actions">
+                        <button class="btn-primary premium" (click)="applyToJob(job._id)">
+                            Apply Now
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state glass" *ngIf="!loading && jobs.length === 0">
+            <div class="empty-icon">🔍</div>
+            <h3>No jobs found matching your criteria</h3>
+            <p>Try adjusting your filters or check back later for new opportunities.</p>
+            <button class="btn-secondary" (click)="fetchJobs()">Refresh Search</button>
         </div>
     </div>
 </div>

@@ -19,10 +19,8 @@ export class HomeComponent implements OnDestroy {
   private redirectIfAuth() {
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(user => {
       if (user) {
-        if (user.role === 'developer') {
+        if (user.role === 'user') {
           this.router.navigate(['/jobs']);
-        } else if (user.role === 'employer') {
-          this.router.navigate(['/dashboard']);
         }
       }
     });

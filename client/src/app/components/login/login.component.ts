@@ -12,7 +12,6 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent implements OnDestroy {
   loginForm: FormGroup;
-  userType: 'developer' | 'employer' = 'developer';
   loading = false;
   error = '';
   private destroy$ = new Subject<void>();
@@ -33,10 +32,8 @@ export class LoginComponent implements OnDestroy {
   private redirectIfAuth() {
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(user => {
       if (user) {
-        if (user.role === 'developer') {
+        if (user.role === 'user') {
           this.router.navigate(['/jobs']);
-        } else if (user.role === 'employer') {
-          this.router.navigate(['/dashboard']);
         }
       }
     });
@@ -48,22 +45,19 @@ export class LoginComponent implements OnDestroy {
     this.loading = true;
     this.error = '';
 
-    const loginObs = this.userType === 'developer'
-      ? this.authService.loginDeveloper(this.loginForm.value)
-      : this.authService.loginEmployer(this.loginForm.value);
-
-    loginObs.subscribe({
+    // Unified login - no role selection needed
+    this.authService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
         const role = res.data.role;
-        if (role === 'developer') {
-          this.router.navigate(['/jobs']);
-        } else if (role === 'employer') {
-          this.router.navigate(['/dashboard']);
+
+        // Redirect based on role
+        if (role === 'admin') {
+          window.location.href = 'http://localhost:4200'; // Admin frontend
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/jobs']); // User goes to jobs
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         this.error = err.error.message || 'Login failed';
         this.loading = false;
       }

@@ -1,64 +1,72 @@
 <div class="hero-section">
-    <div class="hero-pattern"></div>
+    <div class="hero-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <div class="hero-container">
         <div class="hero-content">
-            <span class="hero-badge">
-                🚀 Next-Gen Recruitment
-            </span>
+            <div class="hero-badge glass">
+                <span class="badge-dot"></span>
+                🚀 Next-Gen Skill Verification
+            </div>
             <h1 class="hero-title">
-                Unlock Your <span class="highlight">Potential</span><br>
+                Unlock Your <span class="gradient-text">Potential</span><br>
                 with Proof of Skill
             </h1>
             <p class="hero-subtitle">
-                Connect directly with premium employers. Showcase your GitHub contributions,
-                verified skills, and build a career that matches your talent.
+                The modern marketplace for verified talent. Connect directly with premium employers
+                through deep GitHub insights and AI-powered skill analytics.
             </p>
 
             <div class="hero-actions">
-                <button routerLink="/register" [queryParams]="{role: 'developer'}" class="btn-primary">
-                    Join as Developer
-                </button>
-                <button routerLink="/register" [queryParams]="{role: 'employer'}" class="btn-secondary">
-                    Join as Employer
-                </button>
+                <a routerLink="/register" class="btn-primary premium lg">
+                    Find Your Next Job
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <a routerLink="/register" class="btn-secondary glass lg">
+                    Post Opportunity
+                </a>
             </div>
 
             <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-value">5,000+</span>
-                    <span class="stat-label">Active Developers</span>
+                <div class="stat-pill glass">
+                    <span class="stat-number">5k+</span>
+                    <span class="stat-label">Experts</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">1,200+</span>
-                    <span class="stat-label">Companies Hiring</span>
+                <div class="stat-pill glass">
+                    <span class="stat-number">1k+</span>
+                    <span class="stat-label">Companies</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">95%</span>
-                    <span class="stat-label">Success Rate</span>
+                <div class="stat-pill glass">
+                    <span class="stat-number">95%</span>
+                    <span class="stat-label">Placement Rate</span>
                 </div>
             </div>
         </div>
 
         <div class="hero-visual">
-            <div class="feature-card">
-                <div class="feature-icon">💻</div>
-                <h4>For Developers</h4>
-                <p>Get hired based on your actual code and contributions, not just your resume.</p>
-            </div>
-            <div class="feature-card secondary">
-                <div class="feature-icon">🏢</div>
-                <h4>For Employers</h4>
-                <p>Hire verified talent with deep repository insights and proven skills.</p>
-            </div>
-            <div class="feature-card secondary">
-                <div class="feature-icon">📊</div>
-                <h4>Skill Analytics</h4>
-                <p>Comprehensive analysis of coding patterns, contributions, and expertise.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h4>Fast Matching</h4>
-                <p>AI-powered matching connects you with the perfect opportunities instantly.</p>
+            <div class="visual-card-stack">
+                <div class="visual-card card-1 glass">
+                    <div class="card-icon shimmer">💻</div>
+                    <h4>Repository Insights</h4>
+                    <p>Deep analysis of your code quality and contributions.</p>
+                </div>
+                <div class="visual-card card-2 glass-dark">
+                    <div class="card-icon">🏢</div>
+                    <h4>Verified Hiring</h4>
+                    <p>Connect with companies looking for proven expertise.</p>
+                </div>
+                <div class="visual-card card-3 glass">
+                    <div class="card-icon">⚡</div>
+                    <h4>Instant Match</h4>
+                    <p>AI-driven matching for your specific skill set.</p>
+                </div>
             </div>
         </div>
     </div>

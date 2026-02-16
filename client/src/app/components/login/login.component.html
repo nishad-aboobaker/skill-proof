@@ -1,43 +1,46 @@
-<div class="auth-container">
-    <div class="auth-card">
+<div class="auth-page">
+    <div class="auth-card-premium glass">
         <div class="auth-header">
-            <h2>Welcome Back</h2>
-            <p>Please enter your details to sign in.</p>
-        </div>
-
-        <div class="type-toggle">
-            <button [class.active]="userType === 'developer'" (click)="userType = 'developer'">Developer</button>
-            <button [class.active]="userType === 'employer'" (click)="userType = 'employer'">Employer</button>
+            <h1 class="gradient-text">Welcome Back</h1>
+            <p>Enter your credentials to access your dashboard</p>
         </div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" formControlName="email" placeholder="name@company.com" class="input-field">
-                <div class="error-msg" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-                    Please enter a valid email.
+            <div class="form-group glass-input">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">✉️</span>
+                    <input type="email" id="email" formControlName="email" placeholder="john@example.com"
+                        class="input-field">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" formControlName="password" placeholder="••••••••" class="input-field">
-                <div class="error-msg" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-                    Password must be at least 6 characters.
+            <div class="form-group glass-input">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="password" formControlName="password" placeholder="••••••••"
+                        class="input-field">
                 </div>
             </div>
 
-            <div class="form-error" *ngIf="error">
+            <div class="form-error glass" *ngIf="error">
+                <span class="error-icon">🛑</span>
                 {{ error }}
             </div>
 
-            <button type="submit" class="btn-primary auth-btn" [disabled]="loading || loginForm.invalid">
-                {{ loading ? 'Signing in...' : 'Sign In' }}
+            <button type="submit" class="btn-primary auth-btn premium" [disabled]="loading || loginForm.invalid">
+                {{ loading ? 'Signing In...' : 'Sign In' }}
+                <svg *ngIf="!loading" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
             </button>
-
-            <p class="auth-footer">
-                Don't have an account? <a routerLink="/register">Sign up</a>
-            </p>
         </form>
+
+        <div class="auth-footer">
+            New to SkillProof? <a routerLink="/register">Create Account</a>
+        </div>
     </div>
 </div>
