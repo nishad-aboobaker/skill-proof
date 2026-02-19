@@ -1,7 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,92 +8,53 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./register.component.css'],
   standalone: false,
 })
-export class RegisterComponent implements OnDestroy {
-  registerForm: FormGroup;
+export class RegisterComponent {
+  // Form fields
+  name = '';
+  email = '';
+  password = '';
+
+  // Page state
   loading = false;
   error = '';
-  private destroy$ = new Subject<void>();
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-  ) {
-    this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-        ],
-      ],
-    });
+  constructor(private authService: AuthService, private router: Router) { }
 
-    this.redirectIfAuth();
+  // Check if all fields are filled and valid
+  isFormValid(): boolean {
+    return this.name.trim() !== '' &&
+      this.email.includes('@') &&
+      this.password.length >= 8;
   }
 
-  get password(): string {
-    return this.registerForm.get('password')?.value || '';
-  }
-
-  hasMinLength(): boolean {
-    return this.password.length >= 8;
-  }
-
-  hasUppercase(): boolean {
-    return /[A-Z]/.test(this.password);
-  }
-
-  hasLowercase(): boolean {
-    return /[a-z]/.test(this.password);
-  }
-
-  hasNumber(): boolean {
-    return /\d/.test(this.password);
-  }
-
-  hasSpecial(): boolean {
-    return /[@$!%*?&]/.test(this.password);
-  }
-
-  private redirectIfAuth() {
-    this.authService.currentUser$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((user) => {
-        if (user) {
-          this.router.navigate(['/jobs']);
-        }
-      });
-  }
+  // Password helper checks
+  hasMinLength(): boolean { return this.password.length >= 8; }
+  hasUppercase(): boolean { return /[A-Z]/.test(this.password); }
+  hasLowercase(): boolean { return /[a-z]/.test(this.password); }
+  hasNumber(): boolean { return /\d/.test(this.password); }
+  hasSpecial(): boolean { return /[@$!%*?&]/.test(this.password); }
 
   onSubmit() {
-    if (this.registerForm.invalid) return;
+    if (!this.isFormValid()) return;
 
     this.loading = true;
     this.error = '';
 
-    // Unified registration - no role selection needed
-    this.authService.register(this.registerForm.value).subscribe({
+    const formData = { name: this.name, email: this.email, password: this.password };
+
+    this.authService.register(formData).subscribe({
       next: (res: any) => {
         const role = res.data.role;
-
         if (role === 'admin') {
           window.location.href = 'http://localhost:4200';
         } else {
-          this.router.navigate(['/jobs']); // All new users go to jobs
+          this.router.navigate(['/jobs']);
         }
       },
       error: (err: any) => {
         this.error = err.error.message || 'Registration failed';
         this.loading = false;
-      },
+      }
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

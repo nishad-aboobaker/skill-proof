@@ -1,121 +1,56 @@
 <div class="auth-page">
-  <div class="auth-card-premium glass">
+  <div class="auth-card">
     <div class="auth-header">
-      <h1 class="gradient-text">Create Account</h1>
-      <p>Join SkillProof and elevate your career</p>
+      <a routerLink="/" class="auth-logo"><span class="logo-skill">Skill</span><span class="logo-proof">Proof</span></a>
+      <h2>Create your account</h2>
+      <p>Join thousands of verified professionals</p>
     </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
-      <div class="form-group glass-input">
-        <label for="name">Full Name</label>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Full name</label>
         <div class="input-wrapper">
           <span class="input-icon">👤</span>
-          <input
-            type="text"
-            id="name"
-            formControlName="name"
-            placeholder="John Doe"
-            class="input-field"
-          />
+          <input type="text" id="name" class="input-field" [(ngModel)]="name" name="name" placeholder="John Doe" />
         </div>
       </div>
 
-      <div class="form-group glass-input">
-        <label for="email">Email Address</label>
+      <div class="form-group">
+        <label for="email">Email address</label>
         <div class="input-wrapper">
           <span class="input-icon">✉️</span>
-          <input
-            type="email"
-            id="email"
-            formControlName="email"
-            placeholder="john@example.com"
-            class="input-field"
-          />
+          <input type="email" id="email" class="input-field" [(ngModel)]="email" name="email"
+            placeholder="you@example.com" />
         </div>
       </div>
 
-      <div class="form-group glass-input">
+      <div class="form-group">
         <label for="password">Password</label>
         <div class="input-wrapper">
-          <span class="input-icon">🔒</span>
-          <input
-            type="password"
-            id="password"
-            formControlName="password"
-            placeholder="••••••••"
-            class="input-field"
-          />
+          <span class="input-icon">🔑</span>
+          <input type="password" id="password" class="input-field" [(ngModel)]="password" name="password"
+            placeholder="At least 8 characters" />
         </div>
-        <div
-          class="password-requirements"
-          *ngIf="
-            registerForm.get('password')?.touched &&
-            registerForm.get('password')?.invalid
-          "
-        >
-          <small
-            class="requirement"
-            [class.met]="hasMinLength()"
-          >
-            ✓ At least 8 characters
-          </small>
-          <small
-            class="requirement"
-            [class.met]="hasUppercase()"
-          >
-            ✓ One uppercase letter
-          </small>
-          <small
-            class="requirement"
-            [class.met]="hasLowercase()"
-          >
-            ✓ One lowercase letter
-          </small>
-          <small
-            class="requirement"
-            [class.met]="hasNumber()"
-          >
-            ✓ One number
-          </small>
-          <small
-            class="requirement"
-            [class.met]="hasSpecial()"
-          >
-            ✓ One special character (@$!%*?&)
-          </small>
+        <!-- Password strength hints -->
+        <div class="pw-hints" *ngIf="password.length > 0">
+          <span [class.hint-ok]="hasMinLength()">✓ 8+ characters</span>
+          <span [class.hint-ok]="hasUppercase()">✓ Uppercase</span>
+          <span [class.hint-ok]="hasNumber()">✓ Number</span>
+          <span [class.hint-ok]="hasSpecial()">✓ Special char</span>
         </div>
       </div>
 
-      <div class="form-error glass" *ngIf="error">
-        <span class="error-icon">🛑</span>
-        {{ error }}
+      <div class="alert-error" *ngIf="error">
+        ⚠️ {{ error }}
       </div>
 
-      <button
-        type="submit"
-        class="btn-primary auth-btn premium"
-        [disabled]="loading || registerForm.invalid"
-      >
-        {{ loading ? "Creating Account..." : "Continue" }}
-        <svg
-          *ngIf="!loading"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
+      <button type="submit" class="btn-primary auth-btn" [disabled]="loading || !isFormValid()">
+        {{ loading ? 'Creating account...' : 'Create Account' }}
       </button>
     </form>
 
-    <div class="auth-footer">
-      Already have an account? <a routerLink="/login">Sign In</a>
-    </div>
+    <p class="auth-footer">
+      Already have an account? <a routerLink="/login">Sign in</a>
+    </p>
   </div>
 </div>

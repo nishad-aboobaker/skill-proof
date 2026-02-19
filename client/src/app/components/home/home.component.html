@@ -1,73 +1,67 @@
-<div class="hero-section">
-    <div class="hero-bg">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
-
-    <div class="hero-container">
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
         <div class="hero-content">
-            <div class="hero-badge glass">
-                <span class="badge-dot"></span>
-                🚀 Next-Gen Skill Verification
+            <div class="hero-badge">
+                <span class="badge-dot"></span> Next-Gen Skill Verification
             </div>
             <h1 class="hero-title">
-                Unlock Your <span class="gradient-text">Potential</span><br>
-                with Proof of Skill
+                The Modern Platform for<br>
+                <span class="gradient-text">Verified Talent</span>
             </h1>
-            <p class="hero-subtitle">
-                The modern marketplace for verified talent. Connect directly with premium employers
-                through deep GitHub insights and AI-powered skill analytics.
+            <p class="hero-sub">
+                Connect directly with premium employers through deep GitHub insights and AI-powered skill analytics. No
+                fluff — just proof.
             </p>
-
-            <div class="hero-actions">
-                <a routerLink="/register" class="btn-primary premium lg">
+            <div class="hero-btns">
+                <a [routerLink]="isLoggedIn ? '/jobs' : '/register'" class="btn-primary">
                     Find Your Next Job
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
                     </svg>
                 </a>
-                <a routerLink="/register" class="btn-secondary glass lg">
-                    Post Opportunity
+                <a [routerLink]="isLoggedIn ? '/dashboard' : '/register'" class="btn-secondary">
+                    Post a Job
                 </a>
             </div>
-
             <div class="hero-stats">
-                <div class="stat-pill glass">
-                    <span class="stat-number">5k+</span>
-                    <span class="stat-label">Experts</span>
+                <div class="stat-item"><span class="stat-num">5k+</span><span class="stat-lbl">Verified Experts</span>
                 </div>
-                <div class="stat-pill glass">
-                    <span class="stat-number">1k+</span>
-                    <span class="stat-label">Companies</span>
-                </div>
-                <div class="stat-pill glass">
-                    <span class="stat-number">95%</span>
-                    <span class="stat-label">Placement Rate</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="hero-visual">
-            <div class="visual-card-stack">
-                <div class="visual-card card-1 glass">
-                    <div class="card-icon shimmer">💻</div>
-                    <h4>Repository Insights</h4>
-                    <p>Deep analysis of your code quality and contributions.</p>
-                </div>
-                <div class="visual-card card-2 glass-dark">
-                    <div class="card-icon">🏢</div>
-                    <h4>Verified Hiring</h4>
-                    <p>Connect with companies looking for proven expertise.</p>
-                </div>
-                <div class="visual-card card-3 glass">
-                    <div class="card-icon">⚡</div>
-                    <h4>Instant Match</h4>
-                    <p>AI-driven matching for your specific skill set.</p>
+                <div class="stat-divider"></div>
+                <div class="stat-item"><span class="stat-num">1k+</span><span class="stat-lbl">Companies</span></div>
+                <div class="stat-divider"></div>
+                <div class="stat-item"><span class="stat-num">95%</span><span class="stat-lbl">Placement Rate</span>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <div class="features-header">
+            <h2>Why <span class="gradient-text">SkillProof</span>?</h2>
+            <p>We go beyond the resume — we verify what developers can actually do.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h4>GitHub Insights</h4>
+                <p>Deep analysis of your repositories, commit history, and code quality — automatically.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <h4>Verified Hiring</h4>
+                <p>Connect with companies that care about real skills, not just keyword-stuffed resumes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h4>Instant Match</h4>
+                <p>AI-driven matching connects you to the right opportunities based on your specific skill set.</p>
+            </div>
+        </div>
+    </div>
+</section>

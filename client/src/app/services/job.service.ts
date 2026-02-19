@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+// The shape of a job listing
 export interface Job {
     _id: string;
     title: string;
@@ -34,55 +35,47 @@ export class JobService {
 
     constructor(private http: HttpClient) { }
 
-    // Create new job
+    // Create a new job posting
     createJob(jobData: any): Observable<any> {
         return this.http.post(this.apiUrl, jobData);
     }
 
-    // Get all jobs (with optional filters)
+    // Get all jobs (can filter by status, type, location, or search keyword)
     getJobs(filters?: { status?: string; type?: string; location?: string; search?: string }): Observable<any> {
-        let params: any = {};
-        if (filters) {
-            Object.keys(filters).forEach(key => {
-                if (filters[key as keyof typeof filters]) {
-                    params[key] = filters[key as keyof typeof filters];
-                }
-            });
-        }
-        return this.http.get(this.apiUrl, { params });
+        return this.http.get(this.apiUrl, { params: filters || {} });
     }
 
-    // Get single job by ID
+    // Get a single job by its ID
     getJobById(id: string): Observable<any> {
         return this.http.get(`${this.apiUrl}/${id}`);
     }
 
-    // Update job
+    // Update an existing job
     updateJob(id: string, jobData: any): Observable<any> {
         return this.http.put(`${this.apiUrl}/${id}`, jobData);
     }
 
-    // Delete job
+    // Delete a job
     deleteJob(id: string): Observable<any> {
         return this.http.delete(`${this.apiUrl}/${id}`);
     }
 
-    // Apply to job
+    // Apply to a job
     applyToJob(id: string, applicationData: { coverLetter?: string; resume?: string }): Observable<any> {
         return this.http.post(`${this.apiUrl}/${id}/apply`, applicationData);
     }
 
-    // Get my posted jobs
+    // Get all jobs that the current user has posted
     getMyPostedJobs(): Observable<any> {
         return this.http.get(`${this.apiUrl}/my/posted`);
     }
 
-    // Get my applications
+    // Get all jobs the current user has applied to
     getMyApplications(): Observable<any> {
         return this.http.get(`${this.apiUrl}/my/applications`);
     }
 
-    // Update application status (job owner or admin)
+    // Update the status of an applicant (e.g. shortlist or reject)
     updateApplicationStatus(jobId: string, userId: string, status: string): Observable<any> {
         return this.http.put(`${this.apiUrl}/${jobId}/applicants/${userId}`, { status });
     }

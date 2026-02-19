@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+// The shape of a logged-in user
 export interface User {
   _id: string;
   name: string;
@@ -31,53 +32,52 @@ export interface User {
 })
 export class AuthService {
   private apiUrl = environment.apiUrl + '/auth';
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
-  private isInitializedSubject = new BehaviorSubject<boolean>(false);
-  public isInitialized$ = this.isInitializedSubject.asObservable();
+
+  // Stores the currently logged-in user (null if not logged in)
+  private currentUser = new BehaviorSubject<User | null>(null);
+  public currentUser$ = this.currentUser.asObservable();
 
   constructor(private http: HttpClient) {
+    // When the app starts, check if the user is already logged in
     this.checkStatus();
   }
 
-  // Unified registration (no role selection needed)
+  // Register a new user
   register(data: { name: string; email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data).pipe(
-      tap((res: any) => this.currentUserSubject.next(res.data))
+      tap((res: any) => this.currentUser.next(res.data))
     );
   }
 
-  // Unified login (no role selection needed)
+  // Log in an existing user
   login(data: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, data).pipe(
-      tap((res: any) => this.currentUserSubject.next(res.data))
+      tap((res: any) => this.currentUser.next(res.data))
     );
   }
 
+  // Log out the current user
   logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
-      tap(() => this.currentUserSubject.next(null))
+      tap(() => this.currentUser.next(null))
     );
   }
 
+  // Ask the server if the user is still logged in (uses session cookie)
   checkStatus() {
     this.http.get(`${this.apiUrl}/me`).subscribe({
-      next: (res: any) => {
-        this.currentUserSubject.next(res.data);
-        this.isInitializedSubject.next(true);
-      },
-      error: () => {
-        this.currentUserSubject.next(null);
-        this.isInitializedSubject.next(true);
-      }
+      next: (res: any) => this.currentUser.next(res.data),
+      error: () => this.currentUser.next(null)
     });
   }
 
+  // Get the current user's data directly (without subscribing)
   get userValue(): User | null {
-    return this.currentUserSubject.value;
+    return this.currentUser.value;
   }
 
+  // Quick check: is the current user an admin?
   get isAdmin(): boolean {
-    return this.currentUserSubject.value?.role === 'admin';
+    return this.currentUser.value?.role === 'admin';
   }
 }

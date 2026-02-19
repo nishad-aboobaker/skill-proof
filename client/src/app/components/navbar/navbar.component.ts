@@ -9,6 +9,8 @@ import { AuthService } from '../../services/auth.service';
   standalone: false
 })
 export class NavbarComponent {
+  menuOpen = false; // controls the mobile menu
+
   constructor(public authService: AuthService, private router: Router) { }
 
   logout() {

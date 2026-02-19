@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { filter, map, Observable, switchMap, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,18 +8,15 @@ import { filter, map, Observable, switchMap, take } from 'rxjs';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) { }
 
-  canActivate(): Observable<boolean> {
-    return this.authService.isInitialized$.pipe(
-      filter(initialized => initialized),
-      take(1),
-      switchMap(() => this.authService.currentUser$.pipe(
-        take(1),
-        map(user => {
-          if (user) return true;
-          this.router.navigate(['/login']);
-          return false;
-        })
-      ))
-    );
+  canActivate(): boolean {
+    // Check if a user is currently logged in
+    const user = this.authService.userValue;
+
+    if (user) {
+      return true; // Allow access to the page
+    } else {
+      this.router.navigate(['/login']); // Send to login if not logged in
+      return false;
+    }
   }
 }

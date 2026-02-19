@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 
 import authRoutes from "./routes/auth.routes.js"
+import userRoutes from "./routes/user.routes.js"
+import jobRoutes from "./routes/job.routes.js"
 import seedAdmin from "./seeders/adminSeeder.js";
 
 
@@ -27,6 +29,8 @@ connectDB().then(() => {
 })
 
 app.use("/auth", authRoutes)
+app.use("/users", userRoutes)
+app.use("/jobs", jobRoutes)
 
 app.get("/", (req, res) => {
   res.send("API is Running")

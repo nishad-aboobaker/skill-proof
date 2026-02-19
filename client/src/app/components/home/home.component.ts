@@ -1,6 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -9,25 +7,12 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./home.component.css'],
   standalone: false
 })
-export class HomeComponent implements OnDestroy {
-  private destroy$ = new Subject<void>();
+export class HomeComponent {
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.redirectIfAuth();
-  }
+  constructor(public authService: AuthService) { }
 
-  private redirectIfAuth() {
-    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(user => {
-      if (user) {
-        if (user.role === 'user') {
-          this.router.navigate(['/jobs']);
-        }
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  // True if someone is logged in
+  get isLoggedIn(): boolean {
+    return !!this.authService.userValue;
   }
 }

@@ -13,6 +13,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { JobsComponent } from './components/jobs/jobs.component';
 import { EmployerDashboardComponent } from './components/employer-dashboard/employer-dashboard.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { EmployerDashboardComponent } from './components/employer-dashboard/empl
     LoginComponent,
     RegisterComponent,
     JobsComponent,
-    EmployerDashboardComponent
+    EmployerDashboardComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

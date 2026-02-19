@@ -11,27 +11,27 @@ export class UserService {
 
     constructor(private http: HttpClient) { }
 
-    // Update own profile
+    // Update the current user's profile
     updateProfile(profileData: any): Observable<any> {
         return this.http.put(`${this.apiUrl}/profile`, profileData);
     }
 
-    // Get own profile
+    // Get the current user's profile
     getProfile(): Observable<any> {
         return this.http.get(`${this.apiUrl}/profile`);
     }
 
-    // Admin: Get all users
+    // Admin only: get all users
     getAllUsers(): Observable<any> {
         return this.http.get(this.apiUrl);
     }
 
-    // Admin: Get user by ID
+    // Admin only: get a single user by their ID
     getUserById(id: string): Observable<any> {
         return this.http.get(`${this.apiUrl}/${id}`);
     }
 
-    // Admin: Delete user
+    // Admin only: delete a user by their ID
     deleteUser(id: string): Observable<any> {
         return this.http.delete(`${this.apiUrl}/${id}`);
     }
