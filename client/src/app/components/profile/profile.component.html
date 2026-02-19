@@ -1,0 +1,239 @@
+<div class="page">
+    <div class="container profile-container">
+
+        <!-- Loading skeleton -->
+        <div *ngIf="loading" class="profile-skeleton">
+            <div class="skeleton sk-avatar"></div>
+            <div style="flex:1">
+                <div class="skeleton" style="width:160px;height:22px;margin-bottom:10px;border-radius:8px"></div>
+                <div class="skeleton" style="width:220px;height:14px;border-radius:8px"></div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="!loading && profile">
+
+            <!-- Alert -->
+            <div class="alert-success" *ngIf="successMsg">✓ {{ successMsg }}</div>
+            <div class="alert-error" *ngIf="error">⚠️ {{ error }}</div>
+
+            <!-- Header card -->
+            <div class="profile-header card">
+                <div class="profile-avatar">{{ profile.name?.charAt(0)?.toUpperCase() }}</div>
+                <div class="profile-meta">
+                    <div class="meta-top">
+                        <h1>{{ profile.name }}</h1>
+                        <span class="role-chip">{{ profile.role | titlecase }}</span>
+                    </div>
+                    <span class="meta-email">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        {{ profile.email }}
+                    </span>
+                    <span class="meta-joined">Member since {{ profile.createdAt | date:'MMMM yyyy' }}</span>
+                </div>
+            </div>
+
+            <!-- Edit form -->
+            <div class="card">
+                <div class="form-section-header">
+                    <div class="form-section-dot"></div>
+                    <h2>Account Information</h2>
+                </div>
+
+                <form (ngSubmit)="onSave()" #profileForm="ngForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                                <input class="input-field" type="text" [(ngModel)]="form.name" name="name"
+                                    placeholder="Your full name" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                </svg>
+                                <input class="input-field" type="tel" [(ngModel)]="form.phone" name="phone"
+                                    placeholder="+1 (555) 000-0000" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Profile Section -->
+                    <div class="form-section-header" style="margin-top: 2rem;">
+                        <div class="form-section-dot"></div>
+                        <h2>Professional Profile</h2>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bio <span class="field-note">Tell employers about yourself</span></label>
+                        <textarea class="input-field field-textarea" [(ngModel)]="form.bio" name="bio" rows="3"
+                            placeholder="Full-stack developer with 5 years of experience in React and Node.js..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Skills <span class="field-note">comma separated</span></label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="16 18 22 12 16 6" />
+                                    <polyline points="8 6 2 12 8 18" />
+                                </svg>
+                                <input class="input-field" type="text" [(ngModel)]="form.skills" name="skills"
+                                    placeholder="React, Node.js, TypeScript" />
+                            </div>
+
+                            <!-- Skills preview inside the group -->
+                            <div class="skills-cloud" *ngIf="parsedSkills.length > 0"
+                                style="margin-top: 10px; margin-bottom: 0;">
+                                <span class="skill-chip" *ngFor="let s of parsedSkills">{{ s }}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Experience Level</label>
+                            <select class="input-field" [(ngModel)]="form.experience" name="experience">
+                                <option value="">Select Level</option>
+                                <option value="junior">Junior</option>
+                                <option value="mid">Mid-Level</option>
+                                <option value="senior">Senior</option>
+                                <option value="lead">Lead</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>GitHub Username</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                                </svg>
+                                <input class="input-field" type="text" [(ngModel)]="form.githubUsername"
+                                    name="githubUsername" placeholder="octocat" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Portfolio URL</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="2" y1="12" x2="22" y2="12" />
+                                    <path
+                                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                </svg>
+                                <input class="input-field" type="url" [(ngModel)]="form.portfolio" name="portfolio"
+                                    placeholder="https://johndoe.dev" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Company Information Section (Shown for Employers/Admins) -->
+                    <div class="form-section-header" style="margin-top: 2rem;">
+                        <div class="form-section-dot"></div>
+                        <h2>Company Information</h2>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                </svg>
+                                <input class="input-field" type="text" [(ngModel)]="form.companyName" name="companyName"
+                                    placeholder="TechCorp Inc." />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Website</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="2" y1="12" x2="22" y2="12" />
+                                    <path
+                                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                </svg>
+                                <input class="input-field" type="url" [(ngModel)]="form.companyWebsite"
+                                    name="companyWebsite" placeholder="https://techcorp.com" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Company Size</label>
+                            <select class="input-field" [(ngModel)]="form.companySize" name="companySize">
+                                <option value="">Select Size</option>
+                                <option value="1-10">1-10 Employees</option>
+                                <option value="11-50">11-50 Employees</option>
+                                <option value="51-200">51-200 Employees</option>
+                                <option value="201-500">201-500 Employees</option>
+                                <option value="500+">500+ Employees</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Industry</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                                    <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                                </svg>
+                                <input class="input-field" type="text" [(ngModel)]="form.industry" name="industry"
+                                    placeholder="Software Development" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Company Description</label>
+                        <textarea class="input-field field-textarea" [(ngModel)]="form.companyDescription"
+                            name="companyDescription" rows="3"
+                            placeholder="Leading the way in innovative tech solutions..."></textarea>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn-primary" [disabled]="saving">
+                            <svg *ngIf="!saving" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                style="margin-right: 8px;">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                <polyline points="17 21 17 13 7 13 7 21" />
+                                <polyline points="7 3 7 8 15 8" />
+                            </svg>
+                            {{ saving ? 'Saving Changes...' : 'Save All Changes' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </ng-container>
+    </div>
+</div>

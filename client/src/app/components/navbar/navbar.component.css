@@ -68,6 +68,14 @@
     padding: 0.25rem 0.75rem;
     background: var(--bg-muted);
     border-radius: var(--r-full);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--t-fast), box-shadow var(--t-fast);
+}
+
+.nav-user:hover {
+    background: var(--indigo-50);
+    box-shadow: 0 0 0 2px var(--indigo-400);
 }
 
 .avatar {

@@ -14,6 +14,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { JobsComponent } from './components/jobs/jobs.component';
 import { EmployerDashboardComponent } from './components/employer-dashboard/employer-dashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FooterComponent } from './components/footer/footer.component';
     RegisterComponent,
     JobsComponent,
     EmployerDashboardComponent,
-    FooterComponent
+    FooterComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

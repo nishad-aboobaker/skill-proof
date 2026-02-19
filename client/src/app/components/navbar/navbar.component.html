@@ -13,10 +13,10 @@
       <ng-container *ngIf="authService.currentUser$ | async as user; else guestLinks">
         <a routerLink="/jobs" routerLinkActive="nav-active">Browse Jobs</a>
         <a routerLink="/dashboard" routerLinkActive="nav-active">My Dashboard</a>
-        <div class="nav-user">
+        <a routerLink="/profile" class="nav-user" title="View Profile">
           <span class="avatar">{{ user.name.charAt(0) }}</span>
           <span class="user-name">{{ user.name }}</span>
-        </div>
+        </a>
         <button class="btn-ghost nav-logout" (click)="logout()" title="Logout">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
@@ -47,6 +47,7 @@
     <ng-container *ngIf="authService.currentUser$ | async as user; else guestMobile">
       <a routerLink="/jobs" (click)="menuOpen=false">Browse Jobs</a>
       <a routerLink="/dashboard" (click)="menuOpen=false">My Dashboard</a>
+      <a routerLink="/profile" (click)="menuOpen=false">My Profile</a>
       <button class="btn-ghost" (click)="logout(); menuOpen=false">Logout</button>
     </ng-container>
     <ng-template #guestMobile>

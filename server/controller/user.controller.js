@@ -16,7 +16,10 @@ export const updateProfile = async (req, res, next) => {
         const user = await User.findByIdAndUpdate(
             req.user._id,
             { $set: updates },
-            { new: true, runValidators: true }
+            {
+                returnDocument: 'after',
+                runValidators: true
+            }
         ).select('-password');
 
         res.json({
@@ -24,6 +27,7 @@ export const updateProfile = async (req, res, next) => {
             data: user,
         });
     } catch (error) {
+        console.error('Update Profile Error:', error);
         next(error);
     }
 };
@@ -99,4 +103,3 @@ export const deleteUser = async (req, res, next) => {
         next(error);
     }
 };
- 

@@ -80,7 +80,15 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none;
+  /* Firefox */
 }
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Chrome / Edge / Safari */
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -270,13 +278,13 @@ a:hover {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--r-xl);
+  padding: var(--sp-xl);
   box-shadow: var(--shadow-sm);
-  transition: all var(--t-base);
+  transition: box-shadow var(--t-base);
 }
 
 .card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
 }
 
 /* ─── Badges ─────────────────────────────────────────────── */
