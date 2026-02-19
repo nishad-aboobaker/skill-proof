@@ -7,8 +7,252 @@
     align-items: center;
 }
 
+/* Two column layout */
+.hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 3rem;
+}
+
 .hero-content {
-    max-width: 680px;
+    max-width: 560px;
+}
+
+/* ── Hero Visual (right column) ─────────────────── */
+.hero-visual {
+    position: relative;
+    height: 420px;
+    transition: transform 0.12s ease-out;
+    transform-style: preserve-3d;
+}
+
+/* Floating animation keyframes */
+@keyframes floatA {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes floatB {
+
+    0%,
+    100% {
+        transform: translateY(-6px);
+    }
+
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+@keyframes floatC {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.float-a {
+    animation: floatA 5s ease-in-out infinite;
+}
+
+.float-b {
+    animation: floatB 6s ease-in-out infinite 0.8s;
+}
+
+.float-c {
+    animation: floatC 4.5s ease-in-out infinite 1.4s;
+}
+
+/* Base card */
+.vis-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 1.125rem 1.25rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    color: #fff;
+}
+
+/* Card positions */
+.card-match {
+    top: 0;
+    left: 0;
+    right: 24px;
+    z-index: 3;
+}
+
+.card-score {
+    top: 140px;
+    left: 40px;
+    right: 0;
+    z-index: 2;
+}
+
+.card-ping {
+    bottom: 20px;
+    left: 0;
+    right: 60px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Card internals */
+.vis-card-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.vis-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.vis-avatar.indigo {
+    background: var(--indigo-600);
+    color: #fff;
+}
+
+.vis-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.vis-sub {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin-top: 2px;
+}
+
+.vis-badge {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+.vis-badge.green {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.vis-skills {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.vis-skills span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(99, 102, 241, 0.25);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+}
+
+/* Skill bars card */
+.vis-card-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.vis-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.vis-bar-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 28px;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.vis-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.vis-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--indigo-400), #818cf8);
+    border-radius: 999px;
+    animation: barGrow 1.4s ease-out both;
+}
+
+@keyframes barGrow {
+    from {
+        width: 0 !important;
+    }
+}
+
+/* Ping card */
+.ping-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4ade80;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
+    animation: pingPulse 2s infinite;
+}
+
+@keyframes pingPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.45);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+    }
 }
 
 .hero-badge {
@@ -28,7 +272,7 @@
 .badge-dot {
     width: 8px;
     height: 8px;
-    background: var(--indigo-400);
+    background: var(--green-500);
     border-radius: 50%;
     animation: pulse 2s infinite;
 }
@@ -157,6 +401,20 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .hero-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-visual {
+        display: none;
+    }
+
+    .hero-content {
+        max-width: 680px;
+    }
+}
+
 @media (max-width: 768px) {
     .features-grid {
         grid-template-columns: 1fr;
