@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema(
       select: false,
       validate: {
         validator: function (password) {
+          // If the password is not modified, skip validation (it might be already hashed)
+          if (!this.isModified("password")) return true;
+
           // Password must have:
           // - At least 8 characters
           // - At least one uppercase letter
