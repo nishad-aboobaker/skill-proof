@@ -7,6 +7,8 @@ import { JobsComponent } from './components/jobs/jobs.component';
 import { EmployerDashboardComponent } from './components/employer-dashboard/employer-dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PostJobComponent } from './components/post-job/post-job.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
+
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'dashboard', component: EmployerDashboardComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'post-job', component: PostJobComponent, canActivate: [AuthGuard] },
+  { path: 'contact', component: ContactUsComponent },
+
   { path: '**', redirectTo: '' }
 ];
 
