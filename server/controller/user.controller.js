@@ -70,7 +70,41 @@ export const getUserById = async (req, res, next) => {
 // @access  Admin only
 export const getAllUsers = async (req, res, next) => {
     try {
-        const users = await User.find({}).select('-password');
+        const { search } = req.query;
+
+        let pipeline = [
+            {
+                $match: {
+                    role: { $ne: 'admin' }
+                }
+            }
+        ];
+
+        // Match based on search query if provided
+        if (search) {
+            pipeline.push({
+                $match: {
+                    $or: [
+                        { name: { $regex: search, $options: 'i' } },
+                        { email: { $regex: search, $options: 'i' } }
+                    ]
+                }
+            });
+        }
+
+        // Project fields (excluding password)
+        pipeline.push({
+            $project: {
+                password: 0
+            }
+        });
+
+        // Sort by creation date (newest first)
+        pipeline.push({
+            $sort: { createdAt: -1 }
+        });
+
+        const users = await User.aggregate(pipeline);
 
         res.json({
             success: true,
@@ -93,11 +127,12 @@ export const deleteUser = async (req, res, next) => {
             return res.status(404).json({ success: false, message: "User not found" });
         }
 
-        await User.findByIdAndDelete(req.params.id);
+        user.isActive = false;
+        await user.save();
 
         res.json({
             success: true,
-            message: "User deleted successfully",
+            message: "User blocked successfully",
         });
     } catch (error) {
         next(error);

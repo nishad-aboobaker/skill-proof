@@ -27,6 +27,24 @@ export const protect = async (req, res, next) => {
     }
 };
 
+// Optional protect - populate req.user if token exists, but don't block
+export const optionalProtect = async (req, res, next) => {
+    const token = req.cookies.jwt;
+
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_KEY);
+            req.user = await User.findById(decoded.userId).select("-password");
+            next();
+        } catch (error) {
+            // Token invalid or user not found, just continue without req.user
+            next();
+        }
+    } else {
+        next();
+    }
+};
+
 // Admin only middleware
 export const adminOnly = (req, res, next) => {
     if (!req.user) {

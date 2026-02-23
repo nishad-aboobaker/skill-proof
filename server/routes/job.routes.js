@@ -10,12 +10,12 @@ import {
     getMyApplications,
     updateApplicationStatus,
 } from "../controller/job.controller.js";
-import { protect, adminOnly } from "../middleware/auth.middleware.js";
+import { protect, adminOnly, optionalProtect } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// Public routes
-router.get("/", getJobs);
+// Public routes (optionally authenticated to show hasApplied status)
+router.get("/", optionalProtect, getJobs);
 router.get("/:id", getJobById);
 
 // Protected routes (authenticated users)

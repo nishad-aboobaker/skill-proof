@@ -43,4 +43,15 @@ export class JobsComponent implements OnInit {
             }
         });
     }
+
+    getCurrencySymbol(code: string): string {
+        const symbols: { [key: string]: string } = {
+            'USD': '$',
+            'EUR': '€',
+            'GBP': '£',
+            'INR': '₹',
+            'JPY': '¥'
+        };
+        return symbols[code] || code;
+    }
 }

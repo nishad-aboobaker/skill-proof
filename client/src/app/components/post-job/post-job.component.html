@@ -1,0 +1,118 @@
+<div class="page">
+    <div class="container-small">
+        <div class="back-nav">
+            <a routerLink="/dashboard" class="btn-text">← Back to Dashboard</a>
+        </div>
+
+        <div class="card form-card">
+            <div class="card-header">
+                <h2>Post a <span class="gradient-text">New Job</span> Listing 🚀</h2>
+                <p>Reach thousands of developers and find your perfect match.</p>
+            </div>
+
+            <div class="alert-error" *ngIf="error">⚠️ {{ error }}</div>
+            <div class="alert-success" *ngIf="success">✅ {{ success }}</div>
+
+            <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" class="job-form">
+
+                <div class="form-section">
+                    <h3>Basic Information</h3>
+                    <div class="form-group">
+                        <label for="title">Job Title <span class="required">*</span></label>
+                        <input type="text" id="title" formControlName="title"
+                            placeholder="e.g. Senior Full-Stack Engineer"
+                            [class.error-input]="jobForm.get('title')?.touched && jobForm.get('title')?.invalid">
+                        <small class="error-text"
+                            *ngIf="jobForm.get('title')?.touched && jobForm.get('title')?.errors?.['required']">
+                            Title is required.
+                        </small>
+                        <small class="error-text"
+                            *ngIf="jobForm.get('title')?.touched && jobForm.get('title')?.errors?.['minlength']">
+                            Title must be at least 5 characters long.
+                        </small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="type">Employment Type</label>
+                            <select id="type" formControlName="type">
+                                <option *ngFor="let type of jobTypes" [value]="type.value">{{ type.label }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location <span class="required">*</span></label>
+                            <input type="text" id="location" formControlName="location"
+                                placeholder="e.g. San Francisco, CA"
+                                [class.error-input]="jobForm.get('location')?.touched && jobForm.get('location')?.invalid">
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" formControlName="remote">
+                            <span class="checkmark"></span>
+                            This is a fully remote position
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section" formGroupName="salary">
+                    <h3>Compensation</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="minSalary">Minimum Salary</label>
+                            <input type="number" id="minSalary" formControlName="min" placeholder="e.g. 50000">
+                        </div>
+                        <div class="form-group">
+                            <label for="maxSalary">Maximum Salary</label>
+                            <input type="number" id="maxSalary" formControlName="max" placeholder="e.g. 80000">
+                        </div>
+                        <div class="form-group">
+                            <label for="currency">Currency</label>
+                            <select id="currency" formControlName="currency">
+                                <option *ngFor="let c of currencies" [value]="c">{{ c }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Skills & Details</h3>
+                    <div class="form-group">
+                        <label for="skills">Required Skills (comma separated)</label>
+                        <input type="text" id="skills" formControlName="skills"
+                            placeholder="e.g. Node.js, React, TypeScript, Docker">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requirements">Key Requirements <span class="required">*</span></label>
+                        <textarea id="requirements" formControlName="requirements" rows="4"
+                            placeholder="e.g. 3+ years of experience with React, Strong understanding of NoSQL databases..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Full Description <span class="required">*</span></label>
+                        <textarea id="description" formControlName="description" rows="8"
+                            placeholder="Provide a detailed description of the role, team, and company culture..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="companyOverride">Company Name (Optional)</label>
+                        <input type="text" id="companyOverride" formControlName="companyName"
+                            placeholder="Override your profile company name">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" routerLink="/dashboard" class="btn-secondary"
+                        [disabled]="loading">Cancel</button>
+                    <button type="submit" class="btn-primary" [disabled]="jobForm.invalid || loading">
+                        <span *ngIf="!loading">Post Listing</span>
+                        <span *ngIf="loading" class="spinner"></span>
+                        <span *ngIf="loading">Posting...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

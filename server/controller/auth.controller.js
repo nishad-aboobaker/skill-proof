@@ -52,6 +52,10 @@ export const login = async (req, res, next) => {
         const user = await User.findOne({ email }).select("+password");
 
         if (user && (await user.comparePassword(password))) {
+            if (!user.isActive) {
+                return res.status(403).json({ success: false, message: "Account is blocked. Please contact support." });
+            }
+
             // Update last login
             user.lastLogin = new Date();
             await user.save();

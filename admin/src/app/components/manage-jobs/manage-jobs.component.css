@@ -1,0 +1,9 @@
+@import '../dashboard/dashboard.component.css';
+
+.table-container {
+    margin-top: 24px;
+}
+
+.user-avatar {
+    text-transform: uppercase;
+}

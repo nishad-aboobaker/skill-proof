@@ -51,9 +51,17 @@ export const createJob = async (req, res, next) => {
 // @access  Public
 export const getJobs = async (req, res, next) => {
     try {
-        const { status, type, location, search } = req.query;
+        const { status, type, location, search, showAll } = req.query;
 
-        const query = { status: status || "active" };
+        // Default query for public view is active jobs
+        let query = { status: "active" };
+
+        // If showAll is requested (admin view), remove status filter
+        if (showAll === 'true') {
+            delete query.status;
+        } else if (status) {
+            query.status = status;
+        }
 
         if (type) query.type = type;
         if (location) query.location = new RegExp(location, 'i');
@@ -64,9 +72,22 @@ export const getJobs = async (req, res, next) => {
             ];
         }
 
-        const jobs = await Job.find(query)
+        const rawJobs = await Job.find(query)
             .populate('postedBy', 'name email profile.companyName')
             .sort({ createdAt: -1 });
+
+        // Add hasApplied flag if user is logged in
+        const jobs = rawJobs.map(job => {
+            const jobObj = job.toObject();
+            if (req.user) {
+                jobObj.hasApplied = job.applicants.some(
+                    app => app.user.toString() === req.user._id.toString()
+                );
+            } else {
+                jobObj.hasApplied = false;
+            }
+            return jobObj;
+        });
 
         res.json({
             success: true,

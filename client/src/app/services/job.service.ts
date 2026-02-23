@@ -16,6 +16,7 @@ export interface Job {
     };
     location: string;
     remote: boolean;
+    hasApplied?: boolean;
     type: 'full-time' | 'part-time' | 'contract' | 'internship';
     skills?: string[];
     companyName?: string;

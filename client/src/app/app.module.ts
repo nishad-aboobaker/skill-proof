@@ -15,6 +15,7 @@ import { JobsComponent } from './components/jobs/jobs.component';
 import { EmployerDashboardComponent } from './components/employer-dashboard/employer-dashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { PostJobComponent } from './components/post-job/post-job.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     JobsComponent,
     EmployerDashboardComponent,
     FooterComponent,
-    ProfileComponent
+    ProfileComponent,
+    PostJobComponent
   ],
   imports: [
     BrowserModule,
