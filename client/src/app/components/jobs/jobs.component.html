@@ -1,71 +1,71 @@
-<div class="page">
-    <div class="container">
+<div class="page-container">
+    <div class="content-wrapper">
 
-        <!-- Header -->
-        <div class="jobs-header">
-            <div>
-                <h1>Browse Jobs</h1>
-                <p *ngIf="!loading">{{ jobs.length }} opportunities available right now</p>
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Browse Jobs</h1>
+            <p *ngIf="!loading">{{ jobs.length }} opportunities available</p>
+        </header>
+
+        <!-- Loading State: Skeletons -->
+        <div class="jobs-list" *ngIf="loading">
+            <div class="job-card loading-card" *ngFor="let i of [1,2,3,4,5,6]">
+                <div class="skeleton title-sk"></div>
+                <div class="skeleton subtitle-sk"></div>
+                <div class="skeleton text-sk"></div>
+                <div class="skeleton text-sk-short"></div>
             </div>
         </div>
 
-        <!-- Loading Skeletons -->
-        <div class="jobs-grid" *ngIf="loading">
-            <div class="job-card" *ngFor="let i of [1,2,3,4,5,6]">
-                <div class="skeleton" style="height:20px; width:60%; margin-bottom:12px;"></div>
-                <div class="skeleton" style="height:14px; width:40%; margin-bottom:20px;"></div>
-                <div class="skeleton" style="height:14px; width:80%; margin-bottom:8px;"></div>
-                <div class="skeleton" style="height:14px; width:65%;"></div>
-            </div>
-        </div>
-
-        <!-- Jobs Grid -->
-        <div class="jobs-grid" *ngIf="!loading && jobs.length > 0">
+        <!-- Main Content: Jobs Grid -->
+        <div class="jobs-list" *ngIf="!loading && jobs.length > 0">
             <div class="job-card" *ngFor="let job of jobs">
-                <div class="job-top">
-                    <div class="company-icon">{{ job.companyName ? job.companyName.charAt(0) : '🏢' }}</div>
-                    <div class="job-title-area">
+
+                <!-- Job Header -->
+                <div class="card-header">
+                    <div class="company-logo">{{ job.companyName?.charAt(0) || '🏢' }}</div>
+                    <div class="title-meta">
                         <h3>{{ job.title }}</h3>
                         <span class="company-name">{{ job.companyName || 'Company' }}</span>
                     </div>
                 </div>
 
-                <div class="job-meta">
-                    <span class="badge badge-muted">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="meta-icon">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
+                <!-- Job Details & Badges -->
+                <div class="card-meta">
+                    <span class="meta-tag">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
                         </svg>
                         {{ job.location }}
                     </span>
-                    <span class="badge badge-muted">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="meta-icon">
-                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    <span class="meta-tag">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
                         </svg>
                         {{ job.type }}
                     </span>
-                    <span class="badge badge-indigo" *ngIf="job.remote">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="meta-icon">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="2" y1="12" x2="22" y2="12"></line>
-                            <path d="M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"></path>
+                    <span class="meta-tag remote-tag" *ngIf="job.remote">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path d="M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
                         </svg>
                         Remote
                     </span>
                 </div>
 
-                <p class="job-desc">{{ job.description }}</p>
+                <p class="card-description">{{ job.description }}</p>
 
-                <div class="job-skills" *ngIf="job.skills && job.skills.length > 0">
-                    <span class="skill-tag" *ngFor="let skill of job.skills.slice(0, 4)">{{ skill }}</span>
+                <!-- Skills -->
+                <div class="card-skills" *ngIf="job.skills?.length">
+                    <span class="tag" *ngFor="let skill of job.skills?.slice(0, 4)">{{ skill }}</span>
                 </div>
 
-                <div class="job-footer">
-                    <span class="job-salary" *ngIf="job.salary">
+                <!-- Footer: Salary & Action -->
+                <div class="card-footer">
+                    <span class="salary-info" *ngIf="job.salary">
                         {{ getCurrencySymbol(job.salary.currency || 'USD') }} {{ job.salary.min | number }} – {{
                         job.salary.max | number }}
                     </span>
@@ -77,37 +77,19 @@
             </div>
         </div>
 
-        <!-- Empty state -->
+        <!-- Empty State -->
         <div class="empty-state" *ngIf="!loading && jobs.length === 0">
             <div class="empty-illustration">
-                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
                     <rect width="80" height="80" rx="20" fill="#eef2ff" />
                     <rect x="18" y="24" width="44" height="32" rx="5" fill="#c7d2fe" stroke="#6366f1"
                         stroke-width="2" />
-                    <rect x="24" y="30" width="20" height="3" rx="1.5" fill="#6366f1" />
-                    <rect x="24" y="36" width="32" height="2.5" rx="1.25" fill="#a5b4fc" />
-                    <rect x="24" y="41" width="28" height="2.5" rx="1.25" fill="#a5b4fc" />
-                    <rect x="24" y="46" width="18" height="2.5" rx="1.25" fill="#c7d2fe" />
                     <circle cx="57" cy="54" r="10" fill="#eef2ff" stroke="#6366f1" stroke-width="2" />
-                    <line x1="63.5" y1="60.5" x2="68" y2="65" stroke="#6366f1" stroke-width="2.5"
-                        stroke-linecap="round" />
-                    <line x1="54" y1="54" x2="60" y2="54" stroke="#6366f1" stroke-width="2" stroke-linecap="round" />
-                    <line x1="57" y1="51" x2="57" y2="57" stroke="#6366f1" stroke-width="2" stroke-linecap="round" />
                 </svg>
             </div>
-            <h3>No jobs found yet</h3>
-            <p>Be the first to post an opportunity, or check back soon — new jobs are added daily.</p>
-            <div class="empty-actions">
-                <button class="btn-primary" (click)="fetchJobs()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="23 4 23 10 17 10" />
-                        <polyline points="1 20 1 14 7 14" />
-                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-                    </svg>
-                    Refresh Jobs
-                </button>
-            </div>
+            <h3>No jobs found</h3>
+            <p>New opportunities are added daily. Please check back soon.</p>
+            <button class="btn-primary" (click)="fetchJobs()">Refresh Jobs</button>
         </div>
 
     </div>

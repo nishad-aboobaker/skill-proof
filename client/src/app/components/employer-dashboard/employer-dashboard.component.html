@@ -1,169 +1,131 @@
-<div class="page">
+<div class="dashboard-page">
     <div class="container">
 
-        <!-- Header -->
-        <div class="dash-header">
-            <div>
+        <!-- Dashboard Header -->
+        <header class="dash-header">
+            <div class="welcome-text">
                 <h1>Welcome back, <span class="gradient-text">{{ userName }}</span> 👋</h1>
                 <p>Manage your job postings and track your applications</p>
             </div>
             <a routerLink="/post-job" class="btn-primary">+ Post New Job</a>
-        </div>
+        </header>
 
-        <!-- Loading -->
-        <div *ngIf="loading" class="stats-grid">
-            <div class="stat-card skeleton" *ngFor="let i of [1,2,3,4]" style="height:100px;"></div>
+        <!-- Loading & Error States -->
+        <div *ngIf="loading" class="loading-grid">
+            <div class="skeleton dash-stat-sk" *ngFor="let i of [1,2,3,4]"></div>
         </div>
-
-        <!-- Error -->
-        <div class="alert-error" *ngIf="error">⚠️ {{ error }}</div>
+        <div class="alert alert-error" *ngIf="error">⚠️ {{ error }}</div>
 
         <ng-container *ngIf="!loading">
+            <!-- Analytics Summary -->
+            <section class="stats-overview">
 
-            <!-- Stats: two clearly separated groups -->
-            <div class="stats-groups">
-
-                <!-- Group 1: Posting stats -->
-                <div class="stat-group">
-                    <div class="stat-group-label">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Posting Stats -->
+                <div class="stats-category">
+                    <div class="category-header">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <rect x="2" y="7" width="20" height="14" rx="2" />
                             <path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z" />
                         </svg>
-                        My Postings
+                        <span>My Postings</span>
                     </div>
-                    <div class="stat-group-cards">
+                    <div class="stats-cards">
                         <div class="stat-card">
-                            <div class="stat-icon-wrap indigo">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="7" width="20" height="14" rx="2" />
-                                    <path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z" />
-                                </svg>
-                            </div>
-                            <div class="stat-val">{{ postedJobs.length }}</div>
-                            <div class="stat-lbl">Active Postings</div>
+                            <span class="count">{{ postedJobs.length }}</span>
+                            <span class="label">Active Postings</span>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-icon-wrap indigo">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                    <circle cx="9" cy="7" r="4" />
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                                </svg>
-                            </div>
-                            <div class="stat-val">{{ totalApplicantsReceived() }}</div>
-                            <div class="stat-lbl">Applicants Received</div>
+                            <span class="count">{{ totalApplicantsReceived() }}</span>
+                            <span class="label">Applicants Received</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Group 2: Application stats -->
-                <div class="stat-group">
-                    <div class="stat-group-label violet">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Application Stats -->
+                <div class="stats-category violet-theme">
+                    <div class="category-header">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                         </svg>
-                        My Applications
+                        <span>My Applications</span>
                     </div>
-                    <div class="stat-group-cards">
+                    <div class="stats-cards">
                         <div class="stat-card">
-                            <div class="stat-icon-wrap violet">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                    <polyline points="14 2 14 8 20 8" />
-                                </svg>
-                            </div>
-                            <div class="stat-val">{{ myApplications.length }}</div>
-                            <div class="stat-lbl">Total Applied</div>
+                            <span class="count">{{ myApplications.length }}</span>
+                            <span class="label">Total Applied</span>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-icon-wrap amber">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10" />
-                                    <polyline points="12 6 12 12 16 14" />
-                                </svg>
-                            </div>
-                            <div class="stat-val">{{ countByStatus('pending') }}</div>
-                            <div class="stat-lbl">Pending</div>
+                            <span class="count highlight-amber">{{ countByStatus('pending') }}</span>
+                            <span class="label">Pending</span>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-icon-wrap green">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon
-                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                </svg>
-                            </div>
-                            <div class="stat-val">{{ countByStatus('shortlisted') }}</div>
-                            <div class="stat-lbl">Shortlisted</div>
+                            <span class="count highlight-green">{{ countByStatus('shortlisted') }}</span>
+                            <span class="label">Shortlisted</span>
                         </div>
                     </div>
                 </div>
+            </section>
 
-            </div>
+            <!-- Detailed Lists -->
+            <div class="dash-content-grid">
 
-            <!-- Two columns -->
-            <div class="dash-grid">
-
-                <!-- My Postings -->
-                <div class="dash-section">
-                    <div class="section-head">
+                <!-- My Job Postings List -->
+                <section class="dash-section">
+                    <div class="section-header">
                         <h3>My Job Postings</h3>
-                        <a routerLink="/jobs" class="view-all">View all →</a>
+                        <a routerLink="/jobs" class="link-view-all">View all →</a>
                     </div>
 
-                    <div class="post-item" *ngFor="let job of postedJobs">
-                        <div class="post-info">
-                            <h4>{{ job.title }}</h4>
-                            <div class="post-meta">
-                                <span class="badge badge-muted">{{ job.applicants?.length || 0 }} applicants</span>
-                                <span class="badge badge-green" *ngIf="job.status === 'active'">Active</span>
-                                <span class="badge badge-muted" *ngIf="job.status !== 'active'">{{ job.status }}</span>
+                    <div class="list-container">
+                        <div class="list-item" *ngFor="let job of postedJobs">
+                            <div class="item-info">
+                                <h4>{{ job.title }}</h4>
+                                <div class="item-badges">
+                                    <span class="badge">{{ job.applicants?.length || 0 }} applicants</span>
+                                    <span class="badge badge-active" *ngIf="job.status === 'active'">Active</span>
+                                    <span class="badge" *ngIf="job.status !== 'active'">{{ job.status }}</span>
+                                </div>
                             </div>
+                            <button class="btn-sm btn-secondary">Manage</button>
                         </div>
-                        <button class="btn-secondary"
-                            style="font-size:0.875rem; padding: 0.375rem 0.875rem;">Manage</button>
                     </div>
 
-                    <div class="empty-mini" *ngIf="postedJobs.length === 0">
+                    <div class="empty-list" *ngIf="postedJobs.length === 0">
                         <span>📝</span> You haven't posted any jobs yet.
                     </div>
-                </div>
+                </section>
 
-                <!-- My Applications -->
-                <div class="dash-section">
-                    <div class="section-head">
+                <!-- My Applications List -->
+                <section class="dash-section">
+                    <div class="section-header">
                         <h3>My Applications</h3>
                     </div>
 
-                    <div class="post-item" *ngFor="let app of myApplications">
-                        <div class="post-info">
-                            <h4>{{ app.title }}</h4>
-                            <p class="company-sub">{{ app.companyName }}</p>
-                            <span class="badge badge-indigo"
-                                *ngIf="app.myApplicationStatus === 'shortlisted'">Shortlisted ⭐</span>
-                            <span class="badge badge-amber" *ngIf="app.myApplicationStatus === 'pending'">Pending
-                                ⏳</span>
-                            <span class="badge badge-green" *ngIf="app.myApplicationStatus === 'accepted'">Accepted
-                                ✅</span>
-                            <span class="badge badge-red" *ngIf="app.myApplicationStatus === 'rejected'">Rejected</span>
-                            <span class="badge badge-muted" *ngIf="!app.myApplicationStatus">Applied</span>
+                    <div class="list-container">
+                        <div class="list-item" *ngFor="let app of myApplications">
+                            <div class="item-info">
+                                <h4>{{ app.title }}</h4>
+                                <p class="item-sub">{{ app.companyName }}</p>
+                                <div class="item-badges">
+                                    <span class="badge status-shortlisted"
+                                        *ngIf="app.myApplicationStatus === 'shortlisted'">Shortlisted ⭐</span>
+                                    <span class="badge status-pending"
+                                        *ngIf="app.myApplicationStatus === 'pending'">Pending ⏳</span>
+                                    <span class="badge status-accepted"
+                                        *ngIf="app.myApplicationStatus === 'accepted'">Accepted ✅</span>
+                                    <span class="badge status-rejected"
+                                        *ngIf="app.myApplicationStatus === 'rejected'">Rejected</span>
+                                    <span class="badge" *ngIf="!app.myApplicationStatus">Applied</span>
+                                </div>
+                            </div>
+                            <button class="btn-sm btn-secondary">Details</button>
                         </div>
-                        <button class="btn-secondary"
-                            style="font-size:0.875rem; padding: 0.375rem 0.875rem;">Details</button>
                     </div>
 
-                    <div class="empty-mini" *ngIf="myApplications.length === 0">
+                    <div class="empty-list" *ngIf="myApplications.length === 0">
                         <span>💼</span> No applications yet. <a routerLink="/jobs">Browse jobs →</a>
                     </div>
-                </div>
+                </section>
 
             </div>
         </ng-container>
