@@ -1,0 +1,50 @@
+<div class="page-container">
+    <div class="content-wrapper">
+
+        <!-- Loading -->
+        <div class="loading-state" *ngIf="loading">
+            <div class="spinner"></div>
+            <p>Loading assessment…</p>
+        </div>
+
+        <!-- Success State -->
+        <div class="success-card card" *ngIf="submitted">
+            <div class="success-icon">✅</div>
+            <h2>Application Submitted!</h2>
+            <p>Your application and assessment for <strong>{{ job?.title }}</strong> at <strong>{{ job?.companyName
+                    }}</strong> have been received. Good luck!</p>
+            <button class="btn-primary" (click)="goBack()">Browse More Jobs</button>
+        </div>
+
+        <!-- Main Content -->
+        <div *ngIf="!loading && !submitted">
+
+            <!-- Back Button -->
+            <button class="btn-back" (click)="goBack()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M19 12H5M12 5l-7 7 7 7" />
+                </svg>
+                Back to Jobs
+            </button>
+
+            <!-- Job Info Banner -->
+            <div class="job-banner card" *ngIf="job">
+                <div class="company-logo">{{ job?.companyName?.charAt(0) || '🏢' }}</div>
+                <div>
+                    <h2>{{ job?.title }}</h2>
+                    <span class="company-name">{{ job?.companyName }}</span>
+                    <div class="meta-row">
+                        <span class="meta-tag">{{ job?.location }}</span>
+                        <span class="meta-tag">{{ job?.type }}</span>
+                        <span class="meta-tag remote-tag" *ngIf="job?.remote">Remote</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+
+        </div>
+    </div>
+</div>

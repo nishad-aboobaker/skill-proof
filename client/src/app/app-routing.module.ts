@@ -8,6 +8,7 @@ import { EmployerDashboardComponent } from './components/employer-dashboard/empl
 import { ProfileComponent } from './components/profile/profile.component';
 import { PostJobComponent } from './components/post-job/post-job.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { AssessmentComponent } from './components/assessment/assessment.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'post-job', component: PostJobComponent, canActivate: [AuthGuard] },
   { path: 'contact', component: ContactUsComponent },
+  { path: 'assessment/:jobId', component: AssessmentComponent, canActivate: [AuthGuard] },
 
   { path: '**', redirectTo: '' }
 ];

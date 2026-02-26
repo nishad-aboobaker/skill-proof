@@ -17,6 +17,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PostJobComponent } from './components/post-job/post-job.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { AssessmentComponent } from './components/assessment/assessment.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
     FooterComponent,
     ProfileComponent,
     PostJobComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    AssessmentComponent
   ],
   imports: [
     BrowserModule,

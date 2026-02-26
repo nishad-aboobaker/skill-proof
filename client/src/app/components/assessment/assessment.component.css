@@ -1,0 +1,295 @@
+/* Page Layout */
+.page-container {
+    padding-bottom: var(--sp-3xl);
+}
+
+.content-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 var(--sp-md);
+    padding-top: var(--sp-xl);
+}
+
+/* Back Button */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: var(--sp-xl);
+    transition: color var(--t-base);
+}
+
+.btn-back:hover {
+    color: var(--accent);
+}
+
+.btn-back svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Job Banner */
+.job-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-md);
+    margin-bottom: var(--sp-xl);
+    padding: var(--sp-lg) var(--sp-xl) !important;
+    border-left: 4px solid var(--indigo-500);
+}
+
+.company-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--r-lg);
+    background: var(--indigo-50);
+    border: 1px solid var(--indigo-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.job-banner h2 {
+    font-size: 1.25rem;
+    font-weight: 750;
+    margin-bottom: 4px;
+}
+
+.company-name {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.meta-tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 0.2rem 0.6rem;
+    background: var(--bg-muted);
+    border-radius: var(--r-md);
+}
+
+.remote-tag {
+    color: var(--indigo-600);
+    background: var(--indigo-50);
+}
+
+/* Assessment Card */
+.assessment-card {
+    padding: var(--sp-2xl) !important;
+}
+
+.section-header {
+    margin-bottom: var(--sp-2xl);
+}
+
+.section-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--indigo-600);
+    background: var(--indigo-50);
+    padding: 4px 10px;
+    border-radius: var(--r-full);
+    margin-bottom: var(--sp-sm);
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    margin-top: var(--sp-xs);
+}
+
+/* Question Blocks */
+.question-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: var(--sp-xl);
+}
+
+.question-block label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--text);
+}
+
+.q-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--indigo-600), #7c3aed);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9375rem;
+    transition: all var(--t-base);
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--indigo-500);
+    box-shadow: 0 0 0 4px var(--indigo-50);
+}
+
+/* Form Footer */
+.form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sp-md);
+    padding-top: var(--sp-xl);
+    border-top: 1px dashed var(--border);
+    flex-wrap: wrap;
+}
+
+.helper-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    flex: 1;
+    margin: 0;
+}
+
+.btn-submit {
+    min-width: 180px;
+    justify-content: center;
+}
+
+/* Success Card */
+.success-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--sp-3xl) var(--sp-2xl) !important;
+    gap: var(--sp-lg);
+    margin-top: var(--sp-3xl);
+}
+
+.success-icon {
+    font-size: 3.5rem;
+    line-height: 1;
+}
+
+.success-card h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+}
+
+.success-card p {
+    color: var(--text-muted);
+    max-width: 480px;
+    line-height: 1.6;
+}
+
+/* Loading State */
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-lg);
+    padding: var(--sp-3xl) 0;
+    color: var(--text-muted);
+}
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--indigo-500);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.spinner-sm {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.submitting-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Error Banner */
+.error-banner {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    border-radius: var(--r-lg);
+    padding: var(--sp-md) var(--sp-lg);
+    margin-bottom: var(--sp-lg);
+    font-size: 0.9375rem;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .assessment-card {
+        padding: var(--sp-lg) !important;
+    }
+
+    .job-banner {
+        flex-direction: column;
+        padding: var(--sp-lg) !important;
+    }
+}

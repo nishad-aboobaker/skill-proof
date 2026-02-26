@@ -76,8 +76,13 @@ export const getJobs = async (req, res, next) => {
             .populate('postedBy', 'name email profile.companyName')
             .sort({ createdAt: -1 });
 
-        // Add hasApplied flag if user is logged in
-        const jobs = rawJobs.map(job => {
+        // Exclude jobs posted by the logged-in user
+        const jobs = rawJobs.filter(job => {
+            if (req.user && job.postedBy?._id?.toString() === req.user._id.toString()) {
+                return false;
+            }
+            return true;
+        }).map(job => {
             const jobObj = job.toObject();
             if (req.user) {
                 jobObj.hasApplied = job.applicants.some(

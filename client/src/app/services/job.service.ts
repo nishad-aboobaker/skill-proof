@@ -62,7 +62,7 @@ export class JobService {
     }
 
     // Apply to a job
-    applyToJob(id: string, applicationData: { coverLetter?: string; resume?: string }): Observable<any> {
+    applyToJob(id: string, applicationData: { coverLetter?: string; resume?: string; assessmentAnswers?: { question: string; answer: string }[] }): Observable<any> {
         return this.http.post(`${this.apiUrl}/${id}/apply`, applicationData);
     }
 

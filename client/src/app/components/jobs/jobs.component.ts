@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { JobService, Job } from '../../services/job.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class JobsComponent implements OnInit {
     loading = true;
     error = '';
 
-    constructor(private jobService: JobService) { }
+    constructor(private jobService: JobService, private router: Router) { }
 
     ngOnInit() {
         this.fetchJobs();
@@ -33,15 +34,7 @@ export class JobsComponent implements OnInit {
     }
 
     applyToJob(jobId: string) {
-        this.jobService.applyToJob(jobId, {}).subscribe({
-            next: () => {
-                alert('Application submitted successfully!');
-                this.fetchJobs(); // Refresh to show application status
-            },
-            error: (err: any) => {
-                alert(err.error.message || 'Failed to apply');
-            }
-        });
+        this.router.navigate(['/assessment', jobId]);
     }
 
     getCurrencySymbol(code: string): string {
