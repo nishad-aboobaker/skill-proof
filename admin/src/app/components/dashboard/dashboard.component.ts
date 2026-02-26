@@ -1,6 +1,7 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AdminService } from '../../services/admin.service';
 
 declare var lucide: any;
 
@@ -9,28 +10,50 @@ declare var lucide: any;
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements AfterViewInit {
-  constructor(private authService: AuthService, private router: Router) { }
+export class DashboardComponent implements OnInit, AfterViewInit {
+  stats: any = {
+    totalUsers: 0,
+    totalJobs: 0,
+    totalApplicants: 0
+  };
+  loading = true;
+
+  constructor(
+    private authService: AuthService,
+    private adminService: AdminService,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.fetchStats();
+  }
 
   ngAfterViewInit() {
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
     }
-    this.initChart();
   }
 
-  initChart() {
+  fetchStats() {
+    this.adminService.getDashboardStats().subscribe({
+      next: (data) => {
+        this.stats = data;
+        this.loading = false;
+        // Small delay to ensure DOM is ready for chart
+        setTimeout(() => this.initChart(data.chartData), 100);
+      },
+      error: (err) => {
+        console.error('Error fetching dashboard stats:', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  initChart(chartData: any) {
+    if (!chartData) return;
+
     const options = {
-      series: [{
-        name: 'Applied',
-        data: [31, 40, 28, 51, 42, 109, 100, 120, 80]
-      }, {
-        name: 'Hired',
-        data: [11, 32, 45, 32, 34, 52, 41, 60, 45]
-      }, {
-        name: 'Rejected',
-        data: [15, 11, 32, 18, 9, 24, 11, 20, 15]
-      }],
+      series: chartData.series,
       chart: {
         type: 'area',
         height: 380,
@@ -47,7 +70,7 @@ export class DashboardComponent implements AfterViewInit {
           speed: 800
         }
       },
-      colors: ['#4f46e5', '#10b981', 'red'], // Indigo, Emerald, Slate
+      colors: ['#4f46e5', '#10b981', 'red'], // Indigo, Emerald, Red
       dataLabels: {
         enabled: false
       },
@@ -65,7 +88,7 @@ export class DashboardComponent implements AfterViewInit {
         }
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        categories: chartData.months,
         axisBorder: {
           show: false
         },
@@ -121,8 +144,12 @@ export class DashboardComponent implements AfterViewInit {
       }
     };
 
-    const chart = new (window as any).ApexCharts(document.querySelector("#applicationChart"), options);
-    chart.render();
+    const container = document.querySelector("#applicationChart");
+    if (container) {
+      container.innerHTML = ''; // Clear previous chart if any
+      const chart = new (window as any).ApexCharts(container, options);
+      chart.render();
+    }
   }
 
   logout() {

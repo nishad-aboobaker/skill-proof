@@ -53,10 +53,10 @@
                         <i data-lucide="users"></i>
                     </div>
                     <p class="stat-label">Total Users</p>
-                    <h2 class="stat-value">1,280</h2>
+                    <h2 class="stat-value">{{ stats.totalUsers | number }}</h2>
                     <div class="stat-trend trend-up">
                         <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i>
-                        <span>+12.5%</span>
+                        <span>Real-time</span>
                     </div>
                 </div>
                 <div class="card stat-card">
@@ -64,10 +64,10 @@
                         <i data-lucide="list"></i>
                     </div>
                     <p class="stat-label">Total Listings</p>
-                    <h2 class="stat-value">450</h2>
+                    <h2 class="stat-value">{{ stats.totalJobs | number }}</h2>
                     <div class="stat-trend trend-up">
                         <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i>
-                        <span>+5.2%</span>
+                        <span>Live</span>
                     </div>
                 </div>
                 <div class="card stat-card">
@@ -75,10 +75,10 @@
                         <i data-lucide="user-check"></i>
                     </div>
                     <p class="stat-label">Total Applicants</p>
-                    <h2 class="stat-value">320</h2>
+                    <h2 class="stat-value">{{ stats.totalApplicants | number }}</h2>
                     <div class="stat-trend trend-up">
                         <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i>
-                        <span>+8.4%</span>
+                        <span>Tracked</span>
                     </div>
                 </div>
             </div>
