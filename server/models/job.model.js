@@ -66,6 +66,18 @@ const jobSchema = new mongoose.Schema(
             },
             resume: String,
             coverLetter: String,
+            assessmentAnswers: [{
+                question: String,
+                answer: String,
+            }],
+            violationCount: {
+                type: Number,
+                default: 0,
+            },
+            flagged: {
+                type: Boolean,
+                default: false,
+            },
         }],
 
         status: {

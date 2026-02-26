@@ -193,7 +193,7 @@ export const deleteJob = async (req, res, next) => {
 // @access  Private
 export const applyToJob = async (req, res, next) => {
     try {
-        const { coverLetter, resume } = req.body;
+        const { coverLetter, resume, assessmentAnswers, violationCount, flagged } = req.body;
         const job = await Job.findById(req.params.id);
 
         if (!job) {
@@ -209,11 +209,14 @@ export const applyToJob = async (req, res, next) => {
             return res.status(400).json({ success: false, message: "You have already applied to this job" });
         }
 
-        // Add applicant
+        // Add applicant with proctoring data
         job.applicants.push({
             user: req.user._id,
             coverLetter,
             resume: resume || req.user.profile?.resume?.fileUrl,
+            assessmentAnswers: assessmentAnswers || [],
+            violationCount: violationCount || 0,
+            flagged: flagged || false,
             appliedAt: new Date(),
         });
 

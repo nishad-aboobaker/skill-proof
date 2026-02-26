@@ -1,4 +1,4 @@
-/* Page Layout */
+/* ── Layout ──────────────────────────────────────────────────── */
 .page-container {
     padding-bottom: var(--sp-3xl);
 }
@@ -10,7 +10,7 @@
     padding-top: var(--sp-xl);
 }
 
-/* Back Button */
+/* ── Back Button ─────────────────────────────────────────────── */
 .btn-back {
     display: inline-flex;
     align-items: center;
@@ -35,7 +35,134 @@
     height: 18px;
 }
 
-/* Job Banner */
+/* ── Assessment Top Bar ──────────────────────────────────────── */
+.assessment-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--sp-lg);
+}
+
+.assessment-topbar .btn-back {
+    margin-bottom: 0;
+}
+
+/* ── Violation Badge ─────────────────────────────────────────── */
+.violation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: var(--r-full);
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    transition: all 0.3s;
+}
+
+.violation-badge.danger {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+/* ── Violation Toast ─────────────────────────────────────────── */
+.violation-toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #1e1b4b;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: var(--r-xl);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+    max-width: 90vw;
+}
+
+.violation-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast-icon {
+    font-size: 1.2rem;
+}
+
+/* ── Webcam PiP ──────────────────────────────────────────────── */
+.webcam-pip {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 280px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    border: 2px solid var(--indigo-400);
+    background: #0f0f1a;
+    z-index: 1000;
+}
+
+.webcam-pip video {
+    width: 100%;
+    display: block;
+    transform: scaleX(-1);
+    /* mirror */
+}
+
+.webcam-denied {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: #aaa;
+    font-size: 1.5rem;
+}
+
+.webcam-denied small {
+    font-size: 0.7rem;
+    color: #888;
+}
+
+.webcam-label {
+    background: linear-gradient(135deg, var(--indigo-600), #7c3aed);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+    padding: 5px;
+}
+
+/* ── Flagged Banner ─────────────────────────────────────────── */
+.flagged-banner {
+    background: #fee2e2;
+    border: 1.5px solid #fca5a5;
+    color: #991b1b;
+    border-radius: var(--r-lg);
+    padding: var(--sp-md) var(--sp-lg);
+    margin-bottom: var(--sp-lg);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+/* ── Job Banner ──────────────────────────────────────────────── */
 .job-banner {
     display: flex;
     align-items: flex-start;
@@ -96,7 +223,77 @@
     background: var(--indigo-50);
 }
 
-/* Assessment Card */
+/* ── Consent Card ───────────────────────────────────────────── */
+.consent-card {
+    padding: var(--sp-2xl) !important;
+    text-align: center;
+}
+
+.consent-icon {
+    font-size: 3rem;
+    margin-bottom: var(--sp-md);
+}
+
+.consent-card h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: var(--sp-sm);
+}
+
+.consent-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0 auto var(--sp-xl);
+}
+
+.rules-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--sp-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    text-align: left;
+}
+
+.rules-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-md);
+    background: var(--bg-muted);
+    border-radius: var(--r-lg);
+    padding: var(--sp-md) var(--sp-lg);
+}
+
+.rule-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.rules-list strong {
+    font-size: 0.9375rem;
+    font-weight: 750;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.rules-list p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.btn-consent {
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem;
+    font-size: 1rem;
+}
+
+/* ── Assessment Card ─────────────────────────────────────────── */
 .assessment-card {
     padding: var(--sp-2xl) !important;
 }
@@ -124,7 +321,7 @@
     margin-top: var(--sp-xs);
 }
 
-/* Question Blocks */
+/* ── Questions ───────────────────────────────────────────────── */
 .question-block {
     display: flex;
     flex-direction: column;
@@ -177,7 +374,7 @@
     box-shadow: 0 0 0 4px var(--indigo-50);
 }
 
-/* Form Footer */
+/* ── Form Footer ─────────────────────────────────────────────── */
 .form-footer {
     display: flex;
     align-items: center;
@@ -200,7 +397,7 @@
     justify-content: center;
 }
 
-/* Success Card */
+/* ── Success Card ────────────────────────────────────────────── */
 .success-card {
     display: flex;
     flex-direction: column;
@@ -213,7 +410,6 @@
 
 .success-icon {
     font-size: 3.5rem;
-    line-height: 1;
 }
 
 .success-card h2 {
@@ -225,9 +421,15 @@
     color: var(--text-muted);
     max-width: 480px;
     line-height: 1.6;
+    margin: 0;
 }
 
-/* Loading State */
+.flagged-note {
+    color: #92400e !important;
+    font-size: 0.875rem !important;
+}
+
+/* ── Loading ─────────────────────────────────────────────────── */
 .loading-state {
     display: flex;
     flex-direction: column;
@@ -270,7 +472,7 @@
     gap: 6px;
 }
 
-/* Error Banner */
+/* ── Error Banner ────────────────────────────────────────────── */
 .error-banner {
     background: #fef2f2;
     border: 1px solid #fecaca;
@@ -282,14 +484,27 @@
     font-weight: 600;
 }
 
-/* Responsive */
+/* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 640px) {
-    .assessment-card {
+
+    .assessment-card,
+    .consent-card {
         padding: var(--sp-lg) !important;
     }
 
     .job-banner {
         flex-direction: column;
         padding: var(--sp-lg) !important;
+    }
+
+    .webcam-pip {
+        width: 200px;
+        bottom: 16px;
+        right: 16px;
+    }
+
+    .violation-toast {
+        font-size: 0.8125rem;
+        padding: 10px 16px;
     }
 }
