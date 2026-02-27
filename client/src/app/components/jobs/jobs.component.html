@@ -21,8 +21,8 @@
         <div class="jobs-list" *ngIf="!loading && jobs.length > 0">
             <div class="job-card" *ngFor="let job of jobs">
 
-                <!-- Job Header -->
-                <div class="card-header">
+                <!-- Job Header (clickable → detail page) -->
+                <div class="card-header" style="cursor:pointer" [routerLink]="['/jobs', job._id]">
                     <div class="company-logo">{{ job.companyName?.charAt(0) || '🏢' }}</div>
                     <div class="title-meta">
                         <h3>{{ job.title }}</h3>
@@ -63,16 +63,19 @@
                     <span class="tag" *ngFor="let skill of job.skills?.slice(0, 4)">{{ skill }}</span>
                 </div>
 
-                <!-- Footer: Salary & Action -->
+                <!-- Footer: Salary & Actions -->
                 <div class="card-footer">
                     <span class="salary-info" *ngIf="job.salary">
                         {{ getCurrencySymbol(job.salary.currency || 'USD') }} {{ job.salary.min | number }} – {{
                         job.salary.max | number }}
                     </span>
-                    <button class="btn-primary" [disabled]="job.hasApplied"
-                        (click)="!job.hasApplied && applyToJob(job._id)">
-                        {{ job.hasApplied ? 'Applied' : 'Apply Now' }}
-                    </button>
+                    <div style="display:flex; gap:8px; align-items:center; margin-left:auto">
+                        <a [routerLink]="['/jobs', job._id]" class="btn-outline">View Details</a>
+                        <button class="btn-primary" [disabled]="job.hasApplied"
+                            (click)="!job.hasApplied && applyToJob(job._id)">
+                            {{ job.hasApplied ? 'Applied' : 'Apply Now' }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -215,6 +215,29 @@ a:hover {
   transform: translateY(-1px);
 }
 
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: 0.625rem 1.375rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: all var(--t-base);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: var(--accent-bg);
+  transform: translateY(-1px);
+  color: var(--accent);
+}
+
 .btn-ghost {
   display: inline-flex;
   align-items: center;

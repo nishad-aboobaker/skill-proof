@@ -153,8 +153,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/login']);
-    });
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

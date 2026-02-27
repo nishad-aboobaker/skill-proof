@@ -9,6 +9,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { PostJobComponent } from './components/post-job/post-job.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { AssessmentComponent } from './components/assessment/assessment.component';
+import { JobDetailComponent } from './components/job-detail/job-detail.component';
+import { ManageJobComponent } from './components/manage-job/manage-job.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -21,6 +23,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'post-job', component: PostJobComponent, canActivate: [AuthGuard] },
   { path: 'contact', component: ContactUsComponent },
+  { path: 'jobs/:id', component: JobDetailComponent, canActivate: [AuthGuard] },
+  { path: 'manage-job/:id', component: ManageJobComponent, canActivate: [AuthGuard] },
   { path: 'assessment/:jobId', component: AssessmentComponent, canActivate: [AuthGuard] },
 
   { path: '**', redirectTo: '' }

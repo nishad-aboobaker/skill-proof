@@ -1,0 +1,160 @@
+<div class="page-container">
+    <div class="content-wrapper">
+
+        <!-- Back Button -->
+        <button class="back-btn" (click)="goBack()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Jobs
+        </button>
+
+        <!-- Skeleton Loader -->
+        <div class="skeleton-card" *ngIf="loading">
+            <div class="skeleton sk-title"></div>
+            <div class="skeleton sk-sub"></div>
+            <div class="skeleton sk-meta" style="margin-top:8px"></div>
+            <div class="skeleton sk-block" style="margin-top:24px"></div>
+            <div class="skeleton sk-block"></div>
+            <div class="skeleton sk-meta" style="width:40%"></div>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-state" *ngIf="!loading && error">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                style="color: var(--text-muted); opacity: 0.4">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <h3>Job not found</h3>
+            <p>{{ error }}</p>
+            <button class="btn-primary" (click)="goBack()">Back to Listings</button>
+        </div>
+
+        <!-- Job Detail -->
+        <div class="detail-wrap" *ngIf="!loading && job">
+
+            <!-- ── Card Header ── -->
+            <div class="detail-card hero-card">
+                <div class="hero-left">
+                    <div class="company-logo">{{ job.companyName?.charAt(0) || '🏢' }}</div>
+                    <div class="hero-info">
+                        <h1>{{ job.title }}</h1>
+                        <p class="company-name">{{ job.companyName || 'Company' }}</p>
+                        <div class="meta-row">
+                            <span class="meta-tag">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                {{ job.location }}
+                            </span>
+                            <span class="meta-tag">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                </svg>
+                                {{ job.type }}
+                            </span>
+                            <span class="meta-tag remote-tag" *ngIf="job.remote">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="2" y1="12" x2="22" y2="12" />
+                                    <path d="M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
+                                </svg>
+                                Remote
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <span [class]="'status-badge ' + job.status">{{ job.status }}</span>
+            </div>
+
+            <!-- ── Quick Stats Bar ── -->
+            <div class="detail-card stats-bar">
+                <div class="stat-item" *ngIf="job.salary">
+                    <span class="stat-label">Salary Range</span>
+                    <span class="stat-value salary-val">
+                        {{ getCurrencySymbol(job.salary.currency || 'USD') }}
+                        {{ job.salary.min | number }} – {{ job.salary.max | number }}
+                    </span>
+                </div>
+                <div class="stat-divider" *ngIf="job.salary"></div>
+                <div class="stat-item">
+                    <span class="stat-label">Job Type</span>
+                    <span class="stat-value">{{ job.type }}</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-label">Location</span>
+                    <span class="stat-value">{{ job.location }}</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-label">Work Mode</span>
+                    <span class="stat-value">{{ job.remote ? 'Remote' : 'On-site' }}</span>
+                </div>
+            </div>
+
+            <!-- ── Body sections ── -->
+
+            <!-- About the Role -->
+            <div class="detail-card section-card">
+                <div class="section-heading">
+                    <span class="section-accent"></span>
+                    <h2 class="section-title">About the Role</h2>
+                </div>
+                <p class="section-text">{{ job.description }}</p>
+            </div>
+
+            <!-- Requirements -->
+            <div class="detail-card section-card">
+                <div class="section-heading">
+                    <span class="section-accent"></span>
+                    <h2 class="section-title">Requirements</h2>
+                </div>
+                <ul class="req-list">
+                    <li *ngFor="let line of job.requirements?.split('\n')">{{ line }}</li>
+                </ul>
+            </div>
+
+            <!-- Skills -->
+            <div class="detail-card section-card" *ngIf="job.skills?.length">
+                <div class="section-heading">
+                    <span class="section-accent"></span>
+                    <h2 class="section-title">Required Skills</h2>
+                </div>
+                <div class="skills-row">
+                    <span class="tag" *ngFor="let skill of job.skills">{{ skill }}</span>
+                </div>
+            </div>
+
+            <!-- ── Footer CTA ── -->
+            <div class="detail-card cta-card">
+                <span class="posted-date">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    Posted {{ job.createdAt | date:'mediumDate' }}
+                </span>
+                <button class="btn-primary cta-btn" [disabled]="job.hasApplied || job.status !== 'active'"
+                    (click)="!job.hasApplied && job.status === 'active' && applyNow()">
+                    <svg *ngIf="!job.hasApplied && job.status === 'active'" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" width="16" height="16">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                    {{ job.hasApplied ? '✓ Already Applied' : job.status !== 'active' ? 'Position Closed' : 'Apply Now'
+                    }}
+                </button>
+            </div>
+
+        </div><!-- /detail-wrap -->
+
+    </div>
+</div>

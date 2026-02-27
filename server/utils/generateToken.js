@@ -7,10 +7,13 @@ const generateToken = (res, userId, userType) => {
 
     res.cookie("jwt", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development", // Use secure cookies in production
-        sameSite: "lax", // Prevent CSRF attacks while allowing cross-origin cookie sending
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "lax",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
+
+    // Return the token so callers can include it in the response body
+    return token;
 };
 
 export default generateToken;

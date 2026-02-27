@@ -1,0 +1,454 @@
+/* ── Page Layout ── */
+.page-container {
+    padding-bottom: var(--sp-3xl);
+}
+
+.content-wrapper {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 var(--sp-md);
+}
+
+/* ── Back Button ── */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: var(--sp-xl) 0 var(--sp-lg);
+    transition: color var(--t-base);
+}
+
+.back-btn:hover {
+    color: var(--accent);
+}
+
+.back-btn svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--t-base);
+}
+
+.back-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+/* ── Layout wrapper: stacks all cards vertically with gap ── */
+.detail-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Base Card ── */
+.detail-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+}
+
+/* ── Hero Card (title block) ── */
+.hero-card {
+    padding: 28px 28px 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.hero-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+}
+
+.company-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--r-lg);
+    background: var(--indigo-50);
+    border: 1px solid var(--indigo-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.hero-info h1 {
+    font-size: 1.375rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0 0 4px;
+}
+
+.company-name {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin: 0 0 14px;
+}
+
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.meta-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    background: var(--bg-muted);
+    border-radius: var(--r-md);
+}
+
+.meta-tag svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+}
+
+.remote-tag {
+    color: var(--indigo-600);
+    background: var(--indigo-50);
+}
+
+/* ── Status Badge ── */
+.status-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    text-transform: capitalize;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+.status-badge.active {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.status-badge.closed {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.status-badge.draft {
+    background: #fefce8;
+    color: #ca8a04;
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: #fafbff;
+    border: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 28px 0 0;
+    flex: 1;
+    min-width: 120px;
+}
+
+.stat-item:first-child {
+    padding-left: 0;
+}
+
+.stat-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: capitalize;
+}
+
+.salary-val {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+    margin: 0 28px 0 0;
+    flex-shrink: 0;
+}
+
+/* ── Section Card ── */
+.section-card {
+    padding: 0;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 28px 16px;
+    border-bottom: 1px solid var(--border);
+    background: #fafbff;
+}
+
+.section-accent {
+    display: block;
+    width: 4px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 99px;
+    flex-shrink: 0;
+}
+
+.section-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.section-text {
+    padding: 20px 28px;
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+/* ── Requirements List ── */
+.req-list {
+    padding: 16px 28px 20px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+}
+
+.req-list li {
+    position: relative;
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding-left: 0;
+}
+
+.req-list li::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+}
+
+/* Empty lines in requirements: hide them */
+.req-list li:empty {
+    display: none;
+}
+
+/* ── Skills ── */
+.skills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 20px 28px;
+}
+
+.tag {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-bg);
+    padding: 5px 14px;
+    border-radius: var(--r-full);
+    border: 1px solid var(--indigo-100);
+}
+
+/* ── CTA Footer Card ── */
+.cta-card {
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: #fafbff;
+}
+
+.posted-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.cta-btn {
+    padding: 12px 32px;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cta-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ── Skeleton Loader ── */
+.skeleton-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, var(--border) 25%, var(--bg-muted) 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.sk-title {
+    height: 28px;
+    width: 55%;
+}
+
+.sk-sub {
+    height: 16px;
+    width: 35%;
+}
+
+.sk-meta {
+    height: 14px;
+    width: 70%;
+}
+
+.sk-block {
+    height: 80px;
+    width: 100%;
+}
+
+/* ── Error State ── */
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--sp-3xl) var(--sp-md);
+    gap: 16px;
+    color: var(--text-muted);
+}
+
+.error-state h3 {
+    font-size: 1.25rem;
+    color: var(--text);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+
+    .hero-card,
+    .stats-bar,
+    .section-heading,
+    .section-text,
+    .req-list,
+    .skills-row,
+    .cta-card {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .req-list {
+        padding-left: 40px;
+    }
+
+    .stats-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .stat-divider {
+        display: none;
+    }
+
+    .stat-item {
+        padding: 0;
+    }
+
+    .cta-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cta-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

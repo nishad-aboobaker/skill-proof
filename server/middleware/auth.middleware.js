@@ -5,7 +5,12 @@ import User from "../models/user.model.js";
 export const protect = async (req, res, next) => {
     let token;
 
-    token = req.cookies.jwt;
+    // Prefer Authorization header (used by admin panel to avoid cookie collisions)
+    if (req.headers.authorization?.startsWith('Bearer ')) {
+        token = req.headers.authorization.split(' ')[1];
+    } else {
+        token = req.cookies.jwt;
+    }
 
     if (token) {
         try {
@@ -29,7 +34,13 @@ export const protect = async (req, res, next) => {
 
 // Optional protect - populate req.user if token exists, but don't block
 export const optionalProtect = async (req, res, next) => {
-    const token = req.cookies.jwt;
+    let token;
+
+    if (req.headers.authorization?.startsWith('Bearer ')) {
+        token = req.headers.authorization.split(' ')[1];
+    } else {
+        token = req.cookies.jwt;
+    }
 
     if (token) {
         try {
@@ -37,7 +48,6 @@ export const optionalProtect = async (req, res, next) => {
             req.user = await User.findById(decoded.userId).select("-password");
             next();
         } catch (error) {
-            // Token invalid or user not found, just continue without req.user
             next();
         }
     } else {

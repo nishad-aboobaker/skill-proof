@@ -60,9 +60,10 @@ export const login = async (req, res, next) => {
             user.lastLogin = new Date();
             await user.save();
 
-            generateToken(res, user._id, "User");
+            const token = generateToken(res, user._id, "User");
             res.json({
                 success: true,
+                token,
                 data: {
                     _id: user._id,
                     name: user.name,

@@ -76,9 +76,9 @@ export const getJobs = async (req, res, next) => {
             .populate('postedBy', 'name email profile.companyName')
             .sort({ createdAt: -1 });
 
-        // Exclude jobs posted by the logged-in user
+        // Exclude jobs posted by the logged-in user (only for public view, not admin showAll)
         const jobs = rawJobs.filter(job => {
-            if (req.user && job.postedBy?._id?.toString() === req.user._id.toString()) {
+            if (!showAll && req.user && job.postedBy?._id?.toString() === req.user._id.toString()) {
                 return false;
             }
             return true;

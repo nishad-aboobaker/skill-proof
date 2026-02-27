@@ -86,7 +86,7 @@
                                     <span class="badge" *ngIf="job.status !== 'active'">{{ job.status }}</span>
                                 </div>
                             </div>
-                            <button class="btn-sm btn-secondary">Manage</button>
+                            <button class="btn-sm btn-secondary" [routerLink]="['/manage-job', job._id]">Manage</button>
                         </div>
                     </div>
 
