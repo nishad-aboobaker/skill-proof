@@ -11,6 +11,8 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { AssessmentComponent } from './components/assessment/assessment.component';
 import { JobDetailComponent } from './components/job-detail/job-detail.component';
 import { ManageJobComponent } from './components/manage-job/manage-job.component';
+import { MyPostedJobsComponent } from './components/my-posted-jobs/my-posted-jobs.component';
+import { MyApplicationsComponent } from './components/my-applications/my-applications.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -25,7 +27,9 @@ const routes: Routes = [
   { path: 'contact', component: ContactUsComponent },
   { path: 'jobs/:id', component: JobDetailComponent, canActivate: [AuthGuard] },
   { path: 'manage-job/:id', component: ManageJobComponent, canActivate: [AuthGuard] },
+  { path: 'my-posted-jobs', component: MyPostedJobsComponent, canActivate: [AuthGuard] },
   { path: 'assessment/:jobId', component: AssessmentComponent, canActivate: [AuthGuard] },
+  { path: 'my-applications', component: MyApplicationsComponent, canActivate: [AuthGuard] },
 
   { path: '**', redirectTo: '' }
 ];

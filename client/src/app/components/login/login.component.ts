@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -17,12 +17,23 @@ export class LoginComponent implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private authService: AuthService, private router: Router) { }
+  private returnUrl = '';
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-    // If the user is already logged in, send them to the jobs page
+    // Capture the return URL from query params (set by AuthGuard)
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
+
+    // If the user is already logged in, redirect them
     this.authService.currentUser$.subscribe(user => {
-      if (user) this.router.navigate(['/jobs']);
+      if (user) {
+        this.redirectAfterLogin(user.role);
+      }
     });
   }
 
@@ -32,17 +43,27 @@ export class LoginComponent implements OnInit {
 
     this.authService.login({ email: this.email, password: this.password }).subscribe({
       next: (res: any) => {
-        const role = res.data.role;
-        if (role === 'admin') {
-          window.location.href = 'http://localhost:4200';
-        } else {
-          this.router.navigate(['/jobs']);
-        }
+        this.redirectAfterLogin(res.data.role);
       },
       error: (err: any) => {
         this.error = err.error.message || 'Login failed';
         this.loading = false;
       }
     });
+  }
+
+  private redirectAfterLogin(role: string) {
+    if (role === 'admin') {
+      window.location.href = 'http://localhost:4200';
+      return;
+    }
+
+    // If we have a return URL, go back to where the user was trying to go
+    if (this.returnUrl) {
+      this.router.navigateByUrl(this.returnUrl);
+    } else {
+      // Default: employer → dashboard, job seeker → jobs
+      this.router.navigate(['/dashboard']);
+    }
   }
 }

@@ -11,6 +11,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { ManageJobsComponent } from './components/manage-jobs/manage-jobs.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     DashboardComponent,
     NavbarComponent,
     ManageUsersComponent,
-    ManageJobsComponent
+    ManageJobsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

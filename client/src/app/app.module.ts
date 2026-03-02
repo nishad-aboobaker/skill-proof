@@ -20,6 +20,8 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { AssessmentComponent } from './components/assessment/assessment.component';
 import { JobDetailComponent } from './components/job-detail/job-detail.component';
 import { ManageJobComponent } from './components/manage-job/manage-job.component';
+import { MyPostedJobsComponent } from './components/my-posted-jobs/my-posted-jobs.component';
+import { MyApplicationsComponent } from './components/my-applications/my-applications.component';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { ManageJobComponent } from './components/manage-job/manage-job.component
     ContactUsComponent,
     AssessmentComponent,
     JobDetailComponent,
-    ManageJobComponent
+    ManageJobComponent,
+    MyPostedJobsComponent,
+    MyApplicationsComponent
   ],
   imports: [
     BrowserModule,

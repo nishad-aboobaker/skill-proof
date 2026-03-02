@@ -3,17 +3,28 @@
 
         <!-- Page Header -->
         <header class="page-header">
+            <div class="header-eyebrow">Opportunities</div>
             <h1>Browse Jobs</h1>
-            <p *ngIf="!loading">{{ jobs.length }} opportunities available</p>
+            <p *ngIf="!loading"><span class="count-badge">{{ jobs.length }}</span> opportunities available</p>
         </header>
 
         <!-- Loading State: Skeletons -->
         <div class="jobs-list" *ngIf="loading">
             <div class="job-card loading-card" *ngFor="let i of [1,2,3,4,5,6]">
-                <div class="skeleton title-sk"></div>
-                <div class="skeleton subtitle-sk"></div>
+                <div class="skel-header">
+                    <div class="skeleton skel-avatar"></div>
+                    <div class="skel-lines">
+                        <div class="skeleton title-sk"></div>
+                        <div class="skeleton subtitle-sk"></div>
+                    </div>
+                </div>
                 <div class="skeleton text-sk"></div>
                 <div class="skeleton text-sk-short"></div>
+                <div class="skel-tags">
+                    <div class="skeleton skel-tag"></div>
+                    <div class="skeleton skel-tag"></div>
+                    <div class="skeleton skel-tag"></div>
+                </div>
             </div>
         </div>
 
@@ -21,33 +32,49 @@
         <div class="jobs-list" *ngIf="!loading && jobs.length > 0">
             <div class="job-card" *ngFor="let job of jobs">
 
+                <!-- Top accent bar -->
+                <div class="card-accent-bar"></div>
+
                 <!-- Job Header (clickable → detail page) -->
-                <div class="card-header" style="cursor:pointer" [routerLink]="['/jobs', job._id]">
-                    <div class="company-logo">{{ job.companyName?.charAt(0) || '🏢' }}</div>
+                <div class="card-header" [routerLink]="['/jobs', job._id]">
+                    <div class="company-logo">{{ job.companyName?.charAt(0)?.toUpperCase() || '●' }}</div>
                     <div class="title-meta">
                         <h3>{{ job.title }}</h3>
-                        <span class="company-name">{{ job.companyName || 'Company' }}</span>
+                        <span class="company-name">
+                            <svg class="company-icon" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M2 2h5v5H2V2zm7 0h5v5H9V2zm-7 7h5v5H2V9zm7 0h5v5H9V9z" opacity=".4" />
+                                <path d="M3 3h3v3H3V3zm7 0h3v3h-3V3zm-7 7h3v3H3v-3zm7 0h3v3h-3v-3z" />
+                            </svg>
+                            {{ job.companyName || 'Company' }}
+                        </span>
+                    </div>
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
                     </div>
                 </div>
 
                 <!-- Job Details & Badges -->
                 <div class="card-meta">
                     <span class="meta-tag">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                             <circle cx="12" cy="10" r="3" />
                         </svg>
                         {{ job.location }}
                     </span>
                     <span class="meta-tag">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
                             <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
                         </svg>
                         {{ job.type }}
                     </span>
                     <span class="meta-tag remote-tag" *ngIf="job.remote">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10" />
                             <line x1="2" y1="12" x2="22" y2="12" />
                             <path d="M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
@@ -65,14 +92,23 @@
 
                 <!-- Footer: Salary & Actions -->
                 <div class="card-footer">
-                    <span class="salary-info" *ngIf="job.salary">
-                        {{ getCurrencySymbol(job.salary.currency || 'USD') }} {{ job.salary.min | number }} – {{
-                        job.salary.max | number }}
-                    </span>
-                    <div style="display:flex; gap:8px; align-items:center; margin-left:auto">
-                        <a [routerLink]="['/jobs', job._id]" class="btn-outline">View Details</a>
-                        <button class="btn-primary" [disabled]="job.hasApplied"
+                    <div class="salary-block" *ngIf="job.salary">
+                        <span class="salary-label">Salary</span>
+                        <span class="salary-info">
+                            {{ getCurrencySymbol(job.salary.currency || 'USD') }}{{ job.salary.min | number }} – {{
+                            getCurrencySymbol(job.salary.currency || 'USD') }}{{ job.salary.max | number }}
+                        </span>
+                    </div>
+                    <div class="footer-actions">
+                        <a [routerLink]="['/jobs', job._id]" class="btn-outline">Details</a>
+                        <button class="btn-primary" [class.btn-applied]="job.hasApplied" [disabled]="job.hasApplied"
                             (click)="!job.hasApplied && applyToJob(job._id)">
+                            <svg *ngIf="job.hasApplied" class="btn-icon" viewBox="0 0 20 20" fill="currentColor"
+                                width="14" height="14">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
                             {{ job.hasApplied ? 'Applied' : 'Apply Now' }}
                         </button>
                     </div>

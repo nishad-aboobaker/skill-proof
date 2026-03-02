@@ -108,6 +108,20 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Sticky footer layout */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+main {
+  flex: 1;
 }
 
 /* ─── Typography ─────────────────────────────────────────── */
@@ -447,7 +461,6 @@ a:hover {
 
 /* ─── Page shell ─────────────────────────────────────────── */
 .page {
-  min-height: calc(100vh - 64px);
   padding: var(--sp-2xl) 0;
 }
 

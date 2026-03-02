@@ -1,0 +1,85 @@
+<div class="page-container">
+    <div class="content-wrapper">
+
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="header-row">
+                <div>
+                    <h1>My Applications</h1>
+                    <p *ngIf="!loading">{{ applications.length }} jobs applied</p>
+                </div>
+                <a routerLink="/jobs" class="btn-primary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    Browse More Jobs
+                </a>
+            </div>
+        </header>
+
+        <!-- Error -->
+        <div class="alert alert-error" *ngIf="error">⚠️ {{ error }}</div>
+
+        <!-- Loading -->
+        <div class="jobs-list" *ngIf="loading">
+            <div class="job-row loading-row" *ngFor="let i of [1,2,3]">
+                <div class="skeleton skel-avatar"></div>
+                <div class="skel-body">
+                    <div class="skeleton skel-title"></div>
+                    <div class="skeleton skel-sub"></div>
+                </div>
+                <div class="skeleton skel-badge"></div>
+                <div class="skeleton skel-btn"></div>
+            </div>
+        </div>
+
+        <!-- Applications List -->
+        <div class="jobs-list" *ngIf="!loading && applications.length > 0">
+            <div class="job-row" *ngFor="let app of applications" [routerLink]="['/jobs', app._id]">
+
+                <!-- Avatar -->
+                <div class="company-logo" [ngClass]="getStatusClass(app.myApplicationStatus)">
+                    {{ app.companyName?.charAt(0)?.toUpperCase() || '?' }}
+                </div>
+
+                <!-- Info -->
+                <div class="job-info">
+                    <span class="job-title">{{ app.title }}</span>
+                    <span class="job-sub">
+                        {{ app.companyName }}
+                        <span class="dot">·</span>
+                        {{ app.location }}
+                        <span class="dot">·</span>
+                        {{ app.type }}
+                        <span class="dot">·</span>
+                        Applied {{ app.appliedAt | date:'mediumDate' }}
+                    </span>
+                </div>
+
+                <!-- Status Badge -->
+                <span class="status-badge" [ngClass]="getStatusClass(app.myApplicationStatus)">
+                    {{ getStatusLabel(app.myApplicationStatus) }}
+                </span>
+
+                <!-- Actions -->
+                <div class="row-actions" (click)="$event.stopPropagation()">
+                    <a [routerLink]="['/jobs', app._id]" class="btn-manage">Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="!loading && applications.length === 0">
+            <svg width="56" height="56" viewBox="0 0 80 80" fill="none">
+                <rect width="80" height="80" rx="20" fill="#eef2ff" />
+                <rect x="18" y="24" width="44" height="32" rx="5" fill="#c7d2fe" stroke="#6366f1" stroke-width="2" />
+            </svg>
+            <h3>No applications yet</h3>
+            <p>You haven't applied to any jobs. Start exploring opportunities!</p>
+            <a routerLink="/jobs" class="btn-primary">Browse Jobs</a>
+        </div>
+
+    </div>
+</div>

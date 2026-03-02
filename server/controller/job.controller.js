@@ -117,9 +117,31 @@ export const getJobById = async (req, res, next) => {
             return res.status(404).json({ success: false, message: "Job not found" });
         }
 
+        // Convert to object for modification
+        const jobObj = job.toObject();
+
+        // 1. Check if the current user has applied
+        if (req.user) {
+            jobObj.hasApplied = job.applicants.some(
+                app => app.user?._id?.toString() === req.user._id.toString() ||
+                    app.user?.toString() === req.user._id.toString()
+            );
+        } else {
+            jobObj.hasApplied = false;
+        }
+
+        // 2. Privacy Check: Only return full applicant details to the job owner or admin
+        const isOwner = req.user && job.postedBy?._id?.toString() === req.user._id.toString();
+        const isAdmin = req.user && req.user.role === 'admin';
+
+        if (!isOwner && !isAdmin) {
+            // Hide sensitive applicant data from public/other job seekers
+            delete jobObj.applicants;
+        }
+
         res.json({
             success: true,
-            data: job,
+            data: jobObj,
         });
     } catch (error) {
         next(error);

@@ -1,0 +1,103 @@
+<div class="page-container">
+    <div class="content-wrapper">
+
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="header-row">
+                <div>
+                    <h1>My Job Postings</h1>
+                    <p *ngIf="!loading">{{ jobs.length }} {{ jobs.length === 1 ? 'job' : 'jobs' }} posted</p>
+                </div>
+                <a routerLink="/post-job" class="btn-primary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    Post New Job
+                </a>
+            </div>
+        </header>
+
+        <!-- Error -->
+        <div class="alert alert-error" *ngIf="error">⚠️ {{ error }}</div>
+
+        <!-- Loading -->
+        <div class="jobs-list" *ngIf="loading">
+            <div class="job-row loading-row" *ngFor="let i of [1,2,3]">
+                <div class="skeleton skel-avatar"></div>
+                <div class="skel-body">
+                    <div class="skeleton skel-title"></div>
+                    <div class="skeleton skel-sub"></div>
+                </div>
+                <div class="skeleton skel-badge"></div>
+                <div class="skeleton skel-btn"></div>
+            </div>
+        </div>
+
+        <!-- Jobs List -->
+        <div class="jobs-list" *ngIf="!loading && jobs.length > 0">
+            <div class="job-row" *ngFor="let job of jobs" [routerLink]="['/manage-job', job._id]">
+
+                <!-- Avatar -->
+                <div class="company-logo">{{ job.companyName?.charAt(0)?.toUpperCase() || '?' }}</div>
+
+                <!-- Info -->
+                <div class="job-info">
+                    <span class="job-title">{{ job.title }}</span>
+                    <span class="job-sub">
+                        {{ job.companyName || 'Your Company' }}
+                        <span class="dot">·</span>
+                        {{ job.location }}
+                        <span class="dot">·</span>
+                        {{ job.type }}
+                        <span *ngIf="job.remote" class="dot">·</span>
+                        <span *ngIf="job.remote" class="remote-pill">Remote</span>
+                    </span>
+                </div>
+
+                <!-- Applicants -->
+                <span class="applicant-count">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                    </svg>
+                    {{ job.applicants?.length || 0 }}
+                </span>
+
+                <!-- Status -->
+                <span class="status-badge" [class.status-active]="job.status === 'active'"
+                    [class.status-closed]="job.status === 'closed'" [class.status-draft]="job.status === 'draft'">
+                    {{ job.status || 'active' }}
+                </span>
+
+                <!-- Actions (stop propagation so row click doesn't fire) -->
+                <div class="row-actions" (click)="$event.stopPropagation()">
+                    <a [routerLink]="['/manage-job', job._id]" class="btn-manage">Manage</a>
+                    <button class="btn-delete" (click)="deleteJob(job._id)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" width="14" height="14">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="!loading && jobs.length === 0">
+            <svg width="56" height="56" viewBox="0 0 80 80" fill="none">
+                <rect width="80" height="80" rx="20" fill="#eef2ff" />
+                <rect x="18" y="24" width="44" height="32" rx="5" fill="#c7d2fe" stroke="#6366f1" stroke-width="2" />
+                <line x1="51" y1="54" x2="63" y2="54" stroke="#6366f1" stroke-width="2" stroke-linecap="round" />
+                <line x1="57" y1="48" x2="57" y2="60" stroke="#6366f1" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <h3>No jobs posted yet</h3>
+            <p>Create your first job posting and start receiving applications.</p>
+            <a routerLink="/post-job" class="btn-primary">Post Your First Job</a>
+        </div>
+
+    </div>
+</div>

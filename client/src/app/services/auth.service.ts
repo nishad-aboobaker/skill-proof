@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, firstValueFrom, filter, take } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 // The shape of a logged-in user
@@ -37,6 +37,10 @@ export class AuthService {
   private currentUser = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUser.asObservable();
 
+  // Tracks whether the initial auth check has completed
+  private authChecked = new BehaviorSubject<boolean>(false);
+  public authChecked$ = this.authChecked.asObservable();
+
   constructor(private http: HttpClient) {
     // When the app starts, check if the user is already logged in
     this.checkStatus();
@@ -66,9 +70,25 @@ export class AuthService {
   // Ask the server if the user is still logged in (uses session cookie)
   checkStatus() {
     this.http.get(`${this.apiUrl}/me`).subscribe({
-      next: (res: any) => this.currentUser.next(res.data),
-      error: () => this.currentUser.next(null)
+      next: (res: any) => {
+        this.currentUser.next(res.data);
+        this.authChecked.next(true);
+      },
+      error: () => {
+        this.currentUser.next(null);
+        this.authChecked.next(true);
+      }
     });
+  }
+
+  // Wait until the initial auth check has completed, then return the user
+  waitForAuthCheck(): Promise<User | null> {
+    return firstValueFrom(
+      this.authChecked$.pipe(
+        filter(checked => checked),
+        take(1)
+      )
+    ).then(() => this.currentUser.value);
   }
 
   // Get the current user's data directly (without subscribing)

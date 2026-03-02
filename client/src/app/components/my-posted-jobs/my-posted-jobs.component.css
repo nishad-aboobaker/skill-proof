@@ -1,0 +1,345 @@
+/* ── Layout ───────────────────────────────── */
+.page-container {
+    padding-bottom: var(--sp-3xl);
+}
+
+.content-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 var(--sp-md);
+}
+
+/* ── Header ───────────────────────────────── */
+.page-header {
+    margin-bottom: 2rem;
+    padding-top: var(--sp-xl);
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--sp-md);
+}
+
+.page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 2px;
+}
+
+.page-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ── Post Job Button ──────────────────────── */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
+}
+
+/* ── Jobs List (vertical stack) ───────────── */
+.jobs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-card);
+}
+
+/* ── Job Row ──────────────────────────────── */
+.job-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.job-row:last-child {
+    border-bottom: none;
+}
+
+.job-row:hover {
+    background: var(--bg-muted);
+}
+
+/* ── Avatar ───────────────────────────────── */
+.company-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+}
+
+/* ── Info ─────────────────────────────────── */
+.job-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+
+.job-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.job-sub {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.dot {
+    opacity: 0.4;
+}
+
+.remote-pill {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #7c3aed;
+    background: #f5f3ff;
+    border: 1px solid #ddd6fe;
+    border-radius: 99px;
+    padding: 0.05rem 0.5rem;
+}
+
+/* ── Applicant Count ──────────────────────── */
+.applicant-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Status Badge ─────────────────────────── */
+.status-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.65rem;
+    border-radius: 99px;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+}
+
+.status-active {
+    color: #15803d;
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.status-closed {
+    color: #b45309;
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.status-draft {
+    color: var(--text-muted);
+    background: var(--bg-muted);
+    border-color: var(--border);
+}
+
+/* ── Row Actions ──────────────────────────── */
+.row-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.btn-manage {
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--accent);
+    border: 1.5px solid var(--indigo-200, #c7d2fe);
+    background: var(--accent-bg);
+    border-radius: 8px;
+    padding: 0.3rem 0.8rem;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.btn-manage:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-delete:hover {
+    color: #dc2626;
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+/* ── Skeleton Loading ─────────────────────── */
+.loading-row {
+    cursor: default;
+    pointer-events: none;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, var(--border) 25%, var(--bg-muted) 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skel-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.skel-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.skel-title {
+    height: 14px;
+    width: 50%;
+}
+
+.skel-sub {
+    height: 11px;
+    width: 70%;
+}
+
+.skel-badge {
+    height: 22px;
+    width: 60px;
+    border-radius: 99px;
+    flex-shrink: 0;
+}
+
+.skel-btn {
+    height: 28px;
+    width: 72px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+/* ── Empty State ──────────────────────────── */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--sp-3xl) 0;
+    max-width: 380px;
+    margin: 40px auto;
+    gap: 0.75rem;
+}
+
+.empty-state h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.empty-state p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ── Error ────────────────────────────────── */
+.alert-error {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 640px) {
+    .job-row {
+        flex-wrap: wrap;
+    }
+
+    .applicant-count {
+        display: none;
+    }
+
+    .page-header h1 {
+        font-size: 1.4rem;
+    }
+}

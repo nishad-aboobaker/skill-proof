@@ -16,7 +16,7 @@ const router = express.Router();
 
 // Public routes (optionally authenticated to show hasApplied status)
 router.get("/", optionalProtect, getJobs);
-router.get("/:id", getJobById);
+router.get("/:id", optionalProtect, getJobById);
 
 // Protected routes (authenticated users)
 router.post("/", protect, createJob);

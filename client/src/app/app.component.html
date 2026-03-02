@@ -1,5 +1,59 @@
-<app-navbar></app-navbar>
-<main>
+<!-- Moving Announcement Banner -->
+<div class="announcement-banner" *ngIf="announcement.enabled && !maintenanceMode">
+  <div class="announcement-track">
+    <div class="announcement-content">
+      <span class="notif-badge">Maintenance Alert</span>
+      <span class="notif-text">{{ announcement.message }}</span>
+      <span class="notif-badge">Maintenance Alert</span>
+      <span class="notif-text">{{ announcement.message }}</span>
+      <span class="notif-badge">Maintenance Alert</span>
+      <span class="notif-text">{{ announcement.message }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Maintenance Mode Overlay -->
+<div class="maintenance-overlay" *ngIf="maintenanceMode">
+  <div class="maintenance-content">
+    <div class="maintenance-visual">
+      <div class="gears-system">
+        <!-- Main Large Gear -->
+        <div class="gear gear-main">
+          <svg viewBox="0 0 100 100" fill="currentColor">
+            <path
+              d="M100 45V55H89.2C88.2 59.4 86.4 63.5 84 67.2L91.6 74.8L84.5 81.9L76.9 74.3C73.2 76.7 69.1 78.5 64.7 79.5V90.3H54.7V79.5C50.3 78.5 46.2 76.7 42.5 74.3L34.9 81.9L27.8 74.8L35.4 67.2C33 63.5 31.2 59.4 30.2 55H19.4V45H30.2C31.2 40.6 33 36.5 35.4 32.8L27.8 25.2L34.9 18.1L42.5 25.7C46.2 23.3 50.3 21.5 54.7 20.5V9.7H64.7V20.5C69.1 21.5 73.2 23.3 76.9 25.7L84.5 18.1L91.6 25.2L84 32.8C86.4 36.5 88.2 40.6 89.2 45H100ZM59.7 64C67.4 64 73.7 57.7 73.7 50C73.7 42.3 67.4 36 59.7 36C52 36 45.7 42.3 45.7 50C45.7 57.7 52 64 59.7 64Z" />
+          </svg>
+        </div>
+        <!-- Secondary Gear -->
+        <div class="gear gear-sec">
+          <svg viewBox="0 0 100 100" fill="currentColor">
+            <path
+              d="M100 45V55H89.2C88.2 59.4 86.4 63.5 84 67.2L91.6 74.8L84.5 81.9L76.9 74.3C73.2 76.7 69.1 78.5 64.7 79.5V90.3H54.7V79.5C50.3 78.5 46.2 76.7 42.5 74.3L34.9 81.9L27.8 74.8L35.4 67.2C33 63.5 31.2 59.4 30.2 55H19.4V45H30.2C31.2 40.6 33 36.5 35.4 32.8L27.8 25.2L34.9 18.1L42.5 25.7C46.2 23.3 50.3 21.5 54.7 20.5V9.7H64.7V20.5C69.1 21.5 73.2 23.3 76.9 25.7L84.5 18.1L91.6 25.2L84 32.8C86.4 36.5 88.2 40.6 89.2 45H100ZM59.7 64C67.4 64 73.7 57.7 73.7 50C73.7 42.3 67.4 36 59.7 36C52 36 45.7 42.3 45.7 50C45.7 57.7 52 64 59.7 64Z" />
+          </svg>
+        </div>
+        <!-- Third Gear -->
+        <div class="gear gear-third">
+          <svg viewBox="0 0 100 100" fill="currentColor">
+            <path
+              d="M100 45V55H89.2C88.2 59.4 86.4 63.5 84 67.2L91.6 74.8L84.5 81.9L76.9 74.3C73.2 76.7 69.1 78.5 64.7 79.5V90.3H54.7V79.5C50.3 78.5 46.2 76.7 42.5 74.3L34.9 81.9L27.8 74.8L35.4 67.2C33 63.5 31.2 59.4 30.2 55H19.4V45H30.2C31.2 40.6 33 36.5 35.4 32.8L27.8 25.2L34.9 18.1L42.5 25.7C46.2 23.3 50.3 21.5 54.7 20.5V9.7H64.7V20.5C69.1 21.5 73.2 23.3 76.9 25.7L84.5 18.1L91.6 25.2L84 32.8C86.4 36.5 88.2 40.6 89.2 45H100ZM59.7 64C67.4 64 73.7 57.7 73.7 50C73.7 42.3 67.4 36 59.7 36C52 36 45.7 42.3 45.7 50C45.7 57.7 52 64 59.7 64Z" />
+          </svg>
+        </div>
+      </div>
+      <!-- Pivoting Wrench Tool -->
+      <div class="wrench-wrapper">
+        <svg class="mechanical-wrench" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        </svg>
+      </div>
+    </div>
+    <h1>Under Maintenance</h1>
+    <p>{{ maintenanceMessage || 'SkillProof is currently undergoing scheduled maintenance. We will be back soon!' }}</p>
+  </div>
+</div>
+
+<app-navbar *ngIf="!maintenanceMode"></app-navbar>
+<main [class.blur-content]="maintenanceMode">
   <router-outlet></router-outlet>
 </main>
-<app-footer></app-footer>
+<app-footer *ngIf="!maintenanceMode"></app-footer>
