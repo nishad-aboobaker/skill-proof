@@ -1,370 +1,322 @@
-<div class="admin-shell">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <h1 class="sidebar-logo">SkillProof</h1>
-        <nav>
-            <ul class="nav-list">
-                <li>
-                    <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
-                        <i data-lucide="layout-dashboard"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/manage-users" routerLinkActive="active" class="nav-item">
-                        <i data-lucide="users"></i>
-                        <span>Manage Users</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/manage-jobs" routerLinkActive="active" class="nav-item">
-                        <i data-lucide="briefcase"></i>
-                        <span>Job Postings</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/settings" routerLinkActive="active" class="nav-item">
-                        <i data-lucide="settings"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
+<header class="top-bar">
+    <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Admin Settings</h3>
+    <div style="display: flex; align-items: center; gap: 24px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div
+                style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.75rem;">
+                AD</div>
+            <span style="font-size: 0.875rem; font-weight: 600; color: var(--text-main);">Admin User</span>
+        </div>
+        <button (click)="logout()" class="btn btn-secondary"
+            style="background: transparent; border: 1px solid var(--border); font-size: 0.8125rem; font-weight: 600; color: var(--text-muted);">Logout</button>
+    </div>
+</header>
 
-    <!-- Main Layout -->
-    <div class="main-layout">
-        <header class="top-bar">
-            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Admin Settings</h3>
-            <div style="display: flex; align-items: center; gap: 24px;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div
-                        style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.75rem;">
-                        AD</div>
-                    <span style="font-size: 0.875rem; font-weight: 600; color: var(--text-main);">Admin User</span>
-                </div>
-                <button (click)="logout()" class="btn btn-secondary"
-                    style="background: transparent; border: 1px solid var(--border); font-size: 0.8125rem; font-weight: 600; color: var(--text-muted);">Logout</button>
+<main class="content-area">
+    <!-- Toast Notification -->
+    <div class="toast" [class.show]="toast" [class.toast-success]="toast.type === 'success'"
+        [class.toast-error]="toast.type === 'error'" *ngIf="toast">
+        <i [attr.data-lucide]="toast.type === 'success' ? 'check-circle' : 'x-circle'"></i>
+        <span>{{ toast.message }}</span>
+    </div>
+
+    <!-- Page Header -->
+    <div class="settings-header">
+        <div class="settings-header-icon">
+            <i data-lucide="settings-2"></i>
+        </div>
+        <div>
+            <h2 class="settings-title">Admin Settings</h2>
+            <p class="settings-subtitle">Manage your account, security, and platform preferences</p>
+        </div>
+    </div>
+
+    <div class="settings-layout">
+        <!-- Tab Navigation -->
+        <div class="settings-tabs">
+            <button class="tab-btn" [class.active]="activeTab === 'profile'" (click)="setTab('profile')">
+                <i data-lucide="user-circle"></i>
+                <span>Profile</span>
+            </button>
+            <button class="tab-btn" [class.active]="activeTab === 'security'" (click)="setTab('security')">
+                <i data-lucide="lock"></i>
+                <span>Security</span>
+            </button>
+            <button class="tab-btn" [class.active]="activeTab === 'notifications'" (click)="setTab('notifications')">
+                <i data-lucide="bell"></i>
+                <span>Notifications</span>
+            </button>
+        </div>
+
+        <!-- ===== PROFILE TAB ===== -->
+        <div class="settings-card" *ngIf="activeTab === 'profile'">
+            <div class="card-header">
+                <h3 class="card-title">Profile Information</h3>
+                <p class="card-subtitle">Update your admin name, email address and contact number.</p>
             </div>
-        </header>
 
-        <main class="content-area">
-            <!-- Toast Notification -->
-            <div class="toast" [class.show]="toast" [class.toast-success]="toast?.type === 'success'"
-                [class.toast-error]="toast?.type === 'error'" *ngIf="toast">
-                <i [attr.data-lucide]="toast?.type === 'success' ? 'check-circle' : 'x-circle'"></i>
-                <span>{{ toast?.message }}</span>
-            </div>
-
-            <!-- Page Header -->
-            <div class="settings-header">
-                <div class="settings-header-icon">
-                    <i data-lucide="settings-2"></i>
+            <div class="avatar-section">
+                <div class="avatar-circle">
+                    <span>AD</span>
                 </div>
                 <div>
-                    <h2 class="settings-title">Admin Settings</h2>
-                    <p class="settings-subtitle">Manage your account, security, and platform preferences</p>
+                    <p class="avatar-name">{{ profileForm.get('name')?.value || 'Admin User' }}</p>
+                    <p class="avatar-role">
+                        <span class="role-badge admin">Administrator</span>
+                    </p>
                 </div>
             </div>
 
-            <!-- Loading skeleton -->
-            <div *ngIf="pageLoading" class="skeleton-wrap">
-                <div class="skeleton skeleton-tall"></div>
-            </div>
-
-            <div *ngIf="!pageLoading" class="settings-layout">
-                <!-- Tab Navigation -->
-                <div class="settings-tabs">
-                    <button class="tab-btn" [class.active]="activeTab === 'profile'" (click)="setTab('profile')">
-                        <i data-lucide="user-circle"></i>
-                        <span>Profile</span>
-                    </button>
-                    <button class="tab-btn" [class.active]="activeTab === 'security'" (click)="setTab('security')">
-                        <i data-lucide="lock"></i>
-                        <span>Security</span>
-                    </button>
-                    <button class="tab-btn" [class.active]="activeTab === 'notifications'"
-                        (click)="setTab('notifications')">
-                        <i data-lucide="bell"></i>
-                        <span>Notifications</span>
-                    </button>
-                </div>
-
-                <!-- ===== PROFILE TAB ===== -->
-                <div class="settings-card" *ngIf="activeTab === 'profile'">
-                    <div class="card-header">
-                        <h3 class="card-title">Profile Information</h3>
-                        <p class="card-subtitle">Update your admin name, email address and contact number.</p>
+            <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="settings-form">
+                <div class="form-row">
+                    <div class="settings-form-group">
+                        <label class="form-label">
+                            <i data-lucide="user" style="width:14px;height:14px;"></i>
+                            Full Name
+                        </label>
+                        <input type="text" formControlName="name" class="form-input" placeholder="Enter full name" />
+                        <div class="field-error"
+                            *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
+                            Name is required
+                        </div>
                     </div>
+                    <div class="settings-form-group">
+                        <label class="form-label">
+                            <i data-lucide="mail" style="width:14px;height:14px;"></i>
+                            Email Address
+                        </label>
+                        <input type="email" formControlName="email" class="form-input"
+                            placeholder="Enter email address" />
+                        <div class="field-error"
+                            *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+                            Valid email is required
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="avatar-section">
-                        <div class="avatar-circle">
-                            <span>AD</span>
+                <div class="settings-form-group">
+                    <label class="form-label">
+                        <i data-lucide="phone" style="width:14px;height:14px;"></i>
+                        Phone Number
+                        <span class="optional-tag">Optional</span>
+                    </label>
+                    <input type="tel" formControlName="phone" class="form-input" placeholder="Enter phone number" />
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid || profileLoading">
+                        <span *ngIf="profileLoading" class="spinner"></span>
+                        <i *ngIf="!profileLoading" data-lucide="save" style="width:16px;height:16px;"></i>
+                        {{ profileLoading ? 'Saving...' : 'Save Changes' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ===== SECURITY TAB ===== -->
+        <div class="settings-card" *ngIf="activeTab === 'security'">
+            <div class="card-header">
+                <h3 class="card-title">Change Password</h3>
+                <p class="card-subtitle">Use a strong password with uppercase, lowercase, numbers, and special
+                    characters.</p>
+            </div>
+
+            <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" class="settings-form">
+                <div class="settings-form-group">
+                    <label class="form-label">
+                        <i data-lucide="lock" style="width:14px;height:14px;"></i>
+                        Current Password
+                    </label>
+                    <input type="password" formControlName="currentPassword" class="form-input"
+                        placeholder="Enter current password" />
+                    <div class="field-error"
+                        *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched">
+                        Current password is required
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="settings-form-group">
+                        <label class="form-label">
+                            <i data-lucide="key-round" style="width:14px;height:14px;"></i>
+                            New Password
+                        </label>
+                        <input type="password" formControlName="newPassword" class="form-input"
+                            placeholder="Min 8 characters" />
+                        <div class="field-error"
+                            *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
+                            Min 8 characters required
+                        </div>
+                    </div>
+                    <div class="settings-form-group">
+                        <label class="form-label">
+                            <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
+                            Confirm Password
+                        </label>
+                        <input type="password" formControlName="confirmPassword" class="form-input"
+                            placeholder="Repeat new password" />
+                        <div class="field-error"
+                            *ngIf="passwordForm.hasError('mismatch') && passwordForm.get('confirmPassword')?.touched">
+                            Passwords do not match
+                        </div>
+                    </div>
+                </div>
+
+                <div class="password-rules">
+                    <p class="rules-title">Password requirements:</p>
+                    <ul>
+                        <li>At least 8 characters</li>
+                        <li>One uppercase &amp; lowercase letter</li>
+                        <li>One number</li>
+                        <li>One special character (@$!%*?&amp;)</li>
+                    </ul>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" [disabled]="passwordForm.invalid || passwordLoading">
+                        <span *ngIf="passwordLoading" class="spinner"></span>
+                        <i *ngIf="!passwordLoading" data-lucide="shield" style="width:16px;height:16px;"></i>
+                        {{ passwordLoading ? 'Updating...' : 'Update Password' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ===== NOTIFICATIONS TAB ===== -->
+        <div class="settings-card" *ngIf="activeTab === 'notifications'">
+            <div class="card-header">
+                <h3 class="card-title">Notification Preferences</h3>
+                <p class="card-subtitle">Control which events trigger admin notifications.</p>
+            </div>
+
+            <div class="notification-list">
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <div class="notif-icon" style="background: rgba(79,70,229,0.1); color:#4f46e5;">
+                            <i data-lucide="user-plus"></i>
                         </div>
                         <div>
-                            <p class="avatar-name">{{ profileForm.get('name')?.value || 'Admin User' }}</p>
-                            <p class="avatar-role">
-                                <span class="role-badge admin">Administrator</span>
-                            </p>
+                            <p class="notif-title">New User Registrations</p>
+                            <p class="notif-desc">Get notified when new users sign up</p>
                         </div>
                     </div>
-
-                    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="settings-form">
-                        <div class="form-row">
-                            <div class="settings-form-group">
-                                <label class="form-label">
-                                    <i data-lucide="user" style="width:14px;height:14px;"></i>
-                                    Full Name
-                                </label>
-                                <input type="text" formControlName="name" class="form-input"
-                                    placeholder="Enter full name" />
-                                <div class="field-error"
-                                    *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
-                                    Name is required
-                                </div>
-                            </div>
-                            <div class="settings-form-group">
-                                <label class="form-label">
-                                    <i data-lucide="mail" style="width:14px;height:14px;"></i>
-                                    Email Address
-                                </label>
-                                <input type="email" formControlName="email" class="form-input"
-                                    placeholder="Enter email address" />
-                                <div class="field-error"
-                                    *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
-                                    Valid email is required
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="settings-form-group">
-                            <label class="form-label">
-                                <i data-lucide="phone" style="width:14px;height:14px;"></i>
-                                Phone Number
-                                <span class="optional-tag">Optional</span>
-                            </label>
-                            <input type="tel" formControlName="phone" class="form-input"
-                                placeholder="Enter phone number" />
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary"
-                                [disabled]="profileForm.invalid || profileLoading">
-                                <span *ngIf="profileLoading" class="spinner"></span>
-                                <i *ngIf="!profileLoading" data-lucide="save" style="width:16px;height:16px;"></i>
-                                {{ profileLoading ? 'Saving...' : 'Save Changes' }}
-                            </button>
-                        </div>
-                    </form>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notifications.newUsers">
+                        <span class="slider"></span>
+                    </label>
                 </div>
 
-                <!-- ===== SECURITY TAB ===== -->
-                <div class="settings-card" *ngIf="activeTab === 'security'">
-                    <div class="card-header">
-                        <h3 class="card-title">Change Password</h3>
-                        <p class="card-subtitle">Use a strong password with uppercase, lowercase, numbers, and special
-                            characters.</p>
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <div class="notif-icon" style="background: rgba(16,185,129,0.1); color:#10b981;">
+                            <i data-lucide="briefcase"></i>
+                        </div>
+                        <div>
+                            <p class="notif-title">New Job Postings</p>
+                            <p class="notif-desc">Alert when employers post new listings</p>
+                        </div>
                     </div>
-
-                    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" class="settings-form">
-                        <div class="settings-form-group">
-                            <label class="form-label">
-                                <i data-lucide="lock" style="width:14px;height:14px;"></i>
-                                Current Password
-                            </label>
-                            <input type="password" formControlName="currentPassword" class="form-input"
-                                placeholder="Enter current password" />
-                            <div class="field-error"
-                                *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched">
-                                Current password is required
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="settings-form-group">
-                                <label class="form-label">
-                                    <i data-lucide="key-round" style="width:14px;height:14px;"></i>
-                                    New Password
-                                </label>
-                                <input type="password" formControlName="newPassword" class="form-input"
-                                    placeholder="Min 8 characters" />
-                                <div class="field-error"
-                                    *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
-                                    Min 8 characters required
-                                </div>
-                            </div>
-                            <div class="settings-form-group">
-                                <label class="form-label">
-                                    <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
-                                    Confirm Password
-                                </label>
-                                <input type="password" formControlName="confirmPassword" class="form-input"
-                                    placeholder="Repeat new password" />
-                                <div class="field-error"
-                                    *ngIf="passwordForm.hasError('mismatch') && passwordForm.get('confirmPassword')?.touched">
-                                    Passwords do not match
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="password-rules">
-                            <p class="rules-title">Password requirements:</p>
-                            <ul>
-                                <li>At least 8 characters</li>
-                                <li>One uppercase &amp; lowercase letter</li>
-                                <li>One number</li>
-                                <li>One special character (@$!%*?&amp;)</li>
-                            </ul>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary"
-                                [disabled]="passwordForm.invalid || passwordLoading">
-                                <span *ngIf="passwordLoading" class="spinner"></span>
-                                <i *ngIf="!passwordLoading" data-lucide="shield" style="width:16px;height:16px;"></i>
-                                {{ passwordLoading ? 'Updating...' : 'Update Password' }}
-                            </button>
-                        </div>
-                    </form>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notifications.newJobs">
+                        <span class="slider"></span>
+                    </label>
                 </div>
 
-                <!-- ===== NOTIFICATIONS TAB ===== -->
-                <div class="settings-card" *ngIf="activeTab === 'notifications'">
-                    <div class="card-header">
-                        <h3 class="card-title">Notification Preferences</h3>
-                        <p class="card-subtitle">Control which events trigger admin notifications.</p>
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <div class="notif-icon" style="background: rgba(245,158,11,0.1); color:#f59e0b;">
+                            <i data-lucide="alert-triangle"></i>
+                        </div>
+                        <div>
+                            <p class="notif-title">System Alerts</p>
+                            <p class="notif-desc">Critical system events and errors</p>
+                        </div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notifications.systemAlerts">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <div class="notif-icon" style="background: rgba(99,102,241,0.1); color:#6366f1;">
+                            <i data-lucide="file-bar-chart"></i>
+                        </div>
+                        <div>
+                            <p class="notif-title">Weekly Reports</p>
+                            <p class="notif-desc">Receive weekly platform activity summaries</p>
+                        </div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notifications.weeklyReport">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <div class="notif-icon" style="background: rgba(239,68,68,0.1); color:#ef4444;">
+                            <i data-lucide="shield-alert"></i>
+                        </div>
+                        <div>
+                            <p class="notif-title">Login Alerts</p>
+                            <p class="notif-desc">Notify on new admin login sessions</p>
+                        </div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notifications.loginAlerts">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <div class="notif-icon" style="background: rgba(100,116,139,0.1); color:#64748b;">
+                            <i data-lucide="wrench"></i>
+                        </div>
+                        <div>
+                            <p class="notif-title">Maintenance Mode</p>
+                            <p class="notif-desc">Toggle platform maintenance notifications</p>
+                        </div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notifications.maintenanceMode"
+                            (change)="toggleMaintenanceMode($event)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Scheduled Maintenance Announcement -->
+                <div class="notification-item" style="flex-direction: column; align-items: stretch; gap: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="notification-info">
+                            <div class="notif-icon" style="background: rgba(99,102,241,0.1); color:#6366f1;">
+                                <i data-lucide="megaphone"></i>
+                            </div>
+                            <div>
+                                <p class="notif-title">Scheduled Maintenance Banner</p>
+                                <p class="notif-desc">Show a moving notification banner to users</p>
+                            </div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" [(ngModel)]="notifications.announcement.enabled"
+                                (change)="toggleAnnouncement($event)">
+                            <span class="slider"></span>
+                        </label>
                     </div>
 
-                    <div class="notification-list">
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <div class="notif-icon" style="background: rgba(79,70,229,0.1); color:#4f46e5;">
-                                    <i data-lucide="user-plus"></i>
-                                </div>
-                                <div>
-                                    <p class="notif-title">New User Registrations</p>
-                                    <p class="notif-desc">Get notified when new users sign up</p>
-                                </div>
-                            </div>
-                            <label class="toggle">
-                                <input type="checkbox" [(ngModel)]="notifications.newUsers">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <div class="notif-icon" style="background: rgba(16,185,129,0.1); color:#10b981;">
-                                    <i data-lucide="briefcase"></i>
-                                </div>
-                                <div>
-                                    <p class="notif-title">New Job Postings</p>
-                                    <p class="notif-desc">Alert when employers post new listings</p>
-                                </div>
-                            </div>
-                            <label class="toggle">
-                                <input type="checkbox" [(ngModel)]="notifications.newJobs">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <div class="notif-icon" style="background: rgba(245,158,11,0.1); color:#f59e0b;">
-                                    <i data-lucide="alert-triangle"></i>
-                                </div>
-                                <div>
-                                    <p class="notif-title">System Alerts</p>
-                                    <p class="notif-desc">Critical system events and errors</p>
-                                </div>
-                            </div>
-                            <label class="toggle">
-                                <input type="checkbox" [(ngModel)]="notifications.systemAlerts">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <div class="notif-icon" style="background: rgba(99,102,241,0.1); color:#6366f1;">
-                                    <i data-lucide="file-bar-chart"></i>
-                                </div>
-                                <div>
-                                    <p class="notif-title">Weekly Reports</p>
-                                    <p class="notif-desc">Receive weekly platform activity summaries</p>
-                                </div>
-                            </div>
-                            <label class="toggle">
-                                <input type="checkbox" [(ngModel)]="notifications.weeklyReport">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <div class="notif-icon" style="background: rgba(239,68,68,0.1); color:#ef4444;">
-                                    <i data-lucide="shield-alert"></i>
-                                </div>
-                                <div>
-                                    <p class="notif-title">Login Alerts</p>
-                                    <p class="notif-desc">Notify on new admin login sessions</p>
-                                </div>
-                            </div>
-                            <label class="toggle">
-                                <input type="checkbox" [(ngModel)]="notifications.loginAlerts">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="notification-item">
-                            <div class="notification-info">
-                                <div class="notif-icon" style="background: rgba(100,116,139,0.1); color:#64748b;">
-                                    <i data-lucide="wrench"></i>
-                                </div>
-                                <div>
-                                    <p class="notif-title">Maintenance Mode</p>
-                                    <p class="notif-desc">Toggle platform maintenance notifications</p>
-                                </div>
-                            </div>
-                            <label class="toggle">
-                                <input type="checkbox" [(ngModel)]="notifications.maintenanceMode"
-                                    (change)="toggleMaintenanceMode($event)">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <!-- Scheduled Maintenance Announcement -->
-                        <div class="notification-item" style="flex-direction: column; align-items: stretch; gap: 20px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div class="notification-info">
-                                    <div class="notif-icon" style="background: rgba(99,102,241,0.1); color:#6366f1;">
-                                        <i data-lucide="megaphone"></i>
-                                    </div>
-                                    <div>
-                                        <p class="notif-title">Scheduled Maintenance Banner</p>
-                                        <p class="notif-desc">Show a moving notification banner to users</p>
-                                    </div>
-                                </div>
-                                <label class="toggle">
-                                    <input type="checkbox" [(ngModel)]="notifications.announcement.enabled"
-                                        (change)="toggleAnnouncement($event)">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div *ngIf="notifications.announcement.enabled" style="animation: fadeIn 0.3s ease;">
-                                <label class="form-label" style="margin-bottom: 8px;">Announcement Message</label>
-                                <div style="display: flex; gap: 12px;">
-                                    <input type="text" [(ngModel)]="notifications.announcement.message"
-                                        class="form-input" style="flex: 1;" placeholder="Enter announcement message...">
-                                    <button class="btn btn-primary" (click)="updateAnnouncementMessage()"
-                                        style="padding: 0 20px; font-size: 0.8125rem;">Update</button>
-                                </div>
-                            </div>
+                    <div *ngIf="notifications.announcement.enabled" style="animation: fadeIn 0.3s ease;">
+                        <label class="form-label" style="margin-bottom: 8px;">Announcement Message</label>
+                        <div style="display: flex; gap: 12px;">
+                            <input type="text" [(ngModel)]="notifications.announcement.message" class="form-input"
+                                style="flex: 1;" placeholder="Enter announcement message...">
+                            <button class="btn btn-primary" (click)="updateAnnouncementMessage()"
+                                style="padding: 0 20px; font-size: 0.8125rem;">Update</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
-</div>
+</main>

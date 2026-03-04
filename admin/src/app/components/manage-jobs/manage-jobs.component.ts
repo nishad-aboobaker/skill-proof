@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { JobService, Job } from '../../services/job.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -17,7 +18,8 @@ export class ManageJobsComponent implements OnInit, AfterViewInit {
 
     constructor(
         private jobService: JobService,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -72,6 +74,10 @@ export class ManageJobsComponent implements OnInit, AfterViewInit {
             case 'draft': return 'role-badge';
             default: return 'role-badge';
         }
+    }
+
+    viewJobDetails(jobId: string) {
+        this.router.navigate(['/manage-jobs', jobId]);
     }
 
     logout() {

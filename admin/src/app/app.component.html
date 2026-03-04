@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<div class="admin-shell" *ngIf="authService.currentUser$ | async; else loginView">
+    <app-navbar></app-navbar>
+    <div class="main-layout" style="width: 100%;">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+<ng-template #loginView>
+    <router-outlet></router-outlet>
+</ng-template>

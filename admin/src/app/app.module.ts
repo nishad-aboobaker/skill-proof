@@ -11,6 +11,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { ManageJobsComponent } from './components/manage-jobs/manage-jobs.component';
+import { JobDetailComponent } from './components/job-detail/job-detail.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
@@ -22,6 +23,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     NavbarComponent,
     ManageUsersComponent,
     ManageJobsComponent,
+    JobDetailComponent,
     SettingsComponent
   ],
   imports: [

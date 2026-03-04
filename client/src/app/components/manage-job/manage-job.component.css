@@ -181,10 +181,6 @@
     color: #64748b;
 }
 
-.mj-draft {
-    background: #fefce8;
-    color: #ca8a04;
-}
 
 /* ─── Stats Card ─── */
 .mj-stats-card {
@@ -330,11 +326,6 @@
     background: #f8fafc;
 }
 
-.mj-sbtn-draft {
-    border-color: #fde68a;
-    color: #b45309;
-    background: #fffbeb;
-}
 
 .mj-sbtn-current {
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
@@ -348,9 +339,6 @@
     box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.15);
 }
 
-.mj-sbtn-draft.mj-sbtn-current {
-    box-shadow: 0 0 0 3px rgba(202, 138, 4, 0.15);
-}
 
 /* ─── Applicant List ─── */
 .mj-applicant-list {
@@ -488,8 +476,6 @@
     margin: 0;
 }
 
-/* ─── Danger Zone ─── */
-.mj-danger-card {}
 
 .mj-danger-head {
     background: #fff5f5;

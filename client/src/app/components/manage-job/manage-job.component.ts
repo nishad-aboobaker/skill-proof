@@ -47,7 +47,7 @@ export class ManageJobComponent implements OnInit {
         });
     }
 
-    setStatus(status: 'active' | 'closed' | 'draft') {
+    setStatus(status: 'active' | 'closed') {
         if (!this.job || this.saving) return;
         this.saving = true;
         this.clearMessages();
