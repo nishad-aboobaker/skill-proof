@@ -262,6 +262,10 @@
     transform: translateX(2px);
 }
 
+.list-item.clickable {
+    cursor: pointer;
+}
+
 /* Colored left accent stripe */
 .item-accent {
     width: 4px;

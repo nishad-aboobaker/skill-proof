@@ -128,7 +128,8 @@
                     </div>
 
                     <div class="list-container">
-                        <div class="list-item" *ngFor="let app of myApplications">
+                        <div class="list-item clickable" *ngFor="let app of myApplications"
+                            [routerLink]="['/jobs', app._id]">
                             <div class="item-accent violet-accent"></div>
                             <div class="item-info">
                                 <h4>{{ app.title }}</h4>
