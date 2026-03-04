@@ -13,6 +13,7 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
 import { ManageJobsComponent } from './components/manage-jobs/manage-jobs.component';
 import { JobDetailComponent } from './components/job-detail/job-detail.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     ManageUsersComponent,
     ManageJobsComponent,
     JobDetailComponent,
-    SettingsComponent
+    SettingsComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService, User } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -17,7 +18,8 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
 
     constructor(
         private userService: UserService,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -52,6 +54,10 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
 
     onSearch() {
         this.loadUsers();
+    }
+
+    viewUserDetails(id: string) {
+        this.router.navigate(['/manage-users', id]);
     }
 
     blockUser(id: string) {

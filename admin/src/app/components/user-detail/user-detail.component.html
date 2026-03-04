@@ -1,0 +1,177 @@
+<div class="ud-page">
+    <div class="ud-wrapper">
+
+        <!-- Header / Breadcrumbs -->
+        <div class="ud-header-nav">
+            <button class="btn-back" (click)="goBack()">
+                <i data-lucide="chevron-left"></i>
+                Back to Users
+            </button>
+            <div class="header-actions">
+                <span class="view-pill">Admin View</span>
+            </div>
+        </div>
+
+        <!-- Skeleton Loading -->
+        <div class="ud-skeleton" *ngIf="loading">
+            <div class="skel-card header-skel"></div>
+            <div class="skel-card content-skel"></div>
+        </div>
+
+        <!-- Error State -->
+        <div class="ud-error" *ngIf="!loading && error">
+            <i data-lucide="alert-circle"></i>
+            <h3>Oops! Something went wrong</h3>
+            <p>{{ error }}</p>
+            <button class="btn-primary" (click)="goBack()">Return to User List</button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="ud-content" *ngIf="!loading && user">
+
+            <!-- 1. Profile Header Card -->
+            <div class="ud-card profile-card">
+                <div class="profile-header-inner">
+                    <div class="avatar-large">{{ user.name.charAt(0) }}</div>
+                    <div class="profile-main-info">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <h1 class="user-name">{{ user.name }}</h1>
+                            <span class="role-badge" [class.admin]="user.role === 'admin'">{{ user.role }}</span>
+                        </div>
+                        <p class="user-email">
+                            <i data-lucide="mail"></i>
+                            {{ user.email }}
+                        </p>
+                        <div class="user-meta-tags">
+                            <span class="meta-tag">
+                                <i data-lucide="calendar"></i>
+                                Joined {{ user.createdAt | date:'mediumDate' }}
+                            </span>
+                            <span class="meta-tag" *ngIf="user.isActive">
+                                <span class="pulse-indicator"></span>
+                                Active Account
+                            </span>
+                            <span class="meta-tag blocked" *ngIf="!user.isActive">
+                                <i data-lucide="ban"></i>
+                                Account Blocked
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Professional Profile -->
+            <div class="ud-card detail-full">
+                <div class="section-head">
+                    <i data-lucide="award"></i>
+                    <h3>Professional Profile</h3>
+                </div>
+
+                <div class="profile-details-grid-stacked">
+                    <div class="profile-main-details">
+                        <div class="detail-section" *ngIf="user.profile?.bio">
+                            <span class="label">Bio</span>
+                            <p class="val-bio">{{ user.profile.bio }}</p>
+                        </div>
+
+                        <div class="detail-section" *ngIf="user.profile?.experience">
+                            <span class="label">Experience Level</span>
+                            <span class="val-badge text-capitalize">{{ user.profile.experience }}</span>
+                        </div>
+
+                        <div class="detail-section" *ngIf="user.profile?.skills?.length > 0">
+                            <span class="label">Skills</span>
+                            <div class="skill-chips">
+                                <span class="skill-chip" *ngFor="let skill of user.profile.skills">{{ skill }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-side-details">
+                        <!-- Links Section -->
+                        <div class="detail-section">
+                            <span class="label">Links & Social</span>
+                            <div class="social-links-grid">
+                                <a *ngIf="user.profile?.github?.profileUrl" [href]="user.profile.github.profileUrl"
+                                    target="_blank" class="social-link">
+                                    <i data-lucide="github"></i>
+                                    <span>GitHub ({{ user.profile.github.username }})</span>
+                                </a>
+                                <a *ngIf="user.profile?.portfolio" [href]="user.profile.portfolio" target="_blank"
+                                    class="social-link">
+                                    <i data-lucide="globe"></i>
+                                    <span>Portfolio</span>
+                                </a>
+                                <a *ngIf="user.profile?.resume?.fileUrl" [href]="user.profile.resume.fileUrl"
+                                    target="_blank" class="social-link cv">
+                                    <i data-lucide="file-text"></i>
+                                    <span>View Resume / CV</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="detail-section border-top">
+                            <span class="label">Internal Info</span>
+                            <div class="internal-info-row">
+                                <div class="detail-item-sm">
+                                    <span class="sub-label">Last Login</span>
+                                    <span class="sub-val">{{ user.lastLogin ? (user.lastLogin | date:'medium') : 'Never'
+                                        }}</span>
+                                </div>
+                                <div class="detail-item-sm" *ngIf="user.phone">
+                                    <span class="sub-label">Phone</span>
+                                    <span class="sub-val">{{ user.phone }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Application History -->
+            <div class="ud-card history-full">
+                <div class="section-head">
+                    <i data-lucide="briefcase"></i>
+                    <h3>Job Applications</h3>
+                    <span class="count-chip">{{ user.appliedJobs?.length || 0 }}</span>
+                </div>
+
+                <div class="history-table-wrapper" *ngIf="user.appliedJobs && user.appliedJobs.length > 0">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Job Posting</th>
+                                <th>Applied On</th>
+                                <th>Current Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let job of user.appliedJobs">
+                                <td>
+                                    <div class="job-cell">
+                                        <span class="job-title">{{ job.title }}</span>
+                                        <span class="job-company">{{ job.companyName }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ job.createdAt | date:'mediumDate' }}</td>
+                                <td>
+                                    <span class="status-badge" [ngClass]="getStatusClass(getApplicationStatus(job))">
+                                        {{ getApplicationStatus(job) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="empty-history" *ngIf="!user.appliedJobs || user.appliedJobs.length === 0">
+                    <div class="empty-icon">
+                        <i data-lucide="layers"></i>
+                    </div>
+                    <p>No job applications found for this user.</p>
+                </div>
+            </div>
+
+        </div><!-- /ud-content -->
+    </div>
+</div>

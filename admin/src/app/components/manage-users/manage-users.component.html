@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of filteredUsers">
+                    <tr *ngFor="let user of filteredUsers" (click)="viewUserDetails(user._id)" style="cursor: pointer;">
                         <td>
                             <div style="display: flex; align-items: center; gap: 12px;">
                                 <div class="user-avatar">{{ user.name.charAt(0) }}</div>
@@ -67,11 +67,12 @@
                         </td>
                         <td style="text-align: right;">
                             <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                                <button class="action-btn" title="Edit User">
-                                    <i data-lucide="edit-3"></i>
+                                <button class="action-btn" (click)="$event.stopPropagation(); viewUserDetails(user._id)"
+                                    title="View Details">
+                                    <i data-lucide="eye"></i>
                                 </button>
-                                <button *ngIf="user.isActive" class="action-btn delete" (click)="blockUser(user._id)"
-                                    title="Block User">
+                                <button *ngIf="user.isActive" class="action-btn delete"
+                                    (click)="$event.stopPropagation(); blockUser(user._id)" title="Block User">
                                     <i data-lucide="ban"></i>
                                 </button>
                             </div>

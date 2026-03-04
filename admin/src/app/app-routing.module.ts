@@ -6,16 +6,18 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
 import { ManageJobsComponent } from './components/manage-jobs/manage-jobs.component';
 import { JobDetailComponent } from './components/job-detail/job-detail.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'manage-users', component: ManageUsersComponent, canActivate: [AuthGuard] },
+  { path: 'manage-users/:id', component: UserDetailComponent, canActivate: [AuthGuard] },
   { path: 'manage-jobs', component: ManageJobsComponent, canActivate: [AuthGuard] },
   { path: 'manage-jobs/:id', component: JobDetailComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];
 
