@@ -1,174 +1,268 @@
 <div class="page-container">
-    <div class="content-wrapper">
-
-        <!-- Loading -->
-        <div class="loading-state" *ngIf="loading">
-            <div class="spinner"></div>
-            <p>Loading assessment…</p>
-        </div>
-
-        <!-- Success State -->
-        <div class="success-card card" *ngIf="submitted">
-            <div class="success-icon">✅</div>
-            <h2>Application Submitted!</h2>
-            <p>Your application for <strong>{{ job?.title }}</strong> at <strong>{{ job?.companyName }}</strong> has
-                been received. Good luck!</p>
-            <p class="flagged-note" *ngIf="flagged">⚠️ Note: Your session was flagged due to {{ violationCount }}
-                integrity violations.</p>
-            <button class="btn-primary" (click)="goBack()">Browse More Jobs</button>
-        </div>
-
-        <!-- ── CONSENT GATE ───────────────────────────────────── -->
-        <div *ngIf="!loading && !submitted && !consentGiven">
-
-            <button class="btn-back" (click)="goBack()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M19 12H5M12 5l-7 7 7 7" />
-                </svg>
-                Back to Jobs
-            </button>
-
-            <div class="job-banner card" *ngIf="job">
-                <div class="company-logo">{{ job.companyName?.charAt(0) || '🏢' }}</div>
-                <div>
-                    <h2>{{ job.title }}</h2>
-                    <span class="company-name">{{ job.companyName }}</span>
-                </div>
-            </div>
-
-            <div class="consent-card card">
-                <div class="consent-icon">🛡️</div>
-                <h2>Proctored Assessment</h2>
-                <p class="consent-subtitle">To ensure a fair process, this assessment is monitored. Before you begin,
-                    please read the rules carefully.</p>
-
-                <ul class="rules-list">
-                    <li>
-                        <span class="rule-icon">📷</span>
-                        <div>
-                            <strong>Webcam required</strong>
-                            <p>Your camera will be active during the entire assessment.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="rule-icon">🔒</span>
-                        <div>
-                            <strong>Stay on this tab</strong>
-                            <p>Switching tabs or minimizing the window will be recorded as a violation.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="rule-icon">🚫</span>
-                        <div>
-                            <strong>No copy / paste</strong>
-                            <p>Copying or pasting text is disabled throughout the assessment.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="rule-icon">⚠️</span>
-                        <div>
-                            <strong>Violation limit: {{ MAX_VIOLATIONS }}</strong>
-                            <p>After {{ MAX_VIOLATIONS }} violations your submission will be flagged for review by the
-                                employer.</p>
-                        </div>
-                    </li>
-                </ul>
-
-                <button class="btn-primary btn-consent" (click)="giveConsent()">
-                    I Agree — Begin Assessment
-                </button>
-            </div>
-
-        </div>
-
-        <!-- ── ASSESSMENT FORM (after consent) ──────────────── -->
-        <div *ngIf="!loading && !submitted && consentGiven">
-
-            <!-- Violation Toast -->
-            <div class="violation-toast" [class.visible]="activeToast">
-                <span class="toast-icon">⚠️</span>
-                <span>{{ activeToast }}</span>
-            </div>
-
-            <!-- Webcam PiP -->
-            <div class="webcam-pip" [class.denied]="webcamDenied">
-                <video #webcamVideo autoplay muted playsinline *ngIf="!webcamDenied"></video>
-                <div class="webcam-denied" *ngIf="webcamDenied">
-                    <span>📷</span>
-                    <small>Camera denied</small>
-                </div>
-                <div class="webcam-label">Proctoring Active</div>
-            </div>
-
-            <!-- Top Bar -->
-            <div class="assessment-topbar">
-                <button class="btn-back" (click)="goBack()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M19 12H5M12 5l-7 7 7 7" />
-                    </svg>
-                    Back
-                </button>
-                <div class="violation-badge" [class.danger]="flagged" *ngIf="violationCount > 0">
-                    ⚠️ {{ violationCount }} violation{{ violationCount > 1 ? 's' : '' }}
-                </div>
-            </div>
-
-            <!-- Flagged Banner -->
-            <div class="flagged-banner" *ngIf="flagged">
-                🚩 <strong>Submission will be flagged.</strong> You have exceeded the violation limit. You may still
-                submit, but the employer will be notified.
-            </div>
-
-            <!-- Job Info Banner -->
-            <div class="job-banner card" *ngIf="job">
-                <div class="company-logo">{{ job.companyName?.charAt(0) || '🏢' }}</div>
-                <div>
-                    <h2>{{ job.title }}</h2>
-                    <span class="company-name">{{ job.companyName }}</span>
-                    <div class="meta-row">
-                        <span class="meta-tag">{{ job.location }}</span>
-                        <span class="meta-tag">{{ job.type }}</span>
-                        <span class="meta-tag remote-tag" *ngIf="job.remote">Remote</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Error -->
-            <div class="error-banner" *ngIf="error">{{ error }}</div>
-
-            <!-- Assessment Form -->
-            <div class="assessment-card card">
-                <div class="section-header">
-                    <span class="section-badge">Pre-Application Assessment</span>
-                    <p>Answer honestly. Copying and pasting is disabled.</p>
-                </div>
-
-                <form (ngSubmit)="submit()">
-
-
-                    <div class="question-block">
-                        <label for="coverLetter">
-                            <span class="q-number">💌</span>
-                            Cover Letter
-                        </label>
-                        <textarea id="coverLetter" class="form-control" [(ngModel)]="coverLetter" name="coverLetter"
-                            rows="6" placeholder="Introduce yourself and explain why you're a great fit…"
-                            required></textarea>
-                    </div>
-
-                    <div class="form-footer">
-                        <p class="helper-text" *ngIf="!allAnswered">Please complete all fields before submitting.</p>
-                        <button type="submit" class="btn-primary btn-submit" [disabled]="!allAnswered || submitting">
-                            <span *ngIf="!submitting">Submit Application</span>
-                            <span *ngIf="submitting" class="submitting-text">
-                                <span class="spinner-sm"></span> Submitting…
-                            </span>
-                        </button>
-                    </div>
-
-                </form>
-            </div>
-
-        </div>
+  <div class="content-wrapper">
+    <!-- Loading -->
+    <div class="loading-state" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading assessment…</p>
     </div>
+
+    <!-- Success State -->
+    <div class="success-card card" *ngIf="submitted">
+      <div class="success-icon">✅</div>
+      <h2>Application Submitted!</h2>
+      <p>
+        Your application for <strong>{{ job?.title }}</strong> at
+        <strong>{{ job?.companyName }}</strong> has been received. Good luck!
+      </p>
+      <p class="flagged-note" *ngIf="flagged">
+        ⚠️ Note: Your session was flagged due to {{ violationCount }} integrity
+        violations.
+      </p>
+      <button class="btn-primary" (click)="goBack()">Browse More Jobs</button>
+    </div>
+
+    <!-- ── CONSENT GATE ───────────────────────────────────── -->
+    <div *ngIf="!loading && !submitted && !consentGiven">
+      <button class="btn-back" (click)="goBack()">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <path d="M19 12H5M12 5l-7 7 7 7" />
+        </svg>
+        Back to Jobs
+      </button>
+
+      <div class="job-banner card" *ngIf="job">
+        <div class="company-logo">{{ job.companyName?.charAt(0) || "🏢" }}</div>
+        <div>
+          <h2>{{ job.title }}</h2>
+          <span class="company-name">{{ job.companyName }}</span>
+        </div>
+      </div>
+
+      <div class="consent-card card">
+        <div class="consent-icon">🛡️</div>
+        <h2>Proctored Assessment</h2>
+        <p class="consent-subtitle">
+          To ensure a fair process, this assessment is monitored. Before you
+          begin, please read the rules carefully.
+        </p>
+
+        <ul class="rules-list">
+          <li>
+            <span class="rule-icon">📷</span>
+            <div>
+              <strong>Webcam required</strong>
+              <p>Your camera will be active during the entire assessment.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rule-icon">🔒</span>
+            <div>
+              <strong>Stay on this tab</strong>
+              <p>
+                Switching tabs or minimizing the window will be recorded as a
+                violation.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="rule-icon">🚫</span>
+            <div>
+              <strong>No copy / paste</strong>
+              <p>
+                Copying or pasting text is disabled throughout the assessment.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="rule-icon">⚠️</span>
+            <div>
+              <strong>Violation limit: {{ MAX_VIOLATIONS }}</strong>
+              <p>
+                After {{ MAX_VIOLATIONS }} violations your submission will be
+                flagged for review by the employer.
+              </p>
+            </div>
+          </li>
+        </ul>
+
+        <button class="btn-primary btn-consent" (click)="giveConsent()">
+          I Agree — Begin Assessment
+        </button>
+      </div>
+    </div>
+
+    <!-- ── ASSESSMENT FORM (after consent) ──────────────── -->
+    <div *ngIf="!loading && !submitted && consentGiven">
+      <!-- Violation Toast -->
+      <div class="violation-toast" [class.visible]="activeToast">
+        <span class="toast-icon">⚠️</span>
+        <span>{{ activeToast }}</span>
+      </div>
+
+      <!-- Webcam PiP -->
+      <div class="webcam-pip" [class.denied]="webcamDenied">
+        <video
+          #webcamVideo
+          autoplay
+          muted
+          playsinline
+          *ngIf="!webcamDenied"
+        ></video>
+        <div class="webcam-denied" *ngIf="webcamDenied">
+          <span>📷</span>
+          <small>Camera denied</small>
+        </div>
+        <div class="webcam-label">Proctoring Active</div>
+      </div>
+
+      <!-- Top Bar -->
+      <div class="assessment-topbar">
+        <button class="btn-back" (click)="goBack()">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+          Back
+        </button>
+        <div
+          class="violation-badge"
+          [class.danger]="flagged"
+          *ngIf="violationCount > 0"
+        >
+          ⚠️ {{ violationCount }} violation{{ violationCount > 1 ? "s" : "" }}
+        </div>
+      </div>
+
+      <!-- Flagged Banner -->
+      <div class="flagged-banner" *ngIf="flagged">
+        🚩 <strong>Submission will be flagged.</strong> You have exceeded the
+        violation limit. You may still submit, but the employer will be
+        notified.
+      </div>
+
+      <!-- Job Info Banner -->
+      <div class="job-banner card" *ngIf="job">
+        <div class="company-logo">{{ job.companyName?.charAt(0) || "🏢" }}</div>
+        <div>
+          <h2>{{ job.title }}</h2>
+          <span class="company-name">{{ job.companyName }}</span>
+          <div class="meta-row">
+            <span class="meta-tag">{{ job.location }}</span>
+            <span class="meta-tag">{{ job.type }}</span>
+            <span class="meta-tag remote-tag" *ngIf="job.remote">Remote</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+      <!-- Assessment Form -->
+      <div class="assessment-card card">
+        <div class="section-header">
+          <span class="section-badge">Pre-Application Assessment</span>
+          <p>Answer honestly. Copying and pasting is disabled.</p>
+        </div>
+
+        <form (ngSubmit)="submit()">
+          <div class="question-block">
+            <div
+              class="ai-question"
+              *ngIf="assessmentQuestion || questionLoading"
+            >
+              <!-- Loading -->
+              <div class="ai-question-loading" *ngIf="questionLoading">
+                <div class="spinner-sm"></div>
+                Generating your assessment question…
+              </div>
+
+              <!-- Question -->
+              <div *ngIf="!questionLoading && assessmentQuestion">
+                <!-- Header -->
+                <div class="lc-header">
+                  <span class="ai-badge">✨ AI Question</span>
+                  <span class="lc-title">{{ assessmentQuestion.title }}</span>
+                  <span
+                    class="lc-difficulty"
+                    [class.easy]="assessmentQuestion.difficulty === 'Easy'"
+                    [class.medium]="assessmentQuestion.difficulty === 'Medium'"
+                  >
+                    {{ assessmentQuestion.difficulty }}
+                  </span>
+                </div>
+
+                <!-- Description -->
+                <p class="lc-description">
+                  {{ assessmentQuestion.description }}
+                </p>
+
+                <!-- Examples -->
+                <div class="lc-examples">
+                  <div
+                    class="lc-example"
+                    *ngFor="
+                      let ex of assessmentQuestion.examples;
+                      let i = index
+                    "
+                  >
+                    <strong>Example {{ i + 1 }}:</strong>
+                    <div class="lc-io">
+                      <span class="lc-label">Input:</span>
+                      <code>{{ ex.input }}</code>
+                    </div>
+                    <div class="lc-io">
+                      <span class="lc-label">Output:</span>
+                      <code>{{ ex.output }}</code>
+                    </div>
+                    <div class="lc-explanation" *ngIf="ex.explanation">
+                      <span class="lc-label">Explanation:</span>
+                      {{ ex.explanation }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Constraints -->
+                <div class="lc-constraints">
+                  <strong>Constraints:</strong>
+                  <ul>
+                    <li *ngFor="let c of assessmentQuestion.constraints">
+                      {{ c }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <label> Write The Solution Below </label>
+
+            <div id="monaco-editor-container"></div>
+          </div>
+
+          <div class="form-footer">
+            <p class="helper-text" *ngIf="!allAnswered">
+              Please complete all fields before submitting.
+            </p>
+            <button
+              type="submit"
+              class="btn-primary btn-submit"
+              [disabled]="!allAnswered || submitting"
+            >
+              <span *ngIf="!submitting">Submit Application</span>
+              <span *ngIf="submitting" class="submitting-text">
+                <span class="spinner-sm"></span> Submitting…
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

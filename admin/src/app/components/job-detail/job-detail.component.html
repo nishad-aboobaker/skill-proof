@@ -1,16 +1,5 @@
 <div class="job-detail-viewport">
-    <!-- Header Section -->
-    <header class="page-header">
-        <div class="header-content">
-            <button class="icon-btn back-btn" (click)="goBack()" title="Back to jobs">
-                <i data-lucide="chevron-left"></i>
-            </button>
-            <div class="header-titles">
-                <h1 class="premium-title">Job Intelligence</h1>
-                <p class="text-muted">Detailed analytics and applicant management for this position</p>
-            </div>
-        </div>
-    </header>
+
 
     <div class="loading-state" *ngIf="loading">
         <div class="loader"></div>
@@ -93,7 +82,7 @@
                         <div class="meta-item" *ngIf="job.skills?.length">
                             <i data-lucide="zap"></i>
                             <div class="meta-text">
-                                <label>Required Intelligence</label>
+                                <label>Required Skills</label>
                                 <div class="skill-tags">
                                     <span class="mini-tag" *ngFor="let skill of job.skills">{{ skill }}</span>
                                 </div>

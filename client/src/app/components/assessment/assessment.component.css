@@ -26,9 +26,7 @@
     transition: color var(--t-base);
 }
 
-.btn-back:hover {
-    color: var(--accent);
-}
+.btn-back:hover { color: var(--accent); }
 
 .btn-back svg {
     width: 18px;
@@ -43,9 +41,7 @@
     margin-bottom: var(--sp-lg);
 }
 
-.assessment-topbar .btn-back {
-    margin-bottom: 0;
-}
+.assessment-topbar .btn-back { margin-bottom: 0; }
 
 /* ── Violation Badge ─────────────────────────────────────────── */
 .violation-badge {
@@ -97,9 +93,7 @@
     transform: translateX(-50%) translateY(0);
 }
 
-.toast-icon {
-    font-size: 1.2rem;
-}
+.toast-icon { font-size: 1.2rem; }
 
 /* ── Webcam PiP ──────────────────────────────────────────────── */
 .webcam-pip {
@@ -119,7 +113,6 @@
     width: 100%;
     display: block;
     transform: scaleX(-1);
-    /* mirror */
 }
 
 .webcam-denied {
@@ -298,9 +291,7 @@
     padding: var(--sp-2xl) !important;
 }
 
-.section-header {
-    margin-bottom: var(--sp-2xl);
-}
+.section-header { margin-bottom: var(--sp-2xl); }
 
 .section-badge {
     display: inline-block;
@@ -354,24 +345,11 @@
     margin-top: 1px;
 }
 
-.form-control {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1.5px solid var(--border);
+/* ── Monaco Editor ───────────────────────────────────────────── */
+#monaco-editor-container {
+    height: 300px;
     border-radius: var(--r-lg);
-    background: var(--bg);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.9375rem;
-    transition: all var(--t-base);
-    resize: vertical;
-    box-sizing: border-box;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--indigo-500);
-    box-shadow: 0 0 0 4px var(--indigo-50);
+    /* overflow: hidden; */
 }
 
 /* ── Form Footer ─────────────────────────────────────────────── */
@@ -397,6 +375,121 @@
     justify-content: center;
 }
 
+.ai-question {
+    background: var(--bg-muted);
+    border-radius: var(--r-lg);
+    padding: var(--sp-lg) var(--sp-xl);
+    margin-bottom: var(--sp-md);
+}
+
+.ai-question-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.lc-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: var(--sp-md);
+    flex-wrap: wrap;
+}
+
+.ai-badge {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--indigo-600);
+    background: var(--indigo-50);
+    padding: 3px 8px;
+    border-radius: var(--r-full);
+}
+
+.lc-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.lc-difficulty {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--r-full);
+}
+
+.lc-difficulty.easy {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.lc-difficulty.medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.lc-description {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: var(--sp-md);
+}
+
+.lc-examples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+    margin-bottom: var(--sp-md);
+}
+
+.lc-example {
+    background: var(--bg);
+    border-radius: var(--r-md);
+    padding: var(--sp-md);
+    font-size: 0.875rem;
+    border: 1px solid var(--border);
+}
+
+.lc-io {
+    margin: 4px 0;
+}
+
+.lc-label {
+    font-weight: 700;
+    color: var(--text);
+    margin-right: 6px;
+}
+
+.lc-io code {
+    background: var(--bg-muted);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.85rem;
+    color: var(--indigo-600);
+}
+
+.lc-explanation {
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.lc-constraints {
+    font-size: 0.875rem;
+    color: var(--text);
+}
+
+.lc-constraints ul {
+    margin: 6px 0 0 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
 /* ── Success Card ────────────────────────────────────────────── */
 .success-card {
     display: flex;
@@ -408,9 +501,7 @@
     margin-top: var(--sp-3xl);
 }
 
-.success-icon {
-    font-size: 3.5rem;
-}
+.success-icon { font-size: 3.5rem; }
 
 .success-card h2 {
     font-size: 1.75rem;
@@ -461,9 +552,7 @@
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 .submitting-text {
@@ -486,11 +575,8 @@
 
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 640px) {
-
     .assessment-card,
-    .consent-card {
-        padding: var(--sp-lg) !important;
-    }
+    .consent-card { padding: var(--sp-lg) !important; }
 
     .job-banner {
         flex-direction: column;

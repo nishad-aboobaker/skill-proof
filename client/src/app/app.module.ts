@@ -22,6 +22,7 @@ import { JobDetailComponent } from './components/job-detail/job-detail.component
 import { ManageJobComponent } from './components/manage-job/manage-job.component';
 import { MyPostedJobsComponent } from './components/my-posted-jobs/my-posted-jobs.component';
 import { MyApplicationsComponent } from './components/my-applications/my-applications.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { MyApplicationsComponent } from './components/my-applications/my-applica
     HttpClientModule,
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    // MonacoEditorModule.forRoot({ baseUrl: 'assets' })  
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

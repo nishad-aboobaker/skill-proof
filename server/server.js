@@ -1,18 +1,16 @@
+import "./loadEnv.js";
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import { connectDB } from "./config/db.js";
 
-import authRoutes from "./routes/auth.routes.js"
-import userRoutes from "./routes/user.routes.js"
-import jobRoutes from "./routes/job.routes.js"
+import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import jobRoutes from "./routes/job.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import seedAdmin from "./seeders/adminSeeder.js";
-
-
-dotenv.config();
+import assessmentRoute from "./routes/assessment.route.js";
 
 const app = express();
 
@@ -20,22 +18,27 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:4200", "http://localhost:4201", "http://localhost:60421"],
+    origin: [
+      "http://localhost:4200",
+      "http://localhost:4201",
+      "http://localhost:60421",
+    ],
     credentials: true,
   }),
 );
 
 connectDB().then(() => {
   seedAdmin();
-})
+});
 
-app.use("/auth", authRoutes)
-app.use("/users", userRoutes)
-app.use("/jobs", jobRoutes)
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/jobs", jobRoutes);
 app.use("/admin", adminRoutes);
+app.use("/assessment", assessmentRoute);
 
 app.get("/", (req, res) => {
-  res.send("API is Running")
+  res.send("API is Running");
 });
 
 // Error Handling Middleware
@@ -51,8 +54,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`server starter running at http://localhost:${port}`);
-})
+});

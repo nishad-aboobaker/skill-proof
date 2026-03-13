@@ -49,10 +49,10 @@ export class ProctorService {
             }
         });
 
-        this.on(document, 'contextmenu', (e: Event) => {
-            e.preventDefault();
-            this.emit('right_click', 'Right-click is disabled during the assessment.');
-        });
+    //    this.on(document, 'contextmenu', (e: Event) => {
+    //         e.preventDefault();
+    //         this.emit('right_click', 'Right-click is disabled during the assessment.');
+    //     }); 
 
         this.on(document, 'copy', (e: Event) => {
             e.preventDefault();
